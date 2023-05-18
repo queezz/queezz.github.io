@@ -25,8 +25,8 @@
 /* Navigation bar on top */
 .navbar {
     background-color: #f2f2f2;
-    height: 60px;
-    padding: 0 20px;
+    height: 30px;
+    padding: 20px;
     position: fixed;
     top: 0;
     left: 0;
@@ -50,7 +50,7 @@
 
 .navbar-logo {
     font-weight: bold;
-    font-size: 20px;
+    font-size: 30px;
 }
 
 .navbar-toggle {
@@ -93,16 +93,25 @@
         display: none;
         flex-direction: column;
         position: absolute;
-        top: 60px;
+        top: 20px;
         left: 0;
         right: 0;
         background-color: #f2f2f2;
-        padding: 20px;
+        padding: 10px;
         max-width: 100%;
     }
 
     .navbar-items.show {
         display: flex;
+    }
+
+    .navbar-items li {
+        margin-bottom: 10px;
+    }
+
+    .navbar-items li a {
+        font-size: 20px;
+        padding: 10px;
     }
 }
 
@@ -241,11 +250,29 @@ h3 span {
     padding: 10px;
 }
 
+
 @media (max-width: 960px) {
     .citations {
-        margin: 0 3% 20px 3%;
+        margin: 3px;
+    }
+
+    .citations .citations-item .title {
+        font-size: 24px;
+    }
+
+    .citations .authors {
+        font-size: 16px;
+    }
+
+    .citations .journal {
+        font-size: 20px;
+    }
+
+    .citations .citations-link {
+        font-size: 20px;
     }
 }
+
 
 .citations-spacer {
     padding: 50px 0 30px 0;
@@ -311,6 +338,7 @@ div.citations .authors {
     font-size: 14px;
     font-weight: normal;
     margin-top: 2px;
+    margin-bottom: 10px;
 }
 
 .citations .citations-link {
