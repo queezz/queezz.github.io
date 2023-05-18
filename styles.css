@@ -80,7 +80,7 @@
 }
 
 /* Media query for mobile devices */
-@media (max-width: 768px) {
+@media (max-width: 960px) {
     .navbar-logo {
         display: none;
     }
@@ -241,7 +241,7 @@ h3 span {
     padding: 10px;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 960px) {
     .citations {
         margin: 0 3% 20px 3%;
     }
