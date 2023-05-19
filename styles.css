@@ -306,7 +306,7 @@ h3 span {
 }
 
 .citations .citations-item {
-    border-bottom: 1px dotted #a91a1a;
+    border-bottom: 1px solid #a91a1a;
 }
 
 .citations h1 {
@@ -338,7 +338,7 @@ div.citations .authors {
     font-family: "Archer-Book", Georgia, Serif;
     font-size: 12px;
     font-weight: normal;
-    margin-top: 5px;
+    margin-bottom: 10px;
 }
 
 .citations .authors span {

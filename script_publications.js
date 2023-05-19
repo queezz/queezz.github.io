@@ -22,6 +22,7 @@ function parseBibTeX(data) {
             issn: getFieldValue(fields, 'issn'),
             doi: getFieldValue(fields, 'doi'),
             url: getFieldValue(fields, 'url'),
+            volume: getFieldValue(fields, 'volume'),
             pages: getFieldValue(fields, 'pages'),
             abstract: getFieldValue(fields, 'abstract'),
             language: getFieldValue(fields, 'language')
@@ -71,6 +72,7 @@ function transformAuthors(authors) {
                 return initial.charAt(0) + '.';
             }).join(' ');
             return initials + ' ' + nameParts[0];
+
         } else {
             // First Initials Last Name format
             var initials = nameParts.slice(0, -1).map(function (initial) {
@@ -88,13 +90,19 @@ function transformAuthors(authors) {
                 var initials = nameParts[1].split(' ').map(function (initial) {
                     return initial.charAt(0) + '.';
                 }).join(' ');
+                if (nameParts[0].toLowerCase().includes('kuzmin')) {
+                    return `<b><u>${initials} ${nameParts[0]}</u></b>`;
+                }
                 return initials + ' ' + nameParts[0];
             } else {
                 // First Initials Last Name format
                 var initials = nameParts.slice(0, -1).map(function (initial) {
                     return initial.charAt(0) + '.';
                 }).join(' ');
-                return initials + ' ' + nameParts[nameParts.length - 1];
+                if (nameParts[0].toLowerCase().includes('kuzmin')) {
+                    return `<b><u>${initials} ${nameParts[nameParts.length - 1]}</b></u>`;
+                }
+                return `${initials} ${nameParts[nameParts.length - 1]}`;
             }
         });
         return transformedAuthors.join(', ');
@@ -112,7 +120,7 @@ function renderPublications(publications) {
         html += '<div class="title"><p> [' + num + '] ' + publication.title + '</p></div>';
         html += '<div class="authors">' + transformAuthors(publication.authors) + '</div>';
         html += '<div class="journal">' + publication.venue;
-        html += ' (' + publication.year + ') ' + publication.pages;
+        html += ' ' + publication.volume + ' (' + publication.year + ') ' + publication.pages;
 
         if (publication.doi) {
             html += '<a class="citations-link" href="https://doi.org/' + publication.doi + '">' + publication.doi + '</a>';
@@ -150,9 +158,13 @@ function filterPublications() {
     filteredPublications = originalPublications.filter(function (publication) {
         var authors = publication.authors.split(' and '); // Split authors by 'and' to handle multiple authors
         return (
-            authors[0].toLowerCase().includes('kuzmin') ||
-            authors[1].toLowerCase().includes('kuzmin') ||
-            publication.authors.toLowerCase().includes('begrambekov')
+            (
+                authors[0].toLowerCase().includes('kuzmin') ||
+                authors[1].toLowerCase().includes('kuzmin') ||
+                publication.authors.toLowerCase().includes('begrambekov') ||
+                publication.authors.toLowerCase().includes('matsuyama')
+            ) &&
+            !publication.title.toLowerCase().includes('corrigendum')
         );
     });
 
@@ -163,7 +175,11 @@ function filterPublicationsFirst() {
     filteredPublications = originalPublications.filter(function (publication) {
         var authors = publication.authors.split(' and '); // Split authors by 'and' to handle multiple authors
         return (
-            authors[0].toLowerCase().includes('kuzmin')
+            (
+                authors[0].toLowerCase().includes('kuzmin') ||
+                publication.title.toLowerCase().includes('ro-vibrational population')
+            ) &&
+            !publication.title.toLowerCase().includes('corrigendum')
         );
     });
 
@@ -190,6 +206,7 @@ document.getElementById('sortButton').addEventListener('click', function () {
 
 document.getElementById('filterButton').addEventListener('click', function () {
     filterFeatured = !filterFeatured; // Toggle filter
+    filterFirst = false;
     filterButton.classList.toggle('active');
     firstButton.classList.remove('active');
     filterPublications();
