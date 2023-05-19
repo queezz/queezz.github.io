@@ -116,17 +116,16 @@ function renderPublications(publications) {
     for (var i = 0; i < publications.length; i++) {
         var publication = publications[i];
         var num = i + 1;
-        html += '<div class="citations-item">';
-        html += '<div class="title"><p> [' + num + '] ' + publication.title + '</p></div>';
-        html += '<div class="authors">' + transformAuthors(publication.authors) + '</div>';
-        html += '<div class="journal">' + publication.venue;
-        html += ' ' + publication.volume + ' (' + publication.year + ') ' + publication.pages;
-
+        html += `
+        <div class="citations-item">
+          <div class="title"><p> [${num}] ${publication.title}</p></div>
+          <div class="authors">${transformAuthors(publication.authors)}</div>
+          <div class="journal">${publication.venue} ${publication.volume} (${publication.year}) ${publication.pages}
+      `;
         if (publication.doi) {
             html += '<a class="citations-link" href="https://doi.org/' + publication.doi + '">' + publication.doi + '</a>';
         }
-        html += '</div>';
-        html += '</div>';
+        html += '</div></div>';
     }
     document.getElementById('citations').innerHTML = html;
 
