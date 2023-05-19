@@ -10,30 +10,45 @@ fetch('data.json')
         // Education
         const educationList = document.getElementById('education');
         data.education.forEach(education => {
-            const listItem = document.createElement('li');
+            const divItem = document.createElement('div');
+            divItem.classList.add('education-item');
+
+            const degreeDiv = document.createElement('div');
+            degreeDiv.classList.add('education-item-degree');
+            degreeDiv.textContent = education.degree;
+            divItem.appendChild(degreeDiv);
+
             const universityLink = document.createElement('a');
             universityLink.href = education.url;
             universityLink.textContent = education.university;
+            divItem.appendChild(universityLink);
 
-            listItem.innerHTML = `${education.degree} - `;
-            listItem.appendChild(universityLink);
-            listItem.innerHTML += ` (${education.location})`;
+            const dateDiv = document.createElement('div');
+            dateDiv.classList.add('education-item-graduation');
+            dateDiv.textContent = `${education.entrance} - ${education.graduation}`;
+            divItem.appendChild(dateDiv);
 
-            educationList.appendChild(listItem);
+            const locationDiv = document.createElement('div');
+            locationDiv.classList.add('education-item-location');
+            locationDiv.textContent = education.location;
+            divItem.appendChild(locationDiv);
+
+            educationList.appendChild(divItem);
         });
 
 
         // Experience
         const experienceList = document.getElementById('experience');
         data.experience.forEach(experience => {
-            const listItem = document.createElement('li');
-            listItem.innerHTML = `
-              <h4>${experience.title}</h4>
-              <p>${experience.employer} (${experience.location})</p>
-              <p>${experience.startDate} - ${experience.endDate}</p>
-              <p>${experience.description}</p>
-            `;
-            experienceList.appendChild(listItem);
+            const divItem = document.createElement('div');
+            divItem.classList.add('experience-item');
+            divItem.innerHTML = `
+            <h4>${experience.title}</h4>
+            <p>${experience.employer} (${experience.location})</p>
+            <p>${experience.startDate} - ${experience.endDate}</p>
+            <p>${experience.description}</p>
+          `;
+            experienceList.appendChild(divItem);
         });
 
         // Skills

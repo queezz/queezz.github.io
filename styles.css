@@ -150,10 +150,16 @@ h1 {
 
 h3 span {
     color: #ffffff;
-    background-color: #000;
+    background-color: #8c0c0c;
     letter-spacing: 2px;
     padding: 8px 20px;
     font-size: 11px;
+}
+
+@media (max-width:960px) {
+    .main-content {
+        margin-top: 50px;
+    }
 }
 
 .personal-info {
@@ -198,6 +204,29 @@ h3 span {
     text-align: left;
 }
 
+/* Education */
+.education-item {
+    background-color: #ffd3b6;
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+/* Experience */
+.experience-item {
+    background-color: #f2f2f2;
+    padding: 5px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.experience-item h4 {
+    margin: 5px;
+}
+
+.experience-item p {
+    margin: 10px;
+}
 
 
 /* Publications */

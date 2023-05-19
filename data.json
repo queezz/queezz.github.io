@@ -7,13 +7,17 @@
         {
             "university": "National Research Nuclear University MEPhI",
             "location": "Moscow, Russia",
-            "degree": "Ph.D. in Plasma Physics",
+            "graduation": "01/2012",
+            "entrance": "05/2008",
+            "degree": "Ph.D. in Plasma Physics: Plasma-Surface Interactions",
             "url": "https://en.wikipedia.org/wiki/National_Research_Nuclear_University_MEPhI_(Moscow_Engineering_Physics_Institute)"
         },
         {
             "university": "National Research Nuclear University MEPhI",
             "location": "Moscow, Russia",
-            "degree": "Master of Science in nuclear and particle physics, specialization: plasma physics",
+            "graduation": "04/2008",
+            "entrance": "09/2002",
+            "degree": "Master of Science in Nuclear and Particle Physics: Plasma Physics",
             "url": "http://mephi.ru/"
         }
     ],
@@ -24,6 +28,7 @@
             "location": "Kyoto, Japan",
             "startDate": "12/2018",
             "endDate": "Present",
+            "url": "https://www.kyoto-u.ac.jp/en",
             "description": "Teaching 4 classes, working on research projects in Kyoto University, Kyushu University, and NIFS. Main focus remains the hydrogen interaction with materials in fusion applications."
         },
         {
@@ -32,6 +37,7 @@
             "location": "Toki, Gifu, Japan",
             "startDate": "04/2017",
             "endDate": "11/2018",
+            "url": "https://www.nifs.ac.jp/en/",
             "description": "I was using a novel approach for the plasma spectroscopy in fusion devices. Various data could be collected simultaneously using a high resolution and wide range spectrometer of the Echelle type. I developed a tool for processing the raw images from the spectrometer written in Python programming language. I investigated the isotope effect on the carbon impurity flow in the edge plasma of Large Helical Device (LHD)."
         },
         {
@@ -40,6 +46,7 @@
             "location": "Kasuga, Fukuoka, Japan",
             "startDate": "06/2013",
             "endDate": "03/2017",
+            "url": "https://www.triam.kyushu-u.ac.jp/QUEST_HP/indexen.html",
             "description": "I developed a new diagnostic, a permeation probe, which can detect for the first time atomic hydrogen flux at the wall of a tokamak directly. I developed an analysis method to evaluate the absolute atomic flux to the first wall of fusion devices. Using this new tool, I investigated the effect of atomic hydrogen on the global gas balance in the QUEST tokamak. I found that a significant portion of the retention occurs at the far wall without direct exposure to plasma."
         },
         {
@@ -48,6 +55,7 @@
             "location": "Moscow, Russia",
             "startDate": "10/2012",
             "endDate": "05/2013",
+            "url": "https://niitfa.ru/",
             "description": "I developed and patented a new filter to improve the resolution of the non-destructive radiographic inspection. This new filter is now used in the production of the fission reactors fuel assemblies."
         },
         {
@@ -56,6 +64,7 @@
             "location": "Moscow, Russia",
             "startDate": "04/2008",
             "endDate": "09/2012",
+            "url": "https://eng.mephi.ru/",
             "description": "In another contract with Tore-Supra tokamak team, I studied the glow-discharge cleaning efficiency. In this work, I proposed a new glow-discharge cleaning scenario for the tokamak operation. This scenario increased the cleaning procedure efficiency and decreased time required for this unavoidable procedure. I developed a multi-spices deposition device for tungsten-carbon thin film deposition. Further, I upgraded this device to study boron-carbon films. The boron is in the form of powder and special care should be taken to prevent this powder from sputtering due to various reasons, such as charging up of boron particles. Based on my prototype device after my graduation, an improved device was designed to investigate and improve boronization efficiency for the ITER project."
         },
         {
@@ -64,6 +73,7 @@
             "location": "Moscow, Russia",
             "startDate": "03/2006",
             "endDate": "03/2008",
+            "url": "https://eng.mephi.ru/",
             "description": "I investigated the retention of hydrogen in the plasma-facing components of Tore-Supra tokamak. I found that the hydrogen retention in graphites, which were exposed to tokamak plasma, was significantly higher compared to similarly exposed graphites in the laboratory set-up. I discovered that the main hydrogen retention in Tore-Supra tiles occurs in the amorphous layer, deposited on the surface of the tiles. In the contract work with Tore-Supra tokamak team, I studied the hydrogen retention in the plasma-facing components. In this work, I discovered that small concentrations of oxygen in the gas mixture could lead to a significant increase in the hydrogen retention."
         }
     ],
