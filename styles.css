@@ -80,6 +80,7 @@
 }
 
 /* Media query for mobile devices */
+
 @media (max-width: 960px) {
     .navbar-logo {
         display: none;
@@ -114,6 +115,7 @@
         padding: 10px;
     }
 }
+
 
 /* Add margin to the top of the main content */
 
@@ -335,6 +337,7 @@ div.citations .authors {
     background-color: #dbff38;
 }
 
+/*
 @media (max-width: 960px) {
     .citations {
         margin: 3px;
@@ -368,3 +371,4 @@ div.citations .authors {
         font-size: 20px;
     }
 }
+*/
