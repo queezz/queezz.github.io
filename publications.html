@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js"></script>
     <meta name="viewport" content="width=device-width">
+    <!--JQuery for button arrows -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
 
 <body>
@@ -15,9 +17,10 @@
         <div class="citations">
             <h1>Publication List</h1>
             <div class="button-container">
-                <button id="sortButton" class="custom-button">Year</button>
-                <button id="filterButton" class="custom-button">Featured</button>
-                <p id="publicationCount" class="count-label">Displayed Publications: 0</p>
+                <button id="sortButton" class="sort-button">Year<span class="arrow"></span></button>
+                <button id="filterButton" class="toggle-button">Featured</button>
+                <button id="firstButton" class="toggle-button">1st</button>
+                <p id="publicationCount" class="count-label">Displayed: 0</p>
             </div>
 
 

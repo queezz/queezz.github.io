@@ -123,12 +123,15 @@ function renderPublications(publications) {
     document.getElementById('citations').innerHTML = html;
 
     var count = publications.length;
-    document.getElementById('publicationCount').textContent = 'Displayed Publications: ' + count;
+    document.getElementById('publicationCount').textContent = 'Displayed: ' + count;
 
 }
 function sortPublications(ascending) {
     sortedPublications = originalPublications.slice(); // Create a copy of the original publications array
     if (filterFeatured) {
+        sortedPublications = filteredPublications;
+    }
+    if (filterFirst) {
         sortedPublications = filteredPublications;
     }
 
@@ -156,11 +159,24 @@ function filterPublications() {
     renderPublications(sortPublications(sortAscending));
 }
 
+function filterPublicationsFirst() {
+    filteredPublications = originalPublications.filter(function (publication) {
+        var authors = publication.authors.split(' and '); // Split authors by 'and' to handle multiple authors
+        return (
+            authors[0].toLowerCase().includes('kuzmin')
+        );
+    });
+
+    renderPublications(sortPublications(sortAscending));
+}
+
 let sortAscending = false; // Flag to keep track of the sorting order
 let filterFeatured = false; // Flag to keep track of the filtering
+let filterFirst = false; // Flag to keep track of the filtering
 
 const sortButton = document.getElementById('sortButton');
 const filterButton = document.getElementById('filterButton');
+const firstButton = document.getElementById('firstButton');
 
 document.getElementById('sortButton').addEventListener('click', function () {
     sortAscending = !sortAscending; // Toggle the sorting order
@@ -175,8 +191,18 @@ document.getElementById('sortButton').addEventListener('click', function () {
 document.getElementById('filterButton').addEventListener('click', function () {
     filterFeatured = !filterFeatured; // Toggle filter
     filterButton.classList.toggle('active');
+    firstButton.classList.remove('active');
     filterPublications();
 });
+
+document.getElementById('firstButton').addEventListener('click', function () {
+    filterFirst = !filterFirst;
+    filterFeatured = false;
+    filterButton.classList.remove('active');
+    firstButton.classList.toggle('active');
+    filterPublicationsFirst();
+});
+
 
 fetch('mypapers.bib')
     .then((response) => response.text())

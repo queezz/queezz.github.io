@@ -192,8 +192,9 @@ h3 span {
 
 
 /* Publications */
-.custom-button {
-    padding: 10px 20px;
+.toggle-button {
+    position: relative;
+    padding: 10px;
     font-size: 16px;
     border: none;
     background-color: #8c0c0c;
@@ -204,12 +205,41 @@ h3 span {
     margin: 5px;
 }
 
-.custom-button:hover {
+.sort-button {
+    position: relative;
+    padding: 10px;
+    padding-right: 30px;
+    font-size: 16px;
+    border: none;
+    background-color: #8c0c0c;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    margin: 5px;
+}
+
+.toggle-button:hover,
+.sort-button:hover {
     background-color: #a91a1a;
 }
 
-.custom-button.active {
-    background-color: #ce1111;
+.toggle-button.active {
+    background-color: #d42626;
+}
+
+.count-label {
+    font-size: 16px;
+    color: #8c0c0c;
+    margin-right: auto;
+}
+
+.sort-button.active .arrow::before {
+    transform: rotate(-45deg);
+}
+
+.sort-button.active .arrow::after {
+    transform: rotate(45deg);
 }
 
 .button-container {
@@ -219,31 +249,38 @@ h3 span {
     margin-bottom: 10px;
 }
 
-.custom-button.active::after {
-    content: '';
+
+.arrow {
     position: absolute;
     top: 50%;
     right: 10px;
     transform: translateY(-50%);
-    border: solid #fff;
-    border-width: 0 2px 2px 0;
-    padding: 3px;
 }
 
-.custom-button.active.asc::after {
-    transform: translateY(-50%) rotate(-135deg);
+.arrow::before,
+.arrow::after {
+    position: relative;
+    content: '';
+    display: block;
+    width: 10px;
+    height: 1px;
+    background: white;
+    transition: 0.3s ease-in-out;
 }
 
-.custom-button.active.desc::after {
-    transform: translateY(-50%) rotate(45deg);
+.arrow::before {
+    transform: rotate(45deg);
 }
 
-.count-label {
-    font-size: 16px;
-    color: #8c0c0c;
-    margin-right: auto;
+.arrow::after {
+    left: 6px;
+    top: -1px;
+    transform: rotate(-45deg);
 }
 
+
+
+/* Citations */
 .citations {
     counter-reset: mycounter;
     max-width: var(--main-content-width);
