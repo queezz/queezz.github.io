@@ -130,7 +130,7 @@ function renderPublications(publications) {
     document.getElementById('citations').innerHTML = html;
 
     var count = publications.length;
-    document.getElementById('publicationCount').textContent = 'Displayed: ' + count;
+    document.getElementById('publicationCount').textContent = count;
 
 }
 function sortPublications(ascending) {

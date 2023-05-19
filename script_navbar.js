@@ -1,10 +1,3 @@
-// Interactive navigation bar
-function toggleNavbar() {
-    const navbarItems = document.getElementById('navbarItems');
-    navbarItems.classList.toggle('show');
-}
-
-
 // Load navbar
 // Fetch the navigation bar content and insert it into the navbar element
 function loadNavbar() {
@@ -22,7 +15,15 @@ function loadNavbar() {
 // Toggle the navigation items visibility
 function toggleNavbar() {
     const navbarItems = document.getElementById('navbarItems');
+    const toggleIcon = document.getElementById('toggleIcon');
+
     navbarItems.classList.toggle('show');
+
+    if (navbarItems.classList.contains('show')) {
+        toggleIcon.innerHTML = '&#10005'; // Set the cross symbol when toggled
+    } else {
+        toggleIcon.innerHTML = '&#9776;'; // Set the default symbol when untoggled
+    }
 }
 
 // Load the navbar when the page is fully loaded

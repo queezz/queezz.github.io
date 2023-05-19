@@ -82,6 +82,13 @@
 /* Media query for mobile devices */
 
 @media (max-width: 960px) {
+    .navbar {
+        width: 20px;
+        height: 20px;
+        padding: 20px;
+        padding-top: 10px;
+    }
+
     .navbar-logo {
         display: none;
     }
@@ -94,16 +101,19 @@
         display: none;
         flex-direction: column;
         position: absolute;
-        top: 20px;
-        left: 40px;
+        top: 100%;
+        left: 0;
         right: 0;
         background-color: #f2f2f2;
-        padding: 10px;
-        max-width: 100%;
+        padding: 5px;
+        margin: 0;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .navbar-items.show {
         display: flex;
+        width: max-content;
     }
 
     .navbar-items li {
@@ -112,7 +122,6 @@
 
     .navbar-items li a {
         font-size: 20px;
-        padding: 10px;
     }
 }
 
@@ -372,6 +381,22 @@ div.citations .authors {
 .citations .citations-link a:hover {
     transition: .4s;
     background-color: #dbff38;
+}
+
+@media (max-width: 960px) {
+    .citations {
+        padding: 0;
+    }
+}
+
+@media (max-width: 960px) {
+    .body {
+        padding: 10px;
+    }
+
+    .photo img {
+        max-width: 150px;
+    }
 }
 
 /*
