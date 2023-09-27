@@ -1,0 +1,56 @@
+/* Grid container */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Grid items (square) */
+.grid-item {
+    width: 100%;
+    padding-top: 100%;
+    /* 1:1 aspect ratio for square */
+    background-color: #f0f0f0;
+    position: relative;
+    cursor: pointer;
+}
+
+/* Popup container */
+.popup-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(199, 135, 135, 0.9);
+    /* Lighter background */
+    justify-content: center;
+    align-items: center;
+}
+
+/* Popup content */
+.popup-content {
+    background-color: white;
+    max-width: 400px;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    position: relative;
+}
+
+/* Close button */
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+/* Make images within popups responsive */
+.popup-content img {
+    max-width: 100%;
+    height: auto;
+}
