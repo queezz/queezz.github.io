@@ -11,6 +11,7 @@ async function fetchData() {
             // Create grid item
             const gridItem = document.createElement('div');
             gridItem.className = 'grid-item';
+            gridItem.style.backgroundImage = `url(${item.imageUrl})`;
             gridItem.innerHTML = `<h2>${item.title}</h2>`;
             gridItem.onclick = () => openPopup(item.id);
             gridContainer.appendChild(gridItem);
@@ -27,8 +28,8 @@ async function fetchData() {
             popupContent.innerHTML = `
     <span class="close-button" onclick="closePopup(${item.id})">X</span>
     <h2>${item.title}</h2>
-    <p>${item.content}</p>
     <img src="${item.imageUrl}" alt="${item.title}">
+    <p>${item.content}</p>
         `;
             popupContainer.appendChild(popupContent);
 

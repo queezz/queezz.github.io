@@ -1,38 +1,38 @@
 [
     {
         "id": 1,
-        "title": "Item 1",
-        "content": "Content for Item 1",
-        "imageUrl": "https://via.placeholder.com/200"
+        "title": "Deposition Device",
+        "content": "Multi material deposition device was developed to investigate the growth tungsten-carbon films during simultaneous deposition.",
+        "imageUrl": "img/vup2-metal.jpg"
     },
     {
         "id": 2,
-        "title": "Item 2",
-        "content": "Content for Item 2",
-        "imageUrl": "https://via.placeholder.com/200"
+        "title": "Hydrogen Retention in Tore-Supra tiles",
+        "content": "We investigated hydrogen retention in Tore-Supra tokamak tiles after they were exposed to the plasma for several campaigns. It was found that most of hydrogen is retained in the deposited layers and top layers of the tile. Moreover, hydrogen diffused deep inside the bulk of the graphite.",
+        "imageUrl": "img/ToreSupra.png"
     },
     {
         "id": 3,
-        "title": "Item 3",
-        "content": "Content for Item 3",
-        "imageUrl": "https://via.placeholder.com/200"
+        "title": "Tungsten-Carbon film growth model",
+        "content": "Tungsten-Carbon film growth model",
+        "imageUrl": "img/wcfilm.jpg"
     },
     {
         "id": 4,
-        "title": "Item 4",
-        "content": "Content for Item 4",
-        "imageUrl": "https://via.placeholder.com/200"
+        "title": "Oxygen removal from graphite wall",
+        "content": "We searched for optimal parameters for glow discharge cleaning to remove oxygen from graphite tiles in Tore-Supra tokamak.",
+        "imageUrl": "img/CO2-m.png"
     },
     {
         "id": 5,
-        "title": "Item 5",
-        "content": "Content for Item 5",
-        "imageUrl": "https://via.placeholder.com/200"
+        "title": "Cell adhesion Study",
+        "content": "I developed a prototype device to investigate cell adhesion in a batch. To do so, we measured displacement of cells in the field of view and estimated the adhesion forces from the parameters of the actuater and measured dispacement. Cell identification is done automatically with the help of cellpose. Based on my prototype a US grant was won by my collaborators.",
+        "imageUrl": "img/bioshake.png"
     },
     {
         "id": 6,
-        "title": "Item 6",
-        "content": "Content for Item 6",
-        "imageUrl": "https://via.placeholder.com/200"
+        "title": "Plasma Device Control Unit",
+        "content": "An open-source based control and acquisition unit was developed for my  plasma irradiation and hydrogen transport investigations (PIHTI). The source code is availiable on <a href='https://github.com/queezz/ControlUnit'>GitHub</a>",
+        "imageUrl": "img/ControlUnit.png"
     }
 ]
