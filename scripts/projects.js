@@ -29,7 +29,7 @@ async function fetchData() {
     <span class="close-button" onclick="closePopup(${item.id})">X</span>
     <h2>${item.title}</h2>
     <img src="${item.imageUrl}" alt="${item.title}">
-    <p>${item.content}</p>
+    ${item.content}
         `;
             popupContainer.appendChild(popupContent);
 
