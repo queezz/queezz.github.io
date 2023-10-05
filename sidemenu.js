@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const mainContent = document.querySelector('.content');
+    const mainContent = document.querySelector('.main-content');
     const h1Elements = mainContent.querySelectorAll('h1');
     const navList = document.querySelector('.section-nav');
 
@@ -21,6 +21,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const navLinks = document.querySelectorAll('.nav-link'); // Initialize navLinks
 
+    // Offset scroll for anchor links
+    navLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            let target = document.querySelector(this.hash);
+            let headerOffset = 100; // Adjust this value according to your needs
+            let elementPosition = target.offsetTop;
+            let offsetPosition = elementPosition - headerOffset;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: "smooth"
+            });
+        });
+    });
     // Track scrolling and set active link
     window.addEventListener("scroll", function () {
         let fromTop = window.scrollY;
