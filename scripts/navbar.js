@@ -2,7 +2,7 @@ function updateToggleIcon() {
     const toggleButton = document.getElementById('darkModeToggle');
     const isDark = document.body.classList.contains('dark-mode');
     if (toggleButton) {
-        toggleButton.textContent = isDark ? '☀️' : '🌙';
+        toggleButton.textContent = isDark ? '🌝' : '🌚';
     }
 }
 

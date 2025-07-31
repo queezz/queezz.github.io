@@ -352,3 +352,27 @@ body.dark-mode .navbar-items a {
 body.dark-mode .navbar-items a:hover {
   color: #80bfff;
 }
+
+#darkModeToggle {
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 0 10px;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@media (max-width: 960px) {
+  #darkModeToggle {
+    margin-left: 10px;
+    padding: 4px;
+  }
+
+  .navbar-container {
+    justify-content: flex-start;
+    gap: 15px;
+  }
+}
