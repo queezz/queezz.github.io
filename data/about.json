@@ -1,8 +1,9 @@
 {
     "name": "Arseniy Kuzmin",
-    "title": "Senior Lecturer",
+    "title": "Experimental Physicist – Plasma–Surface Interactions & Spectroscopy",
     "position": "Kyoto University",
     "location": "Kyoto, Japan",
+    "profile": "Physicist and experimentalist with extensive experience in plasma–surface interactions, spectroscopy, and hands-on development of diagnostics and control systems. Passionate about integrating hardware, software, and science to create robust, insightful experiments.",
     "education": [
         {
             "university": "National Research Nuclear University MEPhI",
@@ -31,7 +32,7 @@
             "startDate": "12/2018",
             "endDate": "Present",
             "url": "https://www.kyoto-u.ac.jp/en",
-            "description": "I'm responsible for choosing several research directions for my scientific work and supervision of Master and Bachelor students. I give four lectures in physics and mathematics for undergrade students. I continue my previous research in my collaborations with <a href='https://www.triam.kyushu-u.ac.jp/QUEST_HP/indexen.html'>QUEST team at Kyushu University</a> and <a href='http://www.nifs.ac.jp/index.html'>NIFS</a>. The focus of my research remains the hydrogen interaction with materials in fusion applications. I am also investigating hydrogen transport through metals, exposed to hydrogen and oxygen plasmas. This time I've added to my set of tools laser techniques to investigate the surface chemistry of my samples in-situ in vacuum without exposing them to atmospheric air after experiments."
+            "description": "Research on hydrogen interaction with materials and surface analysis using laser-based diagnostics. Supervising students and teaching undergraduate physics. Collaborating with <a href='https://www.triam.kyushu-u.ac.jp/QUEST_HP/indexen.html'>Kyushu Univ.</a> and <a href='http://www.nifs.ac.jp/index.html'>NIFS</a>. Full project: <a href='projects.html#hydrogen-gettering'>Hydrogen Getter Films</a>."
         },
         {
             "title": "Research Fellow",
@@ -83,89 +84,58 @@
         "Plasma Diagnostics",
         "Spectroscopy"
     ],
-    "skills": [
-        {
-            "title": "Project coordination",
-            "skills": [
-                "For several years I'm supervising a research team of 2-4 persons",
-                "Long term collaborations with several research labs across Japan and abroad",
-                "Project Managment Software: <a href='https://clickup.com/about'>ClickUp</a>"
-            ]
-        },
-        {
-            "title": "Physical Analysis",
-            "skills": [
-                "Thermal Desorption Spectroscopy (<a href='https://en.wikipedia.org/wiki/Thermal_desorption_spectroscopy'>TDS</a>)",
-                "Scanning Electron Microscopy (<a href='https://en.wikipedia.org/wiki/Scanning_electron_microscope'>SEM</a>)",
-                "Energy-Dispersive X-ray Spectroscopy (<a href='https://en.wikipedia.org/wiki/Energy-dispersive_X-ray_spectroscopy'>EDS</a>)",
-                "X-ray photoelectron spectroscopy (<a href='https://en.wikipedia.org/wiki/X-ray_photoelectron_spectroscopy'>XPS</a>)",
-                "Laser Induced Breakdown Spectroscopy (<a href='https://en.wikipedia.org/wiki/Laser-induced_breakdown_spectroscopy'>LIBS</a>)",
-                "<a href='https://en.wikipedia.org/wiki/Raman_spectroscopy'>Raman spectroscopy</a> for surface analysis"
-            ]
-        },
-        {
-            "title": "Physical Processes",
-            "skills": [
-                "Plasma-Enhanced Deposition (<a href='https://en.wikipedia.org/wiki/Plasma-enhanced_chemical_vapor_deposition'>PECVD</a>)",
-                "Ion and Plasma Irradiation of Materials"
-            ]
-        },
-        {
-            "title": "Manufacturing and Design",
-            "skills": [
-                "3D Cad (<a href='https://www.solidworks.com/'>SolidWorks</a>, <a href='https://www.autodesk.com/products/inventor/features'>Autodesk Inventor</a>, <a href='https://www.autodesk.com/products/fusion-360'>Autodesk Fusion 360</a>)",
-                "Vacuum devices",
-                "Plasma-deposition devices",
-                "Plasma-irradiation devices"
-            ]
-        },
-        {
-            "title": "Signal Processing and Data Analysis",
-            "skills": [
-                "Python: <a href='https://numpy.org/'>numpy</a>, <a href='https://scipy.org/'>scipy</a>, <a href='https://pandas.pydata.org/'>pandas</a>, <a href='https://docs.xarray.dev/en/stable/'>xarray</a>, <a href='https://matplotlib.org/'>matplotlib</a>, <a href='https://plotly.com/'>plotly</a>, <a href='https://bokeh.org/'>bokeh</a>, <a href='https://www.pyqtgraph.org/'>pyqtgraph</a>, <a href='https://scikit-learn.org/stable/'>scikit-learn</a>",
-                "Worked with <a href='https://www.originlab.com/origin'>OriginPro</a> and <a href='https://www.wavemetrics.com/'>Igor Pro</a>",
-                "Familiar with <a href='https://www.mathworks.com/products/matlab.html'>Matlab</a>, <a href='https://www.wolfram.com/mathematica/'>Mathematica</a>, <a href='https://www.maplesoft.com/'>Maple</a>"
-            ]
-        },
-        {
-            "title": "Programming Languages",
-            "skills": [
-                "Python",
-                "Javascript",
-                "C++",
-                "Pascal",
-                "Fortran",
-                "Basic"
-            ]
-        },
-        {
-            "title": "Data Acquisition",
-            "skills": [
-                "Control Systems based on Raspberry Pi and <a href='https://en.wikipedia.org/wiki/Digital-to-analog_converter'>DAC</a>/<a href='https://en.wikipedia.org/wiki/Analog-to-digital_converter'>ADC</a>",
-                "Some familiarity with <a href='https://www.ni.com/en-ca/shop/labview.html'>LabView</a> and <a href='https://en.wikipedia.org/wiki/LabWindows/CVI'>LabWindows</a>",
-                "Experience with National Intsruments devices"
-            ]
-        },
-        {
-            "title": "Office Software, Typesetting, Visual Design",
-            "skills": [
-                "<a href='https://www.microsoft.com/en-us/microsoft-365/microsoft-office'>Microsoft Office</a>: Word, Powerpoint, Excell",
-                "<a href='https://www.libreoffice.org/'>Libre Office</a>",
-                "<a href='https://www.openoffice.org/'>OpenOffice</a>",
-                "Vector Design: <a href='https://inkscape.org/'>Inkscape</a>, <a href='https://www.adobe.com/products/illustrator.html'>Adobe Illustrator</a>",
-                "<a href='https://www.latex-project.org/'>LaTeX</a>, <a href='https://www.tug.org/applications/pdftex/'>pdfTeX</a>, <a href='https://tug.org/xetex/'>XeTeX</a>, <a href='https://www.luatex.org/'>LuaTex</a>"
-            ]
-        },
-        {
-            "title": "Languages",
-            "skills": [
-                "Russian (native)",
-                "English (fluent)",
-                "Japanese (conversation)",
-                "German (intermediate)"
-            ]
-        }
-    ],
+"skills": [
+    {
+        "title": "Fusion Devices",
+        "skills": [
+            "QUEST, LHD, Tore Supra",
+            "Hydrogen retention, impurity transport, TDS & spectroscopy diagnostics"
+        ]
+    },
+    {
+        "title": "Spectroscopy",
+        "skills": [
+            "Atomic/molecular spectroscopy (<a href='https://www.horiba.com/int/scientific/technologies/vacuum-ultra-violet-spectroscopy/vacuum-ultra-violet-spectroscopy/' target='blank' rel='noopener noreferrer'>VUV</a>, <a href='https://en.wikipedia.org/wiki/Laser-induced_breakdown_spectroscopy' target='blank' rel='noopener noreferrer'>LIBS</a>, Raman)",
+            "BH, H₂, C emission analysis, CR models for H and He"
+        ]
+    },
+    {
+        "title": "Design",
+        "skills": [
+            "Mechanical design of plasma/vacuum/optical systems",
+            "Inventor, SolidWorks, Fusion 360"
+        ]
+    },
+    {
+        "title": "Control & DAQ",
+        "skills": [
+            "Raspberry Pi, ESP32, NI tools; PCB design in KiCad",
+            "Web UIs using Flask"
+        ]
+    },
+    {
+        "title": "Computing",
+        "skills": [
+            "Python, Jupyter, NumPy, SciPy, matplotlib, pandas",
+            "Simulation automation with TMAP7/8, FESTIM"
+        ]
+    },
+    {
+        "title": "Education",
+        "skills": [
+            "Research mentoring; KU students present at conferences",
+            "Student-built instruments under my guidance"
+        ]
+    },
+    {
+        "title": "Languages",
+        "skills": [
+            "Russian (native), English (fluent)",
+            "Japanese (conversational), German (reading/writing)"
+        ]
+    }
+]
+,
     "interests": [
         "Interaction of hydrogen molecules, atoms, and ions with solid materials",
         "Spectroscopy: plasma diagnostics, molecular hydrogen",
