@@ -2,6 +2,11 @@
 <html>
 
 <head>
+    <script>
+        if (localStorage.getItem('darkMode') === '1') {
+        document.documentElement.classList.add('dark-mode');
+        }
+    </script>
     <meta charset="UTF-8">
     <title>Arseniy Kuzmin: About</title>
     <link rel="stylesheet" href="styles.css">
@@ -27,7 +32,16 @@
         <div class="personal-info">
             <div class="photo">
                 <img src="kaa.png" alt="Photo">
+                <div class="photo-links">
+                    <a href="https://github.com/queezz" target="_blank" title="GitHub">
+                        <img src="img/github.svg" alt="GitHub" class="icon-link">
+                    </a>
+                    <a href="https://scholar.google.co.jp/citations?user=pGPepnYAAAAJ&hl=en" target="_blank" title="Google Scholar">
+                        <img src="img/google-scholar.svg" alt="Google Scholar" class="icon-link">
+                    </a>
+                </div>                
             </div>
+
             <div class="info">
                 <!-- <h1 id="name"></h1> -->
                 <h2 id="title"></h2>
@@ -35,8 +49,7 @@
                 <p id="profile"></p>
             </div>
         </div>
-
-
+        
         <script src="scripts/about.js"></script>
 
         <h3><span>Education</span></h3>
