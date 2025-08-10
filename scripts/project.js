@@ -19,7 +19,8 @@ async function loadProject() {
     const layout = document.createElement("section");
     layout.className = "project-layout";
 
-    const mdText = await (await fetch(project.markdownUrl)).text();
+    const mdPath = project.markdownUrl.replace(/^\//, "");
+    const mdText = await (await fetch(mdPath)).text();
     const { fm, body } = parseFrontMatter(mdText);
 
     // hero/figure
