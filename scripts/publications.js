@@ -60,7 +60,7 @@ function renderPublications(publications) {
           <div class="journal">${publication.venue} ${publication.volume} (${publication.year}) ${publication.pages}
       `;
         if (publication.doi) {
-            html += '<a class="citations-link" href="https://doi.org/' + publication.doi + '">' + publication.doi + '</a>';
+            html += '<a class="citations-link" href="https://doi.org/' + publication.doi + '" target="_blank" rel="noopener noreferrer">' + publication.doi + '</a>';
         }
         html += '</div></div>';
     }
