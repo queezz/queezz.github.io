@@ -1,13 +1,13 @@
 ---
-hero: /assets/projects/deposition-device/wc_maker_cad.png
+hero: /assets/projects/01-deposition-device/wc_maker_cad.png
 hero_caption: W-C thin film deposition device
 layout: split
 gallery:
-  - src: /assets/projects/deposition-device/samples_heated.jpg
+  - src: /assets/projects/01-deposition-device/samples_heated.jpg
     caption: Sample heater at work
-  - src: /assets/projects/deposition-device/vup2-metal.jpg
+  - src: /assets/projects/01-deposition-device/vup2-metal.jpg
     caption: Two material sputtering target
-  - src: /assets/projects/deposition-device/wc-film.jpg
+  - src: /assets/projects/01-deposition-device/wc-film.jpg
     caption: W-C film example SEM image
 ---
 Multi material deposition device was developed to investigate the growth tungsten-carbon films during simultaneous deposition.

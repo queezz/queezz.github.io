@@ -4,8 +4,8 @@ async function loadProject() {
 
   try {
     const [projects, sizes] = await Promise.all([
-      fetch("data/projects.json").then(r => r.json()),
-      fetch("data/image-sizes.json").then(r => r.json())
+      fetch("assets/data/projects.json").then(r => r.json()),
+      fetch("assets/data/image-sizes.json").then(r => r.json())
     ]);
     const project = projects.find(p => String(p.id) === String(id));
     if (!project) return;
