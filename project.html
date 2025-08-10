@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script>
+        if (localStorage.getItem('darkMode') === '1') {
+            document.documentElement.classList.add('dark-mode');
+        }
+    </script>
+    <meta charset="UTF-8">
+    <title>Project Detail</title>
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body>
+    <script src="scripts/navbar.js"></script>
+    <script src="scripts/scroltotop.js"></script>
+    <div class="scroll-to-top-button" id="scrollToTopButton"><span class="scroll-to-top-arrow"></span></div>
+    <div class="main-content">
+        <nav id="navbar"></nav>
+        <h1 id="projectTitle"></h1>
+        <div id="projectContent"></div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="scripts/project.js"></script>
+</body>
+</html>
