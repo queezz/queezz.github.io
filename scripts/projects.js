@@ -1,20 +1,20 @@
 // Function to fetch and populate data
 async function fetchData() {
     try {
-        const response = await fetch('data/projects.json'); // Replace with the path to your JSON file
+        const response = await fetch('data/projects.json');
         const data = await response.json();
 
         const gridContainer = document.getElementById('gridContainer');
 
         // Create link cards based on the data
-        data.forEach(item => {
+        data.forEach(({ id, title, summary, imageUrl }) => {
             const card = document.createElement('a');
             card.className = 'grid-item';
-            card.href = `project.html?id=${item.id}`;
+            card.href = `project.html?id=${id}`;
             card.innerHTML = `
-                <img src="${item.imageUrl}" alt="${item.title}">
-                <h2>${item.title}</h2>
-                <p>${item.summary}</p>
+                <img src="${imageUrl}" alt="${title}">
+                <h2>${title}</h2>
+                <p>${summary}</p>
             `;
             gridContainer.appendChild(card);
         });
