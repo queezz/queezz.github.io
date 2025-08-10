@@ -4,104 +4,104 @@
     "title": "Deposition Device",
     "summary": "Device for simultaneous tungsten-carbon film deposition.",
     "imageUrl": "img/vup2-metal.jpg",
-    "markdownUrl": "data/project_details/1.md"
+    "markdownUrl": "assets/projects/1/index.md"
   },
   {
     "id": 2,
     "title": "Hydrogen Retention in Tore-Supra Tiles",
     "summary": "Study of hydrogen retention in Tore-Supra tokamak tiles.",
     "imageUrl": "img/ToreSupra.png",
-    "markdownUrl": "data/project_details/2.md"
+    "markdownUrl": "assets/projects/2/index.md"
   },
   {
     "id": 3,
     "title": "Tungsten-Carbon Film Growth Model",
     "summary": "Modeling growth of W-C films during dual sputtering.",
     "imageUrl": "img/wcfilm.jpg",
-    "markdownUrl": "data/project_details/3.md"
+    "markdownUrl": "assets/projects/3/index.md"
   },
   {
     "id": 4,
     "title": "Oxygen Removal from Graphite Wall",
     "summary": "Glow discharge cleaning parameters for oxygen removal.",
     "imageUrl": "img/CO2-m.png",
-    "markdownUrl": "data/project_details/4.md"
+    "markdownUrl": "assets/projects/4/index.md"
   },
   {
     "id": 5,
     "title": "Cell Adhesion Study",
     "summary": "Prototype to measure cell adhesion forces using automated tracking.",
     "imageUrl": "img/bioshake.png",
-    "markdownUrl": "data/project_details/5.md"
+    "markdownUrl": "assets/projects/5/index.md"
   },
   {
     "id": 6,
     "title": "Plasma Device Control Unit",
     "summary": "Open-source control and acquisition unit for plasma experiments.",
     "imageUrl": "img/ControlUnit.png",
-    "markdownUrl": "data/project_details/6.md"
+    "markdownUrl": "assets/projects/6/index.md"
   },
   {
     "id": 7,
     "title": "X-ray Filter for Non-destructive Inspection",
     "summary": "Improved X-ray filter design for weld inspection.",
     "imageUrl": "img/Xrayfilter.jpg",
-    "markdownUrl": "data/project_details/7.md"
+    "markdownUrl": "assets/projects/7/index.md"
   },
   {
     "id": 8,
     "title": "Permeation Experiments in QUEST",
     "summary": "Hydrogen flux measurements with membrane probes in QUEST tokamak.",
     "imageUrl": "img/kaainquest.jpg",
-    "markdownUrl": "data/project_details/8.md"
+    "markdownUrl": "assets/projects/8/index.md"
   },
   {
     "id": 9,
     "title": "Carbon impurity flow in LHD",
     "summary": "Analysis of carbon impurity transport in LHD peripheral plasma.",
     "imageUrl": "img/carbonflow.png",
-    "markdownUrl": "data/project_details/9.md"
+    "markdownUrl": "assets/projects/9/index.md"
   },
   {
     "id": 10,
     "title": "Boron powder plasma sputtering",
     "summary": "Prototype sputtering device for boron powder deposition.",
     "imageUrl": "img/boronpowder.jpg",
-    "markdownUrl": "data/project_details/10.md"
+    "markdownUrl": "assets/projects/10/index.md"
   },
   {
     "id": 11,
     "title": "Hydrogen Molecule Spectroscopy",
     "summary": "Spectroscopy of hydrogen molecule populations in LHD plasma.",
     "imageUrl": "img/fulcheralpha.png",
-    "markdownUrl": "data/project_details/11.md"
+    "markdownUrl": "assets/projects/11/index.md"
   },
   {
     "id": 12,
     "title": "Seawater Desalination Device",
     "summary": "Renewable-powered multi-effect evaporation desalination system.",
     "imageUrl": "img/CuFefilm.png",
-    "markdownUrl": "data/project_details/12.md"
+    "markdownUrl": "assets/projects/12/index.md"
   },
   {
     "id": 13,
     "title": "GUI for Echelle Spectrometer Image processing",
     "summary": "PyQt GUI converts 2D echelle images to calibrated spectra.",
     "imageUrl": "img/echellegui.png",
-    "markdownUrl": "data/project_details/13.md"
+    "markdownUrl": "assets/projects/13/index.md"
   },
   {
     "id": 14,
     "title": "Oxygen Effect on Hydrogen Retention in Graphites",
     "summary": "Oxygen addition drastically increases hydrogen retention in graphites.",
     "imageUrl": "img/D2O2-m.png",
-    "markdownUrl": "data/project_details/14.md"
+    "markdownUrl": "assets/projects/14/index.md"
   },
   {
     "id": 15,
     "title": "Fulcher-alpha Emission Analizer",
     "summary": "Python tool for analyzing molecular hydrogen Fulcher-alpha emission.",
     "imageUrl": "img/fulcheranalizer.png",
-    "markdownUrl": "data/project_details/15.md"
+    "markdownUrl": "assets/projects/15/index.md"
   }
 ]
