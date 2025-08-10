@@ -35,7 +35,7 @@
   grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
 }
 .gallery figure{margin:0}
-.gallery img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px}
+.gallery img{width:100%;height:auto;display:block;border-radius:10px}
 .gallery figcaption{margin-top:.35rem;font-size:.85rem;opacity:.8}
 
 @media (max-width:900px){
@@ -54,11 +54,10 @@
   margin: 0 auto;
 }
 
-/* ensure it's not cropped or forced to 4:3 */
+/* ensure it's not cropped*/
 .gallery.single img {
   width: 100%;
   height: auto;
-  aspect-ratio: auto !important;   /* override grid thumbnail rule */
   object-fit: contain;
   max-height: clamp(280px, 60vh, 720px);
   border-radius: 12px;
