@@ -3,8 +3,10 @@ async function loadProject() {
   if (!id) return;
 
   try {
-    const res = await fetch("data/projects.json");
-    const projects = await res.json();
+    const [projects, sizes] = await Promise.all([
+      fetch("data/projects.json").then(r => r.json()),
+      fetch("data/image-sizes.json").then(r => r.json())
+    ]);
     const project = projects.find(p => String(p.id) === String(id));
     if (!project) return;
 
@@ -24,12 +26,17 @@ async function loadProject() {
     const { fm, body } = parseFrontMatter(mdText);
 
     // hero/figure
+    const sizeAttr = src => {
+      const info = sizes[src.replace(/^\//, "")];
+      return info ? ` width="${info.width}" height="${info.height}"` : "";
+    };
+
     const heroSrc = fm.hero || project.imageUrl || "";
     if (heroSrc) {
       const figure = document.createElement("figure");
       figure.className = "project-figure";
       figure.innerHTML =
-        `<img src="${heroSrc}" alt="${escapeHtml(project.title)}">` +
+        `<img src="${heroSrc}" alt="${escapeHtml(project.title)}" decoding="async" fetchpriority="high"${sizeAttr(heroSrc)}>` +
         (fm.hero_caption ? `<figcaption>${escapeHtml(fm.hero_caption)}</figcaption>` : "");
       layout.appendChild(figure);
     } else {
@@ -39,7 +46,7 @@ async function loadProject() {
     // markdown renderer with <figure> for images (title becomes caption)
     const renderer = new marked.Renderer();
     renderer.image = (href, title, text) =>
-      `<figure class="md-figure"><img src="${href}" alt="${escapeHtml(text || "")}">` +
+      `<figure class="md-figure"><img src="${href}" alt="${escapeHtml(text || "")}" loading="lazy" decoding="async"${sizeAttr(href)}>` +
       (title ? `<figcaption>${escapeHtml(title)}</figcaption>` : "") + `</figure>`;
 
     const [lead, rest] = splitLead(body);
@@ -63,7 +70,7 @@ async function loadProject() {
       g.className = "gallery";
        if (fm.gallery.length === 1) g.classList.add("single");
       g.innerHTML = fm.gallery.map(
-        item => `<figure><img src="${item.src}" alt="">
+        item => `<figure><img src="${item.src}" alt="" loading="lazy" decoding="async"${sizeAttr(item.src)}>
           ${item.caption ? `<figcaption>${escapeHtml(item.caption)}</figcaption>` : ""}</figure>`
       ).join("");
       container.appendChild(g);

@@ -1,8 +1,15 @@
 // Function to fetch and populate data
 async function fetchData() {
     try {
-        const response = await fetch('data/projects.json');
-        const data = await response.json();
+        const [data, sizes] = await Promise.all([
+            fetch('data/projects.json').then(r => r.json()),
+            fetch('data/image-sizes.json').then(r => r.json())
+        ]);
+
+        const sizeAttr = src => {
+            const info = sizes[src.replace(/^\//, '')];
+            return info ? ` width="${info.width}" height="${info.height}"` : '';
+        };
 
         const gridContainer = document.getElementById('gridContainer');
 
@@ -12,7 +19,7 @@ async function fetchData() {
             card.className = 'grid-item';
             card.href = `project.html?id=${id}`;
             card.innerHTML = `
-                <img src="${imageUrl}" alt="${title}">
+                <img src="${imageUrl}" alt="${title}" loading="lazy" decoding="async"${sizeAttr(imageUrl)}>
                 <h2>${title}</h2>
                 <p>${summary}</p>
             `;
