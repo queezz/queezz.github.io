@@ -1,11 +1,44 @@
+const galleryItems = [];
+let currentIndex = 0;
+
 const lightbox = document.createElement("div");
 lightbox.id = "imgLightbox";
-lightbox.innerHTML = "<img alt=\"\">";
+lightbox.innerHTML = `
+  <button class="nav prev">&#10094;</button>
+  <figure>
+    <img alt="">
+    <figcaption></figcaption>
+  </figure>
+  <button class="nav next">&#10095;</button>
+`;
 lightbox.addEventListener("click", () => lightbox.classList.remove("show"));
 document.body.appendChild(lightbox);
 
-function showLightbox(src) {
-  lightbox.querySelector("img").src = src;
+const prevBtn = lightbox.querySelector(".prev");
+const nextBtn = lightbox.querySelector(".next");
+prevBtn.addEventListener("click", e => {
+  e.stopPropagation();
+  showLightbox(currentIndex - 1);
+});
+nextBtn.addEventListener("click", e => {
+  e.stopPropagation();
+  showLightbox(currentIndex + 1);
+});
+
+document.addEventListener("keydown", e => {
+  if (!lightbox.classList.contains("show")) return;
+  if (e.key === "ArrowLeft") showLightbox(currentIndex - 1);
+  else if (e.key === "ArrowRight") showLightbox(currentIndex + 1);
+});
+
+function showLightbox(index) {
+  if (!galleryItems.length) return;
+  if (index < 0) index = galleryItems.length - 1;
+  if (index >= galleryItems.length) index = 0;
+  currentIndex = index;
+  const item = galleryItems[currentIndex];
+  lightbox.querySelector("img").src = item.src;
+  lightbox.querySelector("figcaption").textContent = item.caption || "";
   lightbox.classList.add("show");
 }
 
@@ -85,8 +118,11 @@ async function loadProject() {
           ${item.caption ? `<figcaption>${escapeHtml(item.caption)}</figcaption>` : ""}</figure>`
         ).join("");
         container.appendChild(g);
-        g.querySelectorAll("img").forEach(img =>
-          img.addEventListener("click", () => showLightbox(img.src))
+        fm.gallery.forEach(item => {
+          galleryItems.push({ src: item.src, caption: item.caption || "" });
+        });
+        g.querySelectorAll("img").forEach((img, idx) =>
+          img.addEventListener("click", () => showLightbox(idx))
         );
       }
 
