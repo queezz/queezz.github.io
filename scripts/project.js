@@ -114,7 +114,7 @@ async function loadProject() {
       g.className = "gallery";
        if (fm.gallery.length === 1) g.classList.add("single");
       g.innerHTML = fm.gallery.map(
-        item => `<figure><img src="${item.src}" alt="" loading="lazy" decoding="async"${sizeAttr(item.src)}>
+        item => `<figure><div class="thumb"><img src="${item.src}" alt="" loading="lazy" decoding="async"${sizeAttr(item.src)}></div>`
           ${item.caption ? `<figcaption>${escapeHtml(item.caption)}</figcaption>` : ""}</figure>`
         ).join("");
         container.appendChild(g);
