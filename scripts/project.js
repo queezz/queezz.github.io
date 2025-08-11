@@ -1,3 +1,14 @@
+const lightbox = document.createElement("div");
+lightbox.id = "imgLightbox";
+lightbox.innerHTML = "<img alt=\"\">";
+lightbox.addEventListener("click", () => lightbox.classList.remove("show"));
+document.body.appendChild(lightbox);
+
+function showLightbox(src) {
+  lightbox.querySelector("img").src = src;
+  lightbox.classList.add("show");
+}
+
 async function loadProject() {
   const id = new URLSearchParams(location.search).get("id");
   if (!id) return;
@@ -72,9 +83,12 @@ async function loadProject() {
       g.innerHTML = fm.gallery.map(
         item => `<figure><img src="${item.src}" alt="" loading="lazy" decoding="async"${sizeAttr(item.src)}>
           ${item.caption ? `<figcaption>${escapeHtml(item.caption)}</figcaption>` : ""}</figure>`
-      ).join("");
-      container.appendChild(g);
-    }
+        ).join("");
+        container.appendChild(g);
+        g.querySelectorAll("img").forEach(img =>
+          img.addEventListener("click", () => showLightbox(img.src))
+        );
+      }
 
     if (fm.layout === "full") layout.classList.add("full");
   } catch (e) {
