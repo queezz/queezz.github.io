@@ -109,22 +109,34 @@ async function loadProject() {
       container.appendChild(more);
     }
 
-    if (Array.isArray(fm.gallery) && fm.gallery.length) {
-      const g = document.createElement("div");
-      g.className = "gallery";
-       if (fm.gallery.length === 1) g.classList.add("single");
-      g.innerHTML = fm.gallery.map(
-        item => `<figure><div class="thumb"><img src="${item.src}" alt="" loading="lazy" decoding="async"${sizeAttr(item.src)}></div>`
-          ${item.caption ? `<figcaption>${escapeHtml(item.caption)}</figcaption>` : ""}</figure>`
-        ).join("");
-        container.appendChild(g);
-        fm.gallery.forEach(item => {
-          galleryItems.push({ src: item.src, caption: item.caption || "" });
-        });
-        g.querySelectorAll("img").forEach((img, idx) =>
-          img.addEventListener("click", () => showLightbox(idx))
-        );
-      }
+if (Array.isArray(fm.gallery) && fm.gallery.length) {
+  const g = document.createElement("div");
+  g.className = "gallery";
+  if (fm.gallery.length === 1) g.classList.add("single");
+
+  g.innerHTML = fm.gallery
+    .map(item => {
+      const captionHtml = item.caption ? `<figcaption>${escapeHtml(item.caption)}</figcaption>` : "";
+      return `<figure>
+                <div class="thumb">
+                  <img src="${item.src}" alt="" loading="lazy" decoding="async" ${sizeAttr(item.src)}>
+                </div>
+                ${captionHtml}
+              </figure>`;
+    })
+    .join("");
+
+  container.appendChild(g);
+
+  fm.gallery.forEach(item => {
+    galleryItems.push({ src: item.src, caption: item.caption || "" });
+  });
+
+  g.querySelectorAll("img").forEach((img, idx) => {
+    img.addEventListener("click", () => showLightbox(idx));
+  });
+}
+
 
     if (fm.layout === "full") layout.classList.add("full");
   } catch (e) {
