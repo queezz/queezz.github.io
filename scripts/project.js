@@ -11,7 +11,37 @@ lightbox.innerHTML = `
   </figure>
   <button class="nav next">&#10095;</button>
 `;
-lightbox.addEventListener("click", () => lightbox.classList.remove("show"));
+let isSwiping = false;
+let touchStartX = 0;
+
+lightbox.addEventListener("click", () => {
+  if (isSwiping) {
+    isSwiping = false;
+    return;
+  }
+  lightbox.classList.remove("show");
+});
+
+lightbox.addEventListener("touchstart", e => {
+  touchStartX = e.touches[0].clientX;
+  isSwiping = false;
+}, { passive: true });
+
+lightbox.addEventListener("touchmove", e => {
+  if (Math.abs(e.touches[0].clientX - touchStartX) > 30) {
+    isSwiping = true;
+  }
+}, { passive: true });
+
+lightbox.addEventListener("touchend", e => {
+  if (!isSwiping) return;
+  const diff = e.changedTouches[0].clientX - touchStartX;
+  if (diff > 0) {
+    showLightbox(currentIndex - 1);
+  } else {
+    showLightbox(currentIndex + 1);
+  }
+});
 document.body.appendChild(lightbox);
 
 const prevBtn = lightbox.querySelector(".prev");
@@ -29,6 +59,7 @@ document.addEventListener("keydown", e => {
   if (!lightbox.classList.contains("show")) return;
   if (e.key === "ArrowLeft") showLightbox(currentIndex - 1);
   else if (e.key === "ArrowRight") showLightbox(currentIndex + 1);
+  else if (e.key === "Escape") lightbox.classList.remove("show");
 });
 
 function showLightbox(index) {
