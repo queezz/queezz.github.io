@@ -20,8 +20,14 @@ function initScrollNav() {
     nav.appendChild(label);
 
     headings.forEach(h => {
-        const id = h.id || h.textContent.trim().split(' ').join('-').toLowerCase();
+        let baseId = h.id || h.textContent.trim().split(' ').join('-').toLowerCase();
+        let id = baseId;
+        let counter = 1;
+        while (document.getElementById(id) && document.getElementById(id) !== h) {
+            id = `${baseId}-${counter++}`;
+        }
         h.id = id;
+
         const li = document.createElement('li');
         const link = document.createElement('a');
         link.href = '#' + id;
