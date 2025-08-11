@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "title": "Deposition Device",
+    "title": "W-C Deposition Device",
     "summary": "Device for simultaneous tungsten-carbon film deposition.",
     "imageUrl": "img/vup2-metal.jpg",
     "markdownUrl": "assets/projects/01-deposition-device/index.md"
