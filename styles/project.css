@@ -51,6 +51,7 @@
   height:100%;
   object-fit:cover;
 }
+
 .gallery figcaption{margin-top:.35rem;font-size:.85rem;opacity:.8}
 
 @media (max-width:900px){
