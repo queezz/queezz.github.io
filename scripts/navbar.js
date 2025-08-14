@@ -1,52 +1,65 @@
 function updateToggleIcon() {
-    const toggleButton = document.getElementById('darkModeToggle');
-    const isDark = document.documentElement.classList.contains('dark-mode');
+  const toggleButton = document.getElementById("darkModeToggle");
+  const isDark = document.documentElement.classList.contains("dark-mode");
 
-    if (toggleButton) {
-        toggleButton.textContent = isDark ? '🌝' : '🌚';
-    }
+  if (toggleButton) {
+    toggleButton.textContent = isDark ? "🌝" : "🌚";
+  }
 }
 
 function setupDarkModeToggle() {
-    const toggleButton = document.getElementById('darkModeToggle');
+  const toggleButton = document.getElementById("darkModeToggle");
 
-    if (!toggleButton) {
-        console.warn('Dark mode toggle button not found after navbar load');
-        return;
-    }
+  if (!toggleButton) {
+    console.warn("Dark mode toggle button not found after navbar load");
+    return;
+  }
 
-    toggleButton.addEventListener('click', () => {
-        const html = document.documentElement;
-        html.classList.toggle('dark-mode');
-        const isDark = html.classList.contains('dark-mode');
-        localStorage.setItem('darkMode', isDark ? '1' : '0');
-        updateToggleIcon();
-    });
+  toggleButton.addEventListener("click", () => {
+    const html = document.documentElement;
+    html.classList.toggle("dark-mode");
+    const isDark = html.classList.contains("dark-mode");
+    localStorage.setItem("darkMode", isDark ? "1" : "0");
+    updateToggleIcon();
+  });
 
-    updateToggleIcon(); // Icon reflects current state
+  updateToggleIcon(); // Icon reflects current state
 }
 
 function toggleNavbar() {
-    const navbarItems = document.getElementById('navbarItems');
-    const toggleIcon = document.getElementById('toggleIcon');
+  const navbarItems = document.getElementById("navbarItems");
+  const toggleIcon = document.getElementById("toggleIcon");
 
-    navbarItems.classList.toggle('show');
-    toggleIcon.innerHTML = navbarItems.classList.contains('show') ? '&#10005;' : '&#9776;';
+  navbarItems.classList.toggle("show");
+  toggleIcon.innerHTML = navbarItems.classList.contains("show")
+    ? "&#10005;"
+    : "&#9776;";
 }
 
 function loadNavbar() {
-    fetch('navbar.html')
-        .then(response => response.text())
-        .then(data => {
-            const navbarElement = document.getElementById('navbar');
-            navbarElement.innerHTML = data;
+  fetch("navbar.html")
+    .then((response) => response.text())
+    .then((data) => {
+      const navbarElement = document.getElementById("navbar");
+      navbarElement.innerHTML = data;
 
-            console.log('Navbar loaded');
-            setupDarkModeToggle();
-        })
-        .catch(error => {
-            console.error('Error loading navbar:', error);
-        });
+      console.log("Navbar loaded");
+      setupDarkModeToggle();
+      setActiveNavLink();
+    })
+    .catch((error) => {
+      console.error("Error loading navbar:", error);
+    });
 }
 
-window.addEventListener('load', loadNavbar);
+function setActiveNavLink() {
+  const current = window.location.pathname.split("/").pop();
+  const links = document.querySelectorAll(".navbar-items a");
+  links.forEach((link) => {
+    if (link.getAttribute("href") === current) {
+      link.classList.add("active");
+    }
+  });
+}
+
+window.addEventListener("load", loadNavbar);

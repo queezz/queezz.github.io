@@ -3,148 +3,177 @@
 @import url(https://fonts.googleapis.com/css?family=Arapey:400italic,400);
 
 @font-face {
-    font-family: 'Archer-LightItalic';
-    /* font sources */
-    font-weight: normal;
-    font-style: normal;
+  font-family: "Archer-LightItalic";
+  /* font sources */
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'Archer-Book';
-    /* font sources */
-    font-weight: normal;
-    font-style: normal;
-    text-rendering: optimizeLegibility;
+  font-family: "Archer-Book";
+  /* font sources */
+  font-weight: normal;
+  font-style: normal;
+  text-rendering: optimizeLegibility;
 }
 
 /*********************** Google Fonts ***********************/
 :root {
-    --main-content-width: 1040px;
+  --main-content-width: 1040px;
+  --jp-link: #0b6eab;
+  --jp-accent: #f37626;
+  --jp-nav-bg: #f8f9fb;
+  --jp-body-bg: #ffffff;
+  --jp-text: #222222;
+}
+
+html.dark-mode {
+  --jp-link: #91d5ff;
+  --jp-accent: #ffa455;
+  --jp-nav-bg: #1e1e1e;
+  --jp-body-bg: #0d1117;
+  --jp-text: #e0e0e0;
+  background-color: var(--jp-body-bg);
+  color: var(--jp-text);
 }
 
 /* MARK: Navbar */
 .navbar {
-    background-color: #f2f2f2;
-    height: 30px;
-    padding: 20px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 9999;
+  background-color: var(--jp-nav-bg);
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 260px;
+  height: 100%;
+  overflow-y: auto;
+  z-index: 9999;
+  border-right: 1px solid #e0e0e0;
 }
 
 .navbar-container {
-    max-width: var(--main-content-width);
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .navbar a {
-    text-decoration: none;
-    color: #8c0c0c;
+  text-decoration: none;
+  color: var(--jp-text);
 }
 
 .navbar-logo {
-    font-weight: bold;
-    font-size: 30px;
+  font-weight: bold;
+  font-size: 24px;
+  margin-bottom: 1rem;
+}
+
+.navbar-logo a {
+  color: var(--jp-accent);
 }
 
 .navbar-toggle {
-    font-size: 24px;
-    cursor: pointer;
-    display: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--jp-text);
+  display: none;
+  align-self: flex-end;
 }
 
 .navbar-items {
-    display: flex;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    margin-right: 30px;
-    flex-wrap: wrap;
-    margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
 
-
 .navbar-items li {
-    margin-left: 20px;
+  margin: 0 0 10px 0;
 }
 
 .navbar-items li a {
-    text-decoration: none;
-    color: #333;
+  display: block;
+  padding: 4px 8px;
+  text-decoration: none;
+  color: var(--jp-text);
+  border-left: 4px solid transparent;
 }
 
-/* Media query for mobile devices */
+.navbar-items li a:hover,
+.navbar a:hover {
+  color: var(--jp-link);
+  border-left-color: var(--jp-link);
+}
 
+.navbar-items li a.active {
+  border-left-color: var(--jp-accent);
+  color: var(--jp-accent);
+}
+
+/* Responsive: collapse sidebar to a top bar */
 @media (max-width: 960px) {
-    .navbar {
-        width: 20px;
-        height: 20px;
-        padding: 20px;
-        padding-top: 10px;
-    }
+  .navbar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
 
-    .navbar-logo {
-        display: none;
-    }
+  .navbar-container {
+    flex-direction: row;
+    align-items: center;
+  }
 
-    .navbar-toggle {
-        display: block;
-    }
+  .navbar-toggle {
+    display: block;
+  }
 
-    .navbar-items {
-        display: none;
-        flex-direction: column;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background-color: #f2f2f2;
-        padding: 5px;
-        margin: 0;
-        width: 100%;
-        box-sizing: border-box;
-    }
+  .navbar-items {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    background-color: var(--jp-nav-bg);
+    margin-top: 10px;
+  }
 
-    .navbar-items.show {
-        display: flex;
-        width: max-content;
-    }
+  .navbar-items.show {
+    display: flex;
+  }
 
-    .navbar-items li {
-        margin-bottom: 10px;
-    }
+  .navbar-items li {
+    margin: 0 0 10px 0;
+  }
 
-    .navbar-items li a {
-        font-size: 20px;
-    }
+  .main-content {
+    margin-left: 0;
+    margin-top: 20px;
+  }
+
+  #darkModeToggle {
+    margin-left: auto;
+    margin-top: 0;
+  }
 }
 
 .nav {
-    list-style-type: none;
-    padding-left: 0;
+  list-style-type: none;
+  padding-left: 0;
 }
 
 .nav-item {
-    margin-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .nav-link {
-    color: #333;
-    text-decoration: none;
+  color: #333;
+  text-decoration: none;
 }
 
 .nav-link.active,
 .nav-link:hover {
-    color: #007BFF;
-    /* This is a blue color. Adjust as needed. */
-    text-decoration: none;
-    /* Removing the underline. */
+  color: var(--jp-link);
+  text-decoration: none;
 }
 
 .dark-mode-toggle {
@@ -163,256 +192,258 @@
   align-items: center;
 }
 
-
 /* MARK: Scroll */
 
 .scroll-to-top-button {
-    display: none;
-    position: fixed;
-    bottom: 20px;
-    right: 30px;
-    z-index: 99;
-    border: none;
-    background-color: #8c0c0c;
-    cursor: pointer;
-    padding: 15px;
-    border-radius: 50%;
-    font-size: 20px;
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  z-index: 99;
+  border: none;
+  background-color: var(--jp-link);
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 50%;
+  font-size: 20px;
 }
 
 .scroll-to-top-button.show {
-    display: block;
+  display: block;
 }
 
 .scroll-to-top-button .scroll-to-top-arrow {
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 10px 7px 0 7px;
-    border-color: rgb(165, 152, 128) transparent transparent transparent;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(180deg);
-    -webkit-transform: translate(-50%, -50%) rotate(180deg);
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 10px 7px 0 7px;
+  border-color: rgb(165, 152, 128) transparent transparent transparent;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(180deg);
+  -webkit-transform: translate(-50%, -50%) rotate(180deg);
 }
 
 /* MARK: main */
 .main-content {
-    margin-top: 60px;
-    /* Add margin to the top of the main content */
-    max-width: var(--main-content-width);
-    margin-left: auto;
-    margin-right: auto;
+  margin-top: 0;
+  max-width: var(--main-content-width);
+  margin-left: 260px;
+  margin-right: auto;
 }
 
 body {
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    margin: 0;
-    padding: 20px;
-    overflow-y: scroll;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  margin: 0;
+  padding: 20px;
+  overflow-y: scroll;
+  background: var(--jp-body-bg);
+  color: var(--jp-text);
+}
+
+h1,
+h2,
+h3 {
+  color: var(--jp-text);
 }
 
 h1 {
-    color: #8c0c0c;
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 h3 span {
-    color: #ffffff;
-    background-color: #8c0c0c;
-    letter-spacing: 2px;
-    padding: 8px 20px;
-    font-size: 11px;
+  color: #fff;
+  background-color: var(--jp-accent);
+  letter-spacing: 2px;
+  padding: 8px 20px;
+  font-size: 11px;
+}
+
+a {
+  color: var(--jp-link);
+}
+
+a:hover {
+  color: var(--jp-accent);
 }
 
 /* On Page Navigation */
 .bd-sidebar-secondary {
-    width: 150px;
-    /* Fixed width for the sidebar */
-    background-color: #f7f7f7;
-    padding-top: 3rem;
-    padding-left: 1rem;
-    box-sizing: border-box;
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    overflow-y: auto;
+  width: 150px;
+  /* Fixed width for the sidebar */
+  background-color: #f7f7f7;
+  padding-top: 3rem;
+  padding-left: 1rem;
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto;
 }
-
-
-
-@media (max-width:960px) {
-    .main-content {
-        margin-top: 50px;
-    }
-}
-
 
 @media (max-width: 960px) {
-    .body {
-        padding: 10px;
-    }
+  .main-content {
+    margin-top: 50px;
+  }
+}
+
+@media (max-width: 960px) {
+  .body {
+    padding: 10px;
+  }
 }
 
 /* MARK: Dark */
-html.dark-mode {
-    background-color: #1c1c1c;
-    color: #e0e0e0;
-}
-
 html.dark-mode a {
-    color: #80bfff;
+  color: var(--jp-link);
 }
 
 html.dark-mode .skills-item,
 html.dark-mode .experience-item {
-    background-color: #2a2a2a;
-    border-left-color: #555;
+  background-color: #2a2a2a;
+  border-left-color: #555;
 }
 
 html.dark-mode .education-item {
-    background-color: #2a2a2a;
-    border-left-color: #8c0c0c;
+  background-color: #2a2a2a;
+  border-left-color: var(--jp-link);
 }
 
 html.dark-mode h1,
 html.dark-mode h2,
 html.dark-mode h3 {
-    color: #ffffff;
+  color: var(--jp-text);
 }
 
 html.dark-mode .scroll-to-top-button {
-    background-color: #444;
+  background-color: var(--jp-link);
 }
 
 html.dark-mode .section-title {
-    background-color: #611414;
-    color: #fff;
+  background-color: var(--jp-accent);
+  color: #fff;
+}
+
+html.dark-mode h3 span {
+  background-color: var(--jp-accent);
 }
 
 html.dark-mode .navbar {
-    background-color: #2a2a2a;
-}
-
-html.dark-mode .navbar a {
-    color: #e0e0e0;
+  background-color: var(--jp-nav-bg);
 }
 
 html.dark-mode .navbar a:hover {
-    color: #80bfff;
+  color: var(--jp-accent);
 }
 
 html.dark-mode .skills-title,
 html.dark-mode .education-item-title,
 html.dark-mode .experience-title,
 html.dark-mode .section-title {
-    color: #fff;
+  color: #fff;
 }
 
 html.dark-mode .education-item-degree {
-    color: #e0e0e0;
+  color: var(--jp-text);
 }
 
 html.dark-mode #title,
 html.dark-mode .experience-description,
 html.dark-mode #profile {
-    color: #e0e0e0;
+  color: var(--jp-text);
 }
 
 html.dark-mode .experience-details p {
-    color: #d39c9c;
+  color: #d39c9c;
 }
 
 html.dark-mode .experience-details p:nth-child(2) {
-    color: #ece3c6;
+  color: #ece3c6;
 }
 
 html.dark-mode .navbar-items {
-    background-color: #2a2a2a;
-}
-
-html.dark-mode .navbar-items a {
-    color: #e0e0e0;
+  background-color: var(--jp-nav-bg);
 }
 
 html.dark-mode .navbar-items a:hover {
-    color: #80bfff;
+  color: var(--jp-accent);
 }
 
 /* Citations - Dark mode overrides */
 html.dark-mode .citations {
-    background-color: #1c1c1c;
-    color: #e0e0e0;
+  background-color: #1c1c1c;
+  color: var(--jp-text);
 }
 
 html.dark-mode .citations h1,
 html.dark-mode .citations h2,
 html.dark-mode .citations h3 {
-    background-color: #1c1c1c;
-    color: #e0e0e0;
+  background-color: #1c1c1c;
+  color: var(--jp-text);
 }
 
 html.dark-mode .citations h1 span {
-    background-color: #444;
-    color: #e0e0e0;
+  background-color: #444;
+  color: var(--jp-text);
 }
 
 html.dark-mode .citations a {
-    color: #80bfff;
+  color: var(--jp-link);
 }
 
 html.dark-mode .citations .citations-item {
-    border-bottom: 1px solid #444;
+  border-bottom: 1px solid #444;
 }
 
 html.dark-mode .citations .citations-link a {
-    background-color: #2a2a2a;
-    color: #e0e0e0;
+  background-color: #2a2a2a;
+  color: var(--jp-text);
 }
 
 html.dark-mode .citations .citations-link a:hover {
-    background-color: #557700; /* or something nice in dark */
-    color: #fff;
+  background-color: #557700; /* or something nice in dark */
+  color: #fff;
 }
 
 html.dark-mode .citations .authors span {
-    color: #aaa;
+  color: #aaa;
 }
 
 html.dark-mode .citations .journal {
-    color: #ccc;
+  color: #ccc;
 }
 
 html.dark-mode #conferenceCount,
 html.dark-mode #publicationCount {
-    color: #ffc857; /* soft yellow or pick your preferred highlight color */
+  color: #ffc857; /* soft yellow or pick your preferred highlight color */
 }
 
 /* Dark mode toggle button — global, not specific to theme */
 #darkModeToggle {
-    font-size: 1.5rem;
-    background: none;
-    border: none;
-    color: inherit;
-    cursor: pointer;
-    padding: 0 10px;
-    align-self: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 0 10px;
+  align-self: flex-start;
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @media (max-width: 960px) {
-    #darkModeToggle {
-        margin-left: 10px;
-        padding: 4px;
-    }
+  #darkModeToggle {
+    margin-left: auto;
+    margin-top: 0;
+    padding: 4px;
+  }
 
-    .navbar-container {
-        justify-content: flex-start;
-        gap: 15px;
-    }
+  .navbar-container {
+    justify-content: flex-start;
+    gap: 15px;
+  }
 }
-
