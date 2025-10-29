@@ -140,8 +140,8 @@ firstButton.addEventListener('click', function () {
     filterPublicationsFirst();
 });
 
-// Load publications from JSON file
-fetch('assets/data/publications.json')
+// Load publications from JSON file (use root-anchored path so it works from /publications/)
+fetch('/assets/data/publications.json')
     .then((response) => response.json())
     .then((data) => {
         originalPublications = data;
