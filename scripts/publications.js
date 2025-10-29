@@ -140,8 +140,11 @@ firstButton.addEventListener('click', function () {
     filterPublicationsFirst();
 });
 
-// Load publications from JSON file (use root-anchored path so it works from /publications/)
-fetch('/assets/data/publications.json')
+// Resolve site root (set by templates) or fallback to '/'
+const SITE_ROOT = window.SITE_ROOT || '/';
+
+// Load publications from JSON file using SITE_ROOT so it works on GitHub Pages with a baseurl
+fetch(SITE_ROOT + 'assets/data/publications.json')
     .then((response) => response.json())
     .then((data) => {
         originalPublications = data;

@@ -35,8 +35,11 @@ function toggleNavbar() {
 }
 
 function loadNavbar() {
-    // Use root-anchored path so navbar is loaded correctly from subpaths like /publications/
-    fetch('/navbar.html')
+    // Resolve site root (set by templates) or fallback to '/'
+    const SITE_ROOT = window.SITE_ROOT || '/';
+
+    // Use SITE_ROOT so navbar is loaded correctly from subpaths and from repo pages
+    fetch(SITE_ROOT + 'navbar.html')
         .then(response => response.text())
         .then(data => {
             const navbarElement = document.getElementById('navbar');
