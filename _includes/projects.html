@@ -1,0 +1,35 @@
+{% assign projects = site.data.projects %}
+
+<!-- Page-scoped assets -->
+<link rel="stylesheet" href="{{ '/styles/projects.css' | relative_url }}">
+
+<div class="main-content post-content">
+
+  {% if projects and projects.size > 0 %}
+  <div id="post-list" class="post-cards">
+    {% for project in projects %}
+      {% assign link = project.markdownUrl | replace: '.md','/' | relative_url %}
+      {% assign hero = project.imageUrl | relative_url %}
+      <article class="card-wrapper card">
+        <a class="row g-0 post-preview align-items-stretch" href="{{ link }}">
+          {% if project.imageUrl %}
+          <div class="col-md-4 col-5">
+            <img class="project-thumb img-fluid w-100 h-100 rounded-start" src="{{ hero }}" alt="{{ project.title }}">
+          </div>
+          {% endif %}
+          <div class="col">
+            <div class="card-body d-flex flex-column h-100">
+              <h3 class="card-title">{{ project.title }}</h3>
+              {% if project.summary %}
+              <p class="card-text content mb-0">{{ project.summary }}</p>
+              {% endif %}
+            </div>
+          </div>
+        </a>
+      </article>
+    {% endfor %}
+  </div>
+  {% else %}
+    <p>No projects published yet.</p>
+  {% endif %}
+</div>

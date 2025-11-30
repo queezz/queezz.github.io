@@ -1,0 +1,20 @@
+<!-- Page-scoped assets -->
+<link rel="stylesheet" href="{{ '/styles/sortbuttons.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/styles/citations.css' | relative_url }}">
+
+<div class="main-content">
+  <div class="citations">
+    <div class="button-container">
+      <button id="sortButton" class="sort-button">Year<span class="arrow"></span></button>
+      <p id="conferenceCount" class="count-label">0</p>
+    </div>
+  </div>
+
+<div class="citations" id="conference-list"></div>
+</div>
+
+<script>
+  window.SITE_ROOT = "{{ '/' | relative_url }}";
+  window.CONFERENCES_DATA_URL = "{{ '/assets/data/conferences.json' | relative_url }}";
+</script>
+<script src="{{ '/scripts/conferences.js' | relative_url }}"></script>

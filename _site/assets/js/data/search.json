@@ -1,0 +1,22 @@
+[
+  
+  {
+    "title": "Plasma Control Upgrades",
+    "url": "/posts/plasma-control-upgrades/",
+    "categories": "blog",
+    "tags": "",
+    "date": "2025-01-15 00:00:00 +0900",
+    "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis tortor id libero molestie cursus. Phasellus vestibulum, lacus at dapibus laoreet, est nibh accumsan ex, at lacinia sem justo in dui.     Added redundant sensors for coil monitoring.   Improved UI for live parameters.   Documented the workflow for new operators."
+  },
+  
+  {
+    "title": "Fusion Materials Overview",
+    "url": "/posts/fusion-materials-overview/",
+    "categories": "blog",
+    "tags": "",
+    "date": "2024-12-01 00:00:00 +0900",
+    "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl non sodales fringilla, lorem urna faucibus purus, vitae congue nulla augue sit amet elit. Curabitur at est at tortor auctor aliquam.  Key notes:     Recent tests on boron coatings.   Performance in high-flux environments.   Next steps for surface diagnostics."
+  }
+  
+]
+
