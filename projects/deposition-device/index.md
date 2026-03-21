@@ -1,13 +1,13 @@
 ---
-hero: /assets/projects/01-deposition-device/wc_maker_cad.png
+hero: /projects/deposition-device/wc_maker_cad.png
 hero_caption: W–C thin film deposition device
 layout: split
 gallery:
-  - src: /assets/projects/01-deposition-device/samples_heated.jpg
+  - src: /projects/deposition-device/samples_heated.jpg
     caption: Sample heater at work
-  - src: /assets/projects/01-deposition-device/vup2-metal.jpg
+  - src: /projects/deposition-device/vup2-metal.jpg
     caption: Two-material sputtering target
-  - src: /assets/projects/01-deposition-device/wc-film.jpg
+  - src: /projects/deposition-device/wc-film.jpg
     caption: W–C film example SEM image
 ---
 A multi-material deposition device was developed to investigate tungsten–carbon (W–C) film growth during simultaneous deposition, motivated by fusion research context. ITER and other tokamaks have moved from graphite to tungsten and beryllium plasma-facing components, yet graphite divertors remain in some machines, and even in ITER the tungsten strike-point placement remains under discussion. This prompted a closer examination of W–C film formation and its interaction with hydrogen and oxygen under controlled plasma conditions, with results on hydrogen retention in carbon films produced using this setup published in&nbsp;[1](#ref1).
