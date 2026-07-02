@@ -14,6 +14,8 @@ The CV site spans two public repos; these notes cover work on both:
 
 ## Layout
 
+- [`directions.md`](directions.md) — **start here**: current status + the
+  forward-looking plan (what's done, what's next). The resume point.
 - [`CV_SITE_ARCHAEOLOGY_2026-07-02.md`](CV_SITE_ARCHAEOLOGY_2026-07-02.md) — the
   **archaeology**: full dig into the two repos / three generations, metadata
   inventory, and the cleanup findings. Background, not a plan.
