@@ -1,38 +1,310 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-  <script>
-    if (localStorage.getItem('darkMode') === '1') {
-      document.documentElement.classList.add('dark-mode');
-    }
-  </script>
-  <meta charset="UTF-8" />
-  <title>Project Details</title>
-  <meta name="viewport" content="width=device-width" />
-  <link rel="stylesheet" href="../../styles/styles.css" />
-  <link rel="stylesheet" href="../../styles/project.css" />
-  <link rel="stylesheet" href="../../styles/scrollnav.css" />
+    <script>
+        (function () {
+            if (localStorage.getItem('darkMode') === '1') {
+                document.documentElement.classList.add('dark-mode');
+            }
+        })();
+    </script>
+    <style>html{background-color:#fff}html.dark-mode{background-color:#1c1c1c}</style>
+    <base href="/">
+    <meta charset="UTF-8">
+    <title>Hydrogen Retention in Tore-Supra Tiles</title>
+    <link rel="canonical" href="https://arseniykuzmin.github.io/projects/hydrogen-retention-tore-supra/">
+    <link rel="alternate" href="https://queezz.github.io/projects/hydrogen-retention-tore-supra/">
+    <link rel="icon" href="static/favicon.ico">
+    <link rel="stylesheet" href="styles/styles.css?v=1783179235">
+    <script type="speculationrules">
+    {"prefetch": [{"where": {"href_matches": "/*"}, "eagerness": "moderate"}]}
+    </script>
+    
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="styles/project.css?v=1783179235" />
+
 </head>
+
 <body>
-  <script>window.__SITE_ROOT__ = "../../";</script>
-  <script src="../../scripts/navbar.js"></script>
-  <nav id="navbar"></nav>
 
-  <script src="../../scripts/scroltotop.js"></script>
-  <div class="scroll-to-top-button" id="scrollToTopButton"><span class="scroll-to-top-arrow"></span></div>
 
-  <div class="main-content">
-    <a href="../../projects.html" class="back-link">&larr; Back to Projects</a>
-    <div id="projectContainer" class="project-content"></div>
-  </div>
+    <script>
+function updateToggleIcon() {
+    const toggleButton = document.getElementById('darkModeToggle');
+    const isDark = document.documentElement.classList.contains('dark-mode');
+    if (toggleButton) {
+        toggleButton.textContent = isDark ? '🌝' : '🌚';
+    }
+}
 
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4/dist/js-yaml.min.js"></script>
+function setupDarkModeToggle() {
+    const toggleButton = document.getElementById('darkModeToggle');
+    if (!toggleButton) return;
+    toggleButton.addEventListener('click', () => {
+        const html = document.documentElement;
+        html.classList.toggle('dark-mode');
+        localStorage.setItem('darkMode', html.classList.contains('dark-mode') ? '1' : '0');
+        updateToggleIcon();
+    });
+    updateToggleIcon();
+}
+
+function setupPrimaryNav() {
+    const toggle = document.querySelector('.nav-toggle');
+    const menu = document.getElementById('primary-menu');
+    if (!toggle || !menu) return;
+
+    const close = () => {
+        toggle.setAttribute('aria-expanded', 'false');
+        menu.classList.remove('is-open');
+    };
+    const open = () => {
+        toggle.setAttribute('aria-expanded', 'true');
+        menu.classList.add('is-open');
+    };
+
+    toggle.addEventListener('click', () => {
+        toggle.getAttribute('aria-expanded') === 'true' ? close() : open();
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+            close();
+            toggle.focus();
+        }
+    });
+
+    document.addEventListener('click', (e) => {
+        if (toggle.getAttribute('aria-expanded') !== 'true') return;
+        if (!menu.contains(e.target) && !toggle.contains(e.target)) close();
+    });
+
+    menu.addEventListener('click', (e) => {
+        if (e.target.closest('a')) close();
+    });
+}
+
+function setupHeaderScrollTitle() {
+    const header = document.querySelector('.site-header');
+    const sectionTitle = document.querySelector('.site-section-title');
+    if (!header || !sectionTitle) return;
+
+    const updateHeaderHeight = () => {
+        document.documentElement.style.setProperty('--current-header-height', header.offsetHeight + 'px');
+    };
+
+    const update = () => {
+        const scrolled = window.scrollY > 96;
+        header.classList.toggle('is-scrolled', scrolled);
+        sectionTitle.hidden = !scrolled;
+        window.requestAnimationFrame(updateHeaderHeight);
+    };
+
+    sectionTitle.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', updateHeaderHeight);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    setupDarkModeToggle();
+    setupPrimaryNav();
+    setupHeaderScrollTitle();
+});
+    </script>
+    <script src="scripts/scroltotop.js?v=1783179235"></script>
+
+    <!-- Floating button to go back to the top -->
+    <button class="scroll-to-top-button" id="scrollToTopButton" type="button" aria-label="Back to top" aria-hidden="true">
+        <span class="scroll-to-top-arrow"></span>
+        <span class="scroll-to-top-label">Back to top</span>
+    </button>
+
+
+<header class="site-header">
+    <div class="site-header-inner">
+        <a class="site-brand" href="/index.html">Arseniy Kuzmin</a>
+        
+        <button class="site-section-title" type="button" data-scroll-top hidden>
+            Projects
+        </button>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-menu" aria-label="Menu">
+            <span class="nav-toggle-box"><span class="nav-toggle-inner"></span></span>
+        </button>
+        <nav class="primary-nav" aria-label="Primary">
+            <ul class="nav-menu" id="primary-menu">
+                <li><a href="/index.html">About</a></li>
+                <li><a href="/conferences.html">Conferences</a></li>
+                <li><a href="/publications.html">Publications</a></li>
+                <li><a href="/projects.html" class="is-active" aria-current="page">Projects</a></li>
+                <li class="nav-theme"><button id="darkModeToggle" type="button" aria-label="Toggle dark mode">🌙</button></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<div class="main-content">
+    
+    <section class="project-detail-page">
+        <div class="project-shell">
+            <aside class="project-rail project-rail--left">
+                <a class="rail-back" href="projects.html">&larr; All projects</a>
+                <nav aria-label="Projects">
+                    <ul class="rail-project-list">
+
+                        <li><a href="projects/deposition-device/">W-C Deposition Device</a></li>
+
+                        <li><a href="projects/hydrogen-retention-tore-supra/" class="is-active" aria-current="page">Hydrogen Retention in Tore-Supra Tiles</a></li>
+
+                        <li><a href="projects/wc-film-growth-model/">Tungsten-Carbon Film Growth Model</a></li>
+
+                        <li><a href="projects/oxygen-removal-graphite-wall/">Oxygen Removal from Graphite Wall</a></li>
+
+                        <li><a href="projects/cell-adhesion-study/">Cell Adhesion Study</a></li>
+
+                        <li><a href="projects/plasma-device-control-unit/">Plasma Device Control Unit</a></li>
+
+                        <li><a href="projects/x-ray-filter-inspection/">X-ray Filter for Non-destructive Inspection</a></li>
+
+                        <li><a href="projects/quest-permeation-experiments/">Permeation Experiments in QUEST</a></li>
+
+                        <li><a href="projects/carbon-impurity-flow-lhd/">Carbon impurity flow in LHD</a></li>
+
+                        <li><a href="projects/boron-powder-plasma-sputtering/">Boron powder plasma sputtering</a></li>
+
+                        <li><a href="projects/hydrogen-molecule-spectroscopy/">Hydrogen Molecule Spectroscopy</a></li>
+
+                        <li><a href="projects/seawater-desalination-device/">Seawater Desalination Device</a></li>
+
+                        <li><a href="projects/echelle-spectrometer-gui/">GUI for Echelle Spectrometer Image processing</a></li>
+
+                        <li><a href="projects/oxygen-effect-hydrogen-retention/">Oxygen Effect on Hydrogen Retention in Graphites</a></li>
+
+                        <li><a href="projects/fulcher-alpha-analizer/">Fulcher-alpha Emission Analizer</a></li>
+
+                    </ul>
+                </nav>
+            </aside>
+
+            <main class="project-main">
+                <div class="project-mobile-actions">
+                    <a href="projects.html" class="back-link back-link--mobile">&larr; Projects</a>
+                    <button class="project-details-button" type="button" data-project-drawer-open aria-controls="projectDetailsDrawer" aria-expanded="false">
+                        Details
+                    </button>
+                </div>
+                <div id="projectContainer" class="project-content"><header class="project-header"><p class="project-kicker">Materials analysis</p><h1 class="project-title">Hydrogen Retention in Tore-Supra Tiles</h1><p class="project-subtitle">Study of hydrogen retention in Tore-Supra tokamak tiles.</p></header><section class="project-layout"><figure class="project-figure"><img alt="Hydrogen Retention in Tore-Supra Tiles" decoding="async" fetchpriority="high" height="534" src="/projects/hydrogen-retention-tore-supra/ToreSupra.png" width="673"/><figcaption>First wall overview and selected tiles</figcaption></figure><article class="project-body"><p>We investigated hydrogen retention in Tore-Supra tokamak tiles after several plasma campaigns (tiles <strong>#14</strong> and <strong>#20</strong> from the inboard bumper, 1995–1999). It was found that most hydrogen is retained in deposited and top surface layers; moreover, hydrogen diffuses into the graphite bulk. </p></article></section><section class="project-more"><h2 id="irradiation-summary">Irradiation summary</h2>
+<table>
+<thead>
+<tr>
+<th>Quantity</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ion flux density $j$</td>
+<td>$(1\text{–}2)\times10^{19}\ \mathrm{at\,s^{-1}\,m^{-2}}$</td>
+</tr>
+<tr>
+<td>Ion energy $E_i$</td>
+<td>$\sim 100\ \mathrm{eV}$</td>
+</tr>
+<tr>
+<td>Tile temperature</td>
+<td>$500\text{–}600\ \mathrm{K}$</td>
+</tr>
+<tr>
+<td>### He glow conditioning</td>
+<td></td>
+</tr>
+<tr>
+<td>$&gt; 20$ discharges; He$^{+}$ bombardment of inner wall.</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Quantity</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>He$^{+}$ energy</td>
+<td>$\sim 200\ \mathrm{eV}$</td>
+</tr>
+<tr>
+<td>He$^{+}$ flux density</td>
+<td>$6\times10^{17}\ \mathrm{at\,s^{-1}\,m^{-2}}$</td>
+</tr>
+</tbody>
+</table>
+<!-- ![Optical micrograph](/projects/hydrogen-retention-tore-supra/optical.jpg "Optical micrograph of the surface") --></section><h2 class="project-section-title" id="gallery">Gallery</h2><div class="gallery"><figure><div class="thumb"><img alt="" decoding="async" height="675" loading="lazy" src="/projects/hydrogen-retention-tore-supra/sem_1.jpg" width="483"/></div><figcaption>Coating detail</figcaption></figure><figure><div class="thumb"><img alt="" decoding="async" height="871" loading="lazy" src="/projects/hydrogen-retention-tore-supra/retention_tsitrone.png" width="1102"/></div><figcaption>Particle flux trapped in the wall calculated from particle balance</figcaption></figure><figure><div class="thumb"><img alt="" decoding="async" height="344" loading="lazy" src="/projects/hydrogen-retention-tore-supra/tds_summary.jpg" width="408"/></div><figcaption>H/D retention summary</figcaption></figure></div></div>
+            </main>
+
+            <aside class="project-rail project-rail--right">
+                <div class="rail-card">
+                    <p class="rail-card-label">Category</p>
+                    <p class="rail-card-value">Materials analysis</p>
+                </div>
+
+
+                <nav class="rail-outline" aria-label="On this page">
+                    <p class="rail-outline-title">On this page</p>
+                    <ul>
+
+                        <li class="lvl-2"><a href="projects/hydrogen-retention-tore-supra/#irradiation-summary">Irradiation summary</a></li>
+
+                        <li class="lvl-2"><a href="projects/hydrogen-retention-tore-supra/#gallery">Gallery</a></li>
+
+                    </ul>
+                </nav>
+
+            </aside>
+        </div>
+
+        <div class="project-drawer" id="projectDetailsDrawer" aria-hidden="true">
+            <button class="project-drawer-backdrop" type="button" data-project-drawer-close aria-label="Close project details"></button>
+            <aside class="project-drawer-sheet" role="dialog" aria-modal="true" aria-labelledby="projectDetailsTitle" tabindex="-1">
+                <div class="project-drawer-header">
+                    <h2 id="projectDetailsTitle">Project Details</h2>
+                    <button class="project-drawer-close" type="button" data-project-drawer-close aria-label="Close project details">&times;</button>
+                </div>
+                <div class="rail-card">
+                    <p class="rail-card-label">Category</p>
+                    <p class="rail-card-value">Materials analysis</p>
+                </div>
+
+
+                <nav class="rail-outline project-drawer-outline" aria-label="On this page">
+                    <p class="rail-outline-title">On this page</p>
+                    <ul>
+
+                        <li class="lvl-2"><a href="projects/hydrogen-retention-tore-supra/#irradiation-summary">Irradiation summary</a></li>
+
+                        <li class="lvl-2"><a href="projects/hydrogen-retention-tore-supra/#gallery">Gallery</a></li>
+
+                    </ul>
+                </nav>
+
+            </aside>
+        </div>
+    </section>
+
+</div>
+
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js"></script>
+  <script defer src="scripts/project_detail_ui.js?v=1783179235"></script>
 
-  <script defer src="../../scripts/project.js"></script>
-  <script defer src="../../scripts/scrollnav.js"></script>
 </body>
+
 </html>

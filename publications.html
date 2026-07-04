@@ -1,46 +1,1265 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <script>
-        if (localStorage.getItem('darkMode') === '1') {
-        document.documentElement.classList.add('dark-mode');
-        }
-    </script>    
+        (function () {
+            if (localStorage.getItem('darkMode') === '1') {
+                document.documentElement.classList.add('dark-mode');
+            }
+        })();
+    </script>
+    <style>html{background-color:#fff}html.dark-mode{background-color:#1c1c1c}</style>
+    <base href="/">
+    <meta charset="UTF-8">
     <title>Arseniy Kuzmin: Publications</title>
-    <link rel="stylesheet" href="styles/styles.css">
-    <link rel="stylesheet" href="styles/sortbuttons.css">
-    <link rel="stylesheet" href="styles/citations.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js"></script>
+    <link rel="canonical" href="https://arseniykuzmin.github.io/publications.html">
+    <link rel="alternate" href="https://queezz.github.io/publications.html">
+    <link rel="icon" href="static/favicon.ico">
+    <link rel="stylesheet" href="styles/styles.css?v=1783179235">
+    <script type="speculationrules">
+    {"prefetch": [{"where": {"href_matches": "/*"}, "eagerness": "moderate"}]}
+    </script>
+    
+    <link rel="stylesheet" href="styles/sortbuttons.css?v=1783179235">
+    <link rel="stylesheet" href="styles/citations.css?v=1783179235">
     <meta name="viewport" content="width=device-width">
-    <!--JQuery for button arrows -->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
 </head>
 
 <body>
-    <script src="scripts/navbar.js"></script>
-    <nav id="navbar"></nav>
-    <!-- Floating button to go back to the top -->
-    <script src="scripts/scroltotop.js"></script>
-    <div class="scroll-to-top-button" id="scrollToTopButton"><span class="scroll-to-top-arrow"></span></div>
 
-    <div class="main-content">
+
+    <script>
+function updateToggleIcon() {
+    const toggleButton = document.getElementById('darkModeToggle');
+    const isDark = document.documentElement.classList.contains('dark-mode');
+    if (toggleButton) {
+        toggleButton.textContent = isDark ? '🌝' : '🌚';
+    }
+}
+
+function setupDarkModeToggle() {
+    const toggleButton = document.getElementById('darkModeToggle');
+    if (!toggleButton) return;
+    toggleButton.addEventListener('click', () => {
+        const html = document.documentElement;
+        html.classList.toggle('dark-mode');
+        localStorage.setItem('darkMode', html.classList.contains('dark-mode') ? '1' : '0');
+        updateToggleIcon();
+    });
+    updateToggleIcon();
+}
+
+function setupPrimaryNav() {
+    const toggle = document.querySelector('.nav-toggle');
+    const menu = document.getElementById('primary-menu');
+    if (!toggle || !menu) return;
+
+    const close = () => {
+        toggle.setAttribute('aria-expanded', 'false');
+        menu.classList.remove('is-open');
+    };
+    const open = () => {
+        toggle.setAttribute('aria-expanded', 'true');
+        menu.classList.add('is-open');
+    };
+
+    toggle.addEventListener('click', () => {
+        toggle.getAttribute('aria-expanded') === 'true' ? close() : open();
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+            close();
+            toggle.focus();
+        }
+    });
+
+    document.addEventListener('click', (e) => {
+        if (toggle.getAttribute('aria-expanded') !== 'true') return;
+        if (!menu.contains(e.target) && !toggle.contains(e.target)) close();
+    });
+
+    menu.addEventListener('click', (e) => {
+        if (e.target.closest('a')) close();
+    });
+}
+
+function setupHeaderScrollTitle() {
+    const header = document.querySelector('.site-header');
+    const sectionTitle = document.querySelector('.site-section-title');
+    if (!header || !sectionTitle) return;
+
+    const updateHeaderHeight = () => {
+        document.documentElement.style.setProperty('--current-header-height', header.offsetHeight + 'px');
+    };
+
+    const update = () => {
+        const scrolled = window.scrollY > 96;
+        header.classList.toggle('is-scrolled', scrolled);
+        sectionTitle.hidden = !scrolled;
+        window.requestAnimationFrame(updateHeaderHeight);
+    };
+
+    sectionTitle.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', updateHeaderHeight);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    setupDarkModeToggle();
+    setupPrimaryNav();
+    setupHeaderScrollTitle();
+});
+    </script>
+    <script src="scripts/scroltotop.js?v=1783179235"></script>
+
+    <!-- Floating button to go back to the top -->
+    <button class="scroll-to-top-button" id="scrollToTopButton" type="button" aria-label="Back to top" aria-hidden="true">
+        <span class="scroll-to-top-arrow"></span>
+        <span class="scroll-to-top-label">Back to top</span>
+    </button>
+
+
+<header class="site-header">
+    <div class="site-header-inner">
+        <a class="site-brand" href="/index.html">Arseniy Kuzmin</a>
+        
+        <button class="site-section-title" type="button" data-scroll-top hidden>
+            Papers
+        </button>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-menu" aria-label="Menu">
+            <span class="nav-toggle-box"><span class="nav-toggle-inner"></span></span>
+        </button>
+        <nav class="primary-nav" aria-label="Primary">
+            <ul class="nav-menu" id="primary-menu">
+                <li><a href="/index.html">About</a></li>
+                <li><a href="/conferences.html">Conferences</a></li>
+                <li><a href="/publications.html" class="is-active" aria-current="page">Publications</a></li>
+                <li><a href="/projects.html">Projects</a></li>
+                <li class="nav-theme"><button id="darkModeToggle" type="button" aria-label="Toggle dark mode">🌙</button></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<div class="main-content">
+    
         <div class="citations">
-            <h1>Publication List</h1>
+            <div class="citations-heading">
+                <h1 class="page-title">Publication List</h1>
+                <a class="bibtex-link" href="data/ArseniyKuzmin.bib" download="ArseniyKuzmin.bib">BibTeX</a>
+            </div>
             <div class="button-container">
+                <input type="search" id="publicationFilter" class="filter-box" placeholder="Filter publications…" aria-label="Filter publications" autocomplete="off">
                 <button id="sortButton" class="sort-button">Year<span class="arrow"></span></button>
                 <button id="filterButton" class="toggle-button">Featured</button>
-                <button id="firstButton" class="toggle-button">1st&nbsp;*</button>
-                <p id="publicationCount" class="count-label">0</p>
+                <p id="publicationCount" class="count-label">46</p>
             </div>
-            <p>* - first and corresponding author</p>
+        </div>
+
+        <div id="citations" class="citations paper-grid">
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 258">
+            <div class="paper-card-top">
+                <span class="venue-badge">RSI</span>
+                <span class="paper-year">📅 2025</span>
+            </div>
+            <h2 class="paper-title">Development of a limiter-like Langmuir probe system for the Q-shu University Experiment with steady-state spherical tokamak (QUEST) all-metal device</h2>
+            <div class="authors"><span class="author-name">Y. Nagashima</span>, <span class="author-name">K. Hanada</span>, <span class="author-name">H. Zushi</span>, <span class="author-name">H. Idei</span>, <span class="author-name">M. Hasegawa</span>, <span class="author-name">K. Nakamura</span>, <span class="author-name">T. Onchi</span>, <span class="author-name">R. Ikezoe</span>, <span class="author-name">T. Ido</span>, <span class="author-name">T. Kinoshita</span>, <span class="author-name">A. Fujisawa</span>, <span class="author-name">S. Kawasaki</span>, <span class="author-name">T. Nagata</span>, <span class="author-name">S. Shimabukuro</span>, <span class="author-name">T. Mutaguchi</span>, <span class="author-name">K. Kono</span>, <span class="author-name">I. Niiya</span>, <span class="author-name">I. Sugiyama</span>, <span class="author-name">A. Higashijima</span>, <span class="author-name">S. Kojima</span>, <span class="author-name">K. Kuroda</span>, <span class="author-name">A. Ejiri</span>, <span class="author-name">Y. Takase</span>, <span class="author-name">T. Shikama</span>, <span class="author-name"><b><u>A. Kuzmin</u></b></span>, <span class="author-name">K. Nagaoka</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Review of Scientific Instruments 2025, 96, 093509</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1063/5.0283183" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 291">
+            <div class="paper-card-top">
+                <span class="venue-badge">PoP</span>
+                <span class="paper-year">📅 2024</span>
+            </div>
+            <h2 class="paper-title">Experimental validation of a collision-radiation dataset for molecular hydrogen in plasmas</h2>
+            <div class="authors"><span class="author-name">K. Fujii</span>, <span class="author-name">K. Sawada</span>, <span class="author-name"><b><u>A. Kuzmin</u></b></span>, <span class="author-name">M. Goto</span>, <span class="author-name">M. Kobayashi</span>, <span class="author-name">L. H. Scarlett</span>, <span class="author-name">D. V. Fursa</span>, <span class="author-name">I. Bray</span>, <span class="author-name">M. C. Zammit</span>, <span class="author-name">T. M. Biewer</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Physics of Plasmas 2024, 31, 092512 (15 pp.).</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1063/5.0220933" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 227">
+            <div class="paper-card-top">
+                <span class="venue-badge">FED</span>
+                <span class="paper-year">📅 2023</span>
+            </div>
+            <h2 class="paper-title">Atomic and ionic hydrogen flux probe for quantitative in-situ monitoring of hydrogen recycling</h2>
+            <div class="authors"><span class="author-name"><b><u>A. Kuzmin</u></b></span>, <span class="author-name">K. Miura</span>, <span class="author-name">M. Kobayashi</span>, <span class="author-name">K. Hanada</span>, <span class="author-name">K. Fujii</span>, <span class="author-name">T. Shikama</span>, <span class="author-name">M. Hasuo</span>, <span class="author-name">H. Zushi</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Fusion Engineering and Design 2023, 189, 113462 (5 pp.).</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1016/j.fusengdes.2023.113462" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 124">
+            <div class="paper-card-top">
+                <span class="venue-badge">JQSRT</span>
+                <span class="paper-year">📅 2023</span>
+            </div>
+            <h2 class="paper-title">Plasma-parameter dependence of ro-vibrational temperatures for H₂ in LHD divertor</h2>
+            <div class="authors"><span class="author-name">Keisuke Fujii</span>, <span class="author-name">Tsubasa Oshioka</span>, <span class="author-name">Atsushi Niihama</span>, <span class="author-name"><b><u>Arseniy Kuzmin</u></b></span>, <span class="author-name">Taiichi Shikama</span>, <span class="author-name">Masahiro Kobayashi</span>, <span class="author-name">Masahiro Hasuo</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Journal of Quantitative Spectroscopy and Radiative Transfer 2023, 310, 108751 (9 pp.).</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1016/j.jqsrt.2023.108751" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 26">
+            <div class="paper-card-top">
+                <span class="venue-badge">JPFR</span>
+                <span class="paper-year">📅 2022</span>
+            </div>
+            <h2 class="paper-title">表面分析と分光計測によって明らかになった水素原子分子の炉内分布と輸送</h2>
+            <div class="authors"><span class="author-name">和明 花田</span>, <span class="author-name">泰一 四竈</span>, <span class="author-name">恵介 藤井</span>, <span class="author-name"><b><u>Arseniy Kuzmin</u></b></span>, <span class="author-name">奈生 米田</span>, <span class="author-name">昌裕 蓮尾</span>, <span class="author-name">基志 後藤</span>, <span class="author-name">政弘 小林</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Journal of Plasma Fusion Research 2022, 98, 20-32</span>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 124">
+            <div class="paper-card-top">
+                <span class="venue-badge">JQSRT</span>
+                <span class="paper-year">📅 2021</span>
+            </div>
+            <h2 class="paper-title">Ro-vibrational population distribution in the ground state of hydrogen isotopologues in LHD peripheral plasmas deduced from emission spectroscopy</h2>
+            <div class="authors"><span class="author-name">Hiroki Ishihara</span>, <span class="author-name"><b><u>Arseniy Kuzmin</u></b></span>, <span class="author-name">Masahiro Kobayashi</span>, <span class="author-name">Taiichi Shikama</span>, <span class="author-name">Keiji Sawada</span>, <span class="author-name">Seiki Saito</span>, <span class="author-name">Hiroaki Nakamura</span>, <span class="author-name">Keisuke Fujii</span>, <span class="author-name">Masahiro Hasuo</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Journal of Quantitative Spectroscopy and Radiative Transfer 2021, 267, 107592 (8 pp.).</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1016/j.jqsrt.2021.107592" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 244">
+            <div class="paper-card-top">
+                <span class="venue-badge">NME</span>
+                <span class="paper-year">📅 2021</span>
+            </div>
+            <h2 class="paper-title">Investigation of radial distribution of atomic hydrogen flux to the plasma facing components in steady state discharges in QUEST tokamak</h2>
+            <div class="authors"><span class="author-name"><b><u>A. Kuzmin</u></b></span>, <span class="author-name">M. Kobayashi</span>, <span class="author-name">K. Hanada</span>, <span class="author-name">H. Idei</span>, <span class="author-name">T. Onchi</span>, <span class="author-name">S. Mori</span>, <span class="author-name">N. Yoneda</span>, <span class="author-name">T. Shikama</span>, <span class="author-name">M. Hasuo</span>, <span class="author-name">T. Ido</span>, <span class="author-name">Y. Nagashima</span>, <span class="author-name">R. Ikezoe</span>, <span class="author-name">M. Hasegawa</span>, <span class="author-name">K. Kuroda</span>, <span class="author-name">K. Kono</span>, <span class="author-name">S. Matsuo</span>, <span class="author-name">T. Nagata</span>, <span class="author-name">S. Shimabukuro</span>, <span class="author-name">A. Higashijima</span>, <span class="author-name">I. Niiya</span>, <span class="author-name">H. Zushi</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Nuclear Materials and Energy 2021, 26, 100872 (4 pp.).</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1016/j.nme.2020.100872" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 242">
+            <div class="paper-card-top">
+                <span class="venue-badge">arXiv</span>
+                <span class="paper-year">📅 2021</span>
+            </div>
+            <h2 class="paper-title">Stable Energy Distribution of Weakly Dissipative Gasses under Collisional Energy Cascades</h2>
+            <div class="authors"><span class="author-name">Keisuke Fujii</span>, <span class="author-name">Jun Imano</span>, <span class="author-name"><b><u>Arseniy Kuzmin</u></b></span>, <span class="author-name">Taiichi Shikama</span>, <span class="author-name">Masahiro Hasuo</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">arXive 2021</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.48550/arXiv.2103.04463" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 317">
+            <div class="paper-card-top">
+                <span class="venue-badge">PPCF</span>
+                <span class="paper-year">📅 2020</span>
+            </div>
+            <h2 class="paper-title">Electron Bernstein wave conversion of high-field side injected X-modes in QUEST</h2>
+            <div class="authors"><span class="author-name">H. Elserafy</span>, <span class="author-name">K. Hanada</span>, <span class="author-name">S. Kojima</span>, <span class="author-name">T. Onchi</span>, <span class="author-name">R. Ikezoe</span>, <span class="author-name">K. Kuroda</span>, <span class="author-name">H. Idei</span>, <span class="author-name">M. Hasegawa</span>, <span class="author-name">R. Yoneda</span>, <span class="author-name">M. Fukuyama</span>, <span class="author-name"><b><u>A. Kuzmin</u></b></span>, <span class="author-name">A. Higashijima</span>, <span class="author-name">T. Nagata</span>, <span class="author-name">S. Kawasaki</span>, <span class="author-name">S. Shimabukuro</span>, <span class="author-name">N. Bertelli</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Plasma Physics and Controlled Fusion 2020, 62-3, 035018 (9 pp.).</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1088/1361-6587/ab6903" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 236">
+            <div class="paper-card-top">
+                <span class="venue-badge">Atoms</span>
+                <span class="paper-year">📅 2020</span>
+            </div>
+            <h2 class="paper-title">Spectroscopic Measurement of Hydrogen Atom Density in a Plasma Produced with 28 GHz ECH in QUEST</h2>
+            <div class="authors"><span class="author-name">S. Mori</span>, <span class="author-name">T. Shikama</span>, <span class="author-name">K. Hanada</span>, <span class="author-name">N. Yoneda</span>, <span class="author-name"><b><u>A. Kuzmin</u></b></span>, <span class="author-name">M. Hasuo</span>, <span class="author-name">H. Idei</span>, <span class="author-name">T. Onchi</span>, <span class="author-name">A. Ejiri</span>, <span class="author-name">Y. Osawa</span>, <span class="author-name">Y. Peng</span>, <span class="author-name">K. Matsuzaki</span>, <span class="author-name">S. Kado</span>, <span class="author-name">K. Sawada</span>, <span class="author-name">T. Ido</span>, <span class="author-name">K. Nakamura</span>, <span class="author-name">R. Ikezoe</span>, <span class="author-name">Y. Nagashima</span>, <span class="author-name">M. Hasegawa</span>, <span class="author-name">K. Kuroda</span>, <span class="author-name">A. Higashijima</span>, <span class="author-name">T. Nagata</span>, <span class="author-name">S. Shimabukuro</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Atoms 2020, 8, 44 (8 pp.).</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.3390/atoms8030044" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 252">
+            <div class="paper-card-top">
+                <span class="venue-badge">PFR</span>
+                <span class="paper-year">📅 2019</span>
+            </div>
+            <h2 class="paper-title">Effect of Re-Deposition Layers in Plasma-Facing Wall on Tritium Retention and Tritium Depth Profile</h2>
+            <div class="authors"><span class="author-name">M. Matsuyama</span>, <span class="author-name">H. Zushi</span>, <span class="author-name">K. Tokunaga</span>, <span class="author-name"><b><u>A. Kuzmin</u></b></span>, <span class="author-name">K. Hanada</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Plasma and Fusion Research 2019, 14, 1405125 (7 pp.).</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1585/pfr.14.1405125" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 168">
+            <div class="paper-card-top">
+                <span class="venue-badge">NF</span>
+                <span class="paper-year">📅 2019</span>
+            </div>
+            <h2 class="paper-title">Particle balance investigation with the combination of the hydrogen barrier model and rate equations of hydrogen state in long duration discharges on an all-metal plasma facing wall in QUEST</h2>
+            <div class="authors"><span class="author-name">K. Hanada</span>, <span class="author-name">N. Yoshida</span>, <span class="author-name">M. Hasegawa</span>, <span class="author-name">A. Hatayama</span>, <span class="author-name">K. Okamoto</span>, <span class="author-name">I. Takagi</span>, <span class="author-name">T. Hirata</span>, <span class="author-name">Y. Oya</span>, <span class="author-name">M. Miyamoto</span>, <span class="author-name">M. Oya</span>, <span class="author-name">T. Shikama</span>, <span class="author-name"><b><u>A. Kuzmin</u></b></span>, <span class="author-name">Z. Wang</span>, <span class="author-name">H. Long</span>, <span class="author-name">H. Idei</span>, <span class="author-name">Y. Nagashima</span>, <span class="author-name">K. Nakamura</span>, <span class="author-name">O. Watanabe</span>, <span class="author-name">T. Onchi</span>, <span class="author-name">H. Watanabe</span>, <span class="author-name">K. Tokunaga</span>, <span class="author-name">A. Higashijima</span>, <span class="author-name">S. Kawasaki</span>, <span class="author-name">T. Nagata</span>, <span class="author-name">S. Shimabukuro</span>, <span class="author-name">Y. Takase</span>, <span class="author-name">S. Murakami</span>, <span class="author-name">X. Gao</span>, <span class="author-name">H. Liu</span>, <span class="author-name">J. Qian</span>, <span class="author-name">R. Raman</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Nuclear Fusion 2019, 59-7, 076007 (9 pp.).</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1088/1741-4326/ab1858" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 244">
+            <div class="paper-card-top">
+                <span class="venue-badge">NME</span>
+                <span class="paper-year">📅 2019</span>
+            </div>
+            <h2 class="paper-title">Three dimensional distribution of impurity emission in the edge region of LHD obtained by single field-of-view tomography</h2>
+            <div class="authors"><span class="author-name">T. Kobayashi</span>, <span class="author-name">M. Kobayashi</span>, <span class="author-name">N. Iwama</span>, <span class="author-name"><b><u>A. Kuzmin</u></b></span>, <span class="author-name">M. Goto</span>, <span class="author-name">G. Kawamura</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Nuclear Materials and Energy 2019, 19, 239-243</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1016/j.nme.2019.02.015" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 252">
+            <div class="paper-card-top">
+                <span class="venue-badge">PFR</span>
+                <span class="paper-year">📅 2018</span>
+            </div>
+            <h2 class="paper-title">Measurements of the Impurity Flow Velocity and Temperature in Deuterium and Hydrogen Plasmas in the Divertor Legs of the Stochastic Layer in LHD</h2>
+            <div class="authors"><span class="author-name"><b><u>A. Kuzmin</u></b></span>, <span class="author-name">M. Kobayashi</span>, <span class="author-name">T. Nakano</span>, <span class="author-name">M. Hasuo</span>, <span class="author-name">K. Fujii</span>, <span class="author-name">M. Goto</span>, <span class="author-name">T. Shikama</span>, <span class="author-name">T. Morisaki</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Plasma and Fusion Research: Regular Articles 2018, 13, 3402058 (5 pp.).</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1585/pfr.13.3402058" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 244">
+            <div class="paper-card-top">
+                <span class="venue-badge">NME</span>
+                <span class="paper-year">📅 2018</span>
+            </div>
+            <h2 class="paper-title">Analysis of the impurity flow velocity in a wide plasma parameter range for deuterium and hydrogen plasmas in the divertor legs of the stochastic layer in LHD</h2>
+            <div class="authors"><span class="author-name"><b><u>A. Kuzmin</u></b></span>, <span class="author-name">M. Kobayashi</span>, <span class="author-name">T. Nakano</span>, <span class="author-name">G. Kawamura</span>, <span class="author-name">M. Hasuo</span>, <span class="author-name">K. Fujii</span>, <span class="author-name">T. Morisaki</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Nuclear Materials and Energy 2018, 17, 217 - 221</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1016/j.nme.2018.11.009" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 252">
+            <div class="paper-card-top">
+                <span class="venue-badge">PFR</span>
+                <span class="paper-year">📅 2018</span>
+            </div>
+            <h2 class="paper-title">Measurement of Impurity Emission Intensity Distribution in the Edge Region of LHD and Its Relation with Magnetic Field Structure</h2>
+            <div class="authors"><span class="author-name">T. Kobayashi</span>, <span class="author-name">M. Kobayashi</span>, <span class="author-name"><b><u>A. Kuzmin</u></b></span>, <span class="author-name">M. Goto</span>, <span class="author-name">H. Tanaka</span>, <span class="author-name">G. Kawamura</span>, <span class="author-name">P. B. J.</span>, <span class="author-name">N. Iwama</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Plasma and Fusion Research: Regular Articles 2018, 13, 3402030 (5 pp.).</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1585/pfr.13.3402030" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 244">
+            <div class="paper-card-top">
+                <span class="venue-badge">NME</span>
+                <span class="paper-year">📅 2018</span>
+            </div>
+            <h2 class="paper-title">Effect of heating temperature on tritium retention in stainless steel type 316L</h2>
+            <div class="authors"><span class="author-name">M. Matsuyama</span>, <span class="author-name">H. Zushi</span>, <span class="author-name">K. Tokunaga</span>, <span class="author-name"><b><u>A. Kuzmin</u></b></span>, <span class="author-name">K. Hanada</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Nuclear Materials and Energy 2018, 16, 52--59</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1016/j.nme.2018.05.024" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 317">
+            <div class="paper-card-top">
+                <span class="venue-badge">PPCF</span>
+                <span class="paper-year">📅 2018</span>
+            </div>
+            <h2 class="paper-title">Effect of magnetic shear on edge turbulence in SOL-like open field line configuration in QUEST</h2>
+            <div class="authors"><span class="author-name">S. Banerjee</span>, <span class="author-name">H. Zushi</span>, <span class="author-name">N. Nishino</span>, <span class="author-name">K. Hanada</span>, <span class="author-name">H. Idei</span>, <span class="author-name">K. Nakamura</span>, <span class="author-name">M. Hasegawa</span>, <span class="author-name">A. Fujisawa</span>, <span class="author-name">Y. Nagashima</span>, <span class="author-name">K. Mishra</span>, <span class="author-name">S. Tashima</span>, <span class="author-name">T. Onchi</span>, <span class="author-name"><b><u>A. Kuzmin</u></b></span>, <span class="author-name">K. Matsuoka</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Plasma Physics and Controlled Fusion 2018, 60, 085014 (12 pp.).</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1088/1361-6587/aacb69" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 317">
+            <div class="paper-card-top">
+                <span class="venue-badge">PPCF</span>
+                <span class="paper-year">📅 2018</span>
+            </div>
+            <h2 class="paper-title">Initial results from solenoid-free plasma start-up using transient CHI on QUEST</h2>
+            <div class="authors"><span class="author-name">K. Kuroda</span>, <span class="author-name">R. Raman</span>, <span class="author-name">K. Hanada</span>, <span class="author-name">M. Hasegawa</span>, <span class="author-name">T. Onchi</span>, <span class="author-name">M. Ono</span>, <span class="author-name">B. Nelson</span>, <span class="author-name">T. Jarboe</span>, <span class="author-name">M. Nagata</span>, <span class="author-name">O. Mitarai</span>, <span class="author-name">K. Nakamura</span>, <span class="author-name">H. Idei</span>, <span class="author-name">J. Rogers</span>, <span class="author-name">S. Kawasaki</span>, <span class="author-name">T. Nagata</span>, <span class="author-name"><b><u>A. Kuzmin</u></b></span>, <span class="author-name">S. Kojima</span>, <span class="author-name">C. Huang</span>, <span class="author-name">O. Watanabe</span>, <span class="author-name">A. Higashijima</span>, <span class="author-name">Y. Takase</span>, <span class="author-name">A. Fukuyama</span>, <span class="author-name">S. Murakami</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Plasma Physics and Controlled Fusion 2018, 60, 115001 (11 pp.).</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1088/1361-6587/aadcb7" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 227">
+            <div class="paper-card-top">
+                <span class="venue-badge">FED</span>
+                <span class="paper-year">📅 2018</span>
+            </div>
+            <h2 class="paper-title">Modification of plasma control system and hot-wall temperature control system for long-duration plasma sustainment in QUEST</h2>
+            <div class="authors"><span class="author-name">M. Hasegawa</span>, <span class="author-name">K. Nakamura</span>, <span class="author-name">K. Hanada</span>, <span class="author-name">S. Kawasaki</span>, <span class="author-name"><b><u>A. Kuzmin</u></b></span>, <span class="author-name">H. Idei</span>, <span class="author-name">K. Tokunaga</span>, <span class="author-name">Y. Nagashima</span>, <span class="author-name">T. Onchi</span>, <span class="author-name">K. Kuroda</span>, <span class="author-name">O. Watanabe</span>, <span class="author-name">A. Higashijima</span>, <span class="author-name">T. Nagata</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Fusion Engineering and Design 2018, 129, 202--206</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1016/j.fusengdes.2018.02.069" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 258">
+            <div class="paper-card-top">
+                <span class="venue-badge">RSI</span>
+                <span class="paper-year">📅 2018</span>
+            </div>
+            <h2 class="paper-title">Single field-of-view tomographic imaging of 3D impurity emission distribution in magnetized edge plasma of LHD</h2>
+            <div class="authors"><span class="author-name">T. Kobayashi</span>, <span class="author-name">M. Kobayashi</span>, <span class="author-name"><b><u>A. Kuzmin</u></b></span>, <span class="author-name">M. Goto</span>, <span class="author-name">G. Kawamura</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Review of Scientific Instruments 2018, 89, 123502 (9 pp.).</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1063/1.5048218" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 244">
+            <div class="paper-card-top">
+                <span class="venue-badge">NME</span>
+                <span class="paper-year">📅 2017</span>
+            </div>
+            <h2 class="paper-title">Spatial distribution of atomic and ion hydrogen flux and its effect on hydrogen recycling in long duration confined and non-confined plasmas</h2>
+            <div class="authors"><span class="author-name"><b><u>A. Kuzmin</u></b></span>, <span class="author-name">H. Zushi</span>, <span class="author-name">I. Takagi</span>, <span class="author-name">S. Sharma</span>, <span class="author-name">M. Kobayashi</span>, <span class="author-name">Y. Hirooka</span>, <span class="author-name">T. Onchi</span>, <span class="author-name">K. Hanada</span>, <span class="author-name">N. Yoshida</span>, <span class="author-name">K. Nakamura</span>, <span class="author-name">A. Fujisawa</span>, <span class="author-name">H. Idei</span>, <span class="author-name">Y. Nagashima</span>, <span class="author-name">M. Hasegawa</span>, <span class="author-name">T. Mutoh</span>, <span class="author-name">K. Mishra</span>, <span class="author-name">H. Ohwada</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Nuclear Materials and Energy 2017, 12, 627-632</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1016/j.nme.2017.03.027" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 252">
+            <div class="paper-card-top">
+                <span class="venue-badge">PFR</span>
+                <span class="paper-year">📅 2017</span>
+            </div>
+            <h2 class="paper-title">Hydrogen permeation through sputter-deposited tungsten coated F82H in QUEST</h2>
+            <div class="authors"><span class="author-name">Y. Xu</span>, <span class="author-name"><b><u>A. Kuzmin</u></b></span>, <span class="author-name">Y. Hirooka</span>, <span class="author-name">K. Hanada</span>, <span class="author-name">N. Ashikawa</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Plasma and Fusion Research: Letters 2017, 12, 1305038 (3 pp.).</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1585/pfr.12.1305038" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 252">
+            <div class="paper-card-top">
+                <span class="venue-badge">PFR</span>
+                <span class="paper-year">📅 2017</span>
+            </div>
+            <h2 class="paper-title">Current start-up using the new CHI system</h2>
+            <div class="authors"><span class="author-name">K. Kuroda</span>, <span class="author-name">R. Raman</span>, <span class="author-name">K. Hanada</span>, <span class="author-name">M. Hasegawa</span>, <span class="author-name">T. Onchi</span>, <span class="author-name">M. Ono</span>, <span class="author-name">T. Jarboe</span>, <span class="author-name">B. Nelson</span>, <span class="author-name">M. Nagata</span>, <span class="author-name">O. Mitarai</span>, <span class="author-name">K. Nakamura</span>, <span class="author-name">H. Idei</span>, <span class="author-name">J. Rogers</span>, <span class="author-name">S. Kawasaki</span>, <span class="author-name">T. Nagata</span>, <span class="author-name"><b><u>A. Kuzmin</u></b></span>, <span class="author-name">S. Kojima</span>, <span class="author-name">O. Watanabe</span>, <span class="author-name">A. Higashijima</span>, <span class="author-name">Y. Takase</span>, <span class="author-name">A. Fukuyama</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Plasma and Fusion Research: Rapid Communications 2017, 12, 1202020 (3 pp.).</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1585/pfr.12.1202020" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 45">
+            <div class="paper-card-top">
+                <span class="venue-badge">Vacuum</span>
+                <span class="paper-year">📅 2016</span>
+            </div>
+            <h2 class="paper-title">Hydrogen flux measurements with permeation probes in spherical tokamak QUEST</h2>
+            <div class="authors"><span class="author-name"><b><u>A. Kuzmin</u></b></span>, <span class="author-name">H. Zushi</span>, <span class="author-name">I. Takagi</span>, <span class="author-name">S. Sharma</span>, <span class="author-name">Y. Hirooka</span>, <span class="author-name">M. Kobayashi</span>, <span class="author-name">M. Sakamoto</span>, <span class="author-name">K. Hanada</span>, <span class="author-name">T. Onchi</span>, <span class="author-name">Y. Oyama</span>, <span class="author-name">N. Youshida</span>, <span class="author-name">K. Nakamura</span>, <span class="author-name">A. Fujisawa</span>, <span class="author-name">H. Idei</span>, <span class="author-name">Y. Nagashima</span>, <span class="author-name">M. Hasegawa</span>, <span class="author-name">K. Mishra</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Vacuum 2016, 129, 178-182</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1016/j.vacuum.2016.04.025" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 244">
+            <div class="paper-card-top">
+                <span class="venue-badge">NME</span>
+                <span class="paper-year">📅 2016</span>
+            </div>
+            <h2 class="paper-title">Characteristic of a PdCu membrane as atomic hydrogen probe for QUEST</h2>
+            <div class="authors"><span class="author-name">M. Onaka</span>, <span class="author-name">I. Takagi</span>, <span class="author-name">T. Kobayashi</span>, <span class="author-name">T. Sasaki</span>, <span class="author-name"><b><u>A. Kuzmin</u></b></span>, <span class="author-name">H. Zushi</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Nuclear Materials and Energy 2016, 9, 104--108</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1016/j.nme.2016.09.001" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 291">
+            <div class="paper-card-top">
+                <span class="venue-badge">PoP</span>
+                <span class="paper-year">📅 2016</span>
+            </div>
+            <h2 class="paper-title">Observation of an edge coherent mode and poloidal flow in the electron cyclotron wave induced high βₚ plasma in QUEST</h2>
+            <div class="authors"><span class="author-name">S. Banerjee</span>, <span class="author-name">H. Zushi</span>, <span class="author-name">N. Nishino</span>, <span class="author-name">K. Mishra</span>, <span class="author-name">Y. Mahira</span>, <span class="author-name">S. Tashima</span>, <span class="author-name">A. Ejiri</span>, <span class="author-name">T. Yamaguchi</span>, <span class="author-name">T. Onchi</span>, <span class="author-name">Y. Nagashima</span>, <span class="author-name">K. Hanada</span>, <span class="author-name">K. Nakamura</span>, <span class="author-name">H. Idei</span>, <span class="author-name">M. Hasegawa</span>, <span class="author-name">A. Fujisawa</span>, <span class="author-name"><b><u>A. Kuzmin</u></b></span>, <span class="author-name">K. Matsuoka</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Physics of Plasma 2016, 23, 082507 (8 pp.).</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1063/1.4960117" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 317">
+            <div class="paper-card-top">
+                <span class="venue-badge">PPCF</span>
+                <span class="paper-year">📅 2016</span>
+            </div>
+            <h2 class="paper-title">Response of the far scrape-off layer plasma to strong gas puffing in the high poloidal beta configuration of the QUEST spherical tokamak</h2>
+            <div class="authors"><span class="author-name">T. Onchi</span>, <span class="author-name">H. Zushi</span>, <span class="author-name">K. Mishra</span>, <span class="author-name">Y. Oyama</span>, <span class="author-name">Y. Nagashima</span>, <span class="author-name">K. Hanada</span>, <span class="author-name">H. Idei</span>, <span class="author-name">M. Hasegawa</span>, <span class="author-name"><b><u>A. Kuzmin</u></b></span>, <span class="author-name">H. Miura</span>, <span class="author-name">K. Nakamura</span>, <span class="author-name">A. Fujisawa</span>, <span class="author-name">K. Nagaoka</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Plasma Physics and Controlled Fusion 2016, 58, 115004 (12 pp.).</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1088/0741-3335/58/11/115004" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 249">
+            <div class="paper-card-top">
+                <span class="venue-badge">JNM</span>
+                <span class="paper-year">📅 2015</span>
+            </div>
+            <h2 class="paper-title">Global gas balance and influence of atomic hydrogen irradiation on the wall inventory in steady-state operation of QUEST tokamak</h2>
+            <div class="authors"><span class="author-name"><b><u>A. Kuzmin</u></b></span>, <span class="author-name">H. Zushi</span>, <span class="author-name">I. Takagi</span>, <span class="author-name">S. Sharma</span>, <span class="author-name">A. Rusinov</span>, <span class="author-name">Y. Inoue</span>, <span class="author-name">Y. Hirooka</span>, <span class="author-name">H. Zhou</span>, <span class="author-name">M. Kobayashi</span>, <span class="author-name">M. Sakamoto</span>, <span class="author-name">K. Hanada</span>, <span class="author-name">N. Yoshida</span>, <span class="author-name">K. Nakamura</span>, <span class="author-name">A. Fujisawa</span>, <span class="author-name">K. Matsuoka</span>, <span class="author-name">H. Idei</span>, <span class="author-name">Y. Nagashima</span>, <span class="author-name">M. Hasegawa</span>, <span class="author-name">T. Onchi</span>, <span class="author-name">S. Banerjee</span>, <span class="author-name">K. Mishra</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Journal of Nuclear Materials 2015, 463, 1087-1090</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1016/j.jnucmat.2014.12.092" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 249">
+            <div class="paper-card-top">
+                <span class="venue-badge">JNM</span>
+                <span class="paper-year">📅 2015</span>
+            </div>
+            <h2 class="paper-title">Effects of surface conditions on the plasma-driven permeation behaviour through a ferritic steel alloy observed in VEHICLE-1 and QUEST</h2>
+            <div class="authors"><span class="author-name">H. Zhou</span>, <span class="author-name">Y. Hirooka</span>, <span class="author-name">H. Zushi</span>, <span class="author-name"><b><u>A. Kuzmin</u></b></span>, <span class="author-name">N. Ashikawa</span>, <span class="author-name">T. Muroga</span>, <span class="author-name">A. Sagara</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Journal of Nuclear Materials 2015, 463, 1066--1070</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1016/j.jnucmat.2014.10.092" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 258">
+            <div class="paper-card-top">
+                <span class="venue-badge">RSI</span>
+                <span class="paper-year">📅 2015</span>
+            </div>
+            <h2 class="paper-title">Dynamical programming based turbulence velocimetry for fast visible imaging of tokamak plasma</h2>
+            <div class="authors"><span class="author-name">S. Banerjee</span>, <span class="author-name">H. Zushi</span>, <span class="author-name">N. Nishino</span>, <span class="author-name">K. Mishra</span>, <span class="author-name">T. Onchi</span>, <span class="author-name"><b><u>A. Kuzmin</u></b></span>, <span class="author-name">Y. Nagashima</span>, <span class="author-name">K. Hanada</span>, <span class="author-name">K. Nakamura</span>, <span class="author-name">H. Idei</span>, <span class="author-name">M. Hasegawa</span>, <span class="author-name">A. Fujisawa</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Review of Scientific Instruments 2015, 86, 033505 (8 pp.).</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1063/1.4914838" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 291">
+            <div class="paper-card-top">
+                <span class="venue-badge">PoP</span>
+                <span class="paper-year">📅 2015</span>
+            </div>
+            <h2 class="paper-title">Heat flux and plasma flow in the far scrape-off layer of the inboard poloidal field null configuration in QUEST</h2>
+            <div class="authors"><span class="author-name">T. Onchi</span>, <span class="author-name">H. Zushi</span>, <span class="author-name">K. Mishra</span>, <span class="author-name">Y. Mahira</span>, <span class="author-name">K. Nagaoka</span>, <span class="author-name">K. Hanada</span>, <span class="author-name">H. Idei</span>, <span class="author-name">M. Hasegawa</span>, <span class="author-name">K. Nakamura</span>, <span class="author-name">A. Fujisawa</span>, <span class="author-name">Y. Nagashima</span>, <span class="author-name">K. Matsuoka</span>, <span class="author-name">S. Tashima</span>, <span class="author-name">S. Banerjee</span>, <span class="author-name"><b><u>A. Kuzmin</u></b></span>, <span class="author-name">S. Kawasaki</span>, <span class="author-name">H. Nakashima</span>, <span class="author-name">A. Higashijima</span>, <span class="author-name">O. Watanabe</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Physics of Plasmas 2015, 22, 82513 (14 pp.).</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1063/1.4928878" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 249">
+            <div class="paper-card-top">
+                <span class="venue-badge">JNM</span>
+                <span class="paper-year">📅 2015</span>
+            </div>
+            <h2 class="paper-title">Observation of heat flux and plasma flow in scrape off layer in QUEST</h2>
+            <div class="authors"><span class="author-name">T. Onchi</span>, <span class="author-name">Y. Mahira</span>, <span class="author-name">K. Nagaoka</span>, <span class="author-name">S. Tashima</span>, <span class="author-name">S. Banerjee</span>, <span class="author-name">K. Mishra</span>, <span class="author-name">H. Idei</span>, <span class="author-name">K. Hanada</span>, <span class="author-name">K. Nakamura</span>, <span class="author-name">A. Fujisawa</span>, <span class="author-name">Y. Nagashima</span>, <span class="author-name">M. Hasegawa</span>, <span class="author-name">K. Matsuoka</span>, <span class="author-name"><b><u>A. Kuzmin</u></b></span>, <span class="author-name">O. Watanabe</span>, <span class="author-name">S. Kawasaki</span>, <span class="author-name">H. Nakashima</span>, <span class="author-name">A. Higashijima</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Journal of Nuclear Materials 2015, 463, 428--431</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1016/j.jnucmat.2014.11.136" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 249">
+            <div class="paper-card-top">
+                <span class="venue-badge">JNM</span>
+                <span class="paper-year">📅 2015</span>
+            </div>
+            <h2 class="paper-title">Particle balance in long duration RF driven plasmas on QUEST</h2>
+            <div class="authors"><span class="author-name">K. Hanada</span>, <span class="author-name">H. Zushi</span>, <span class="author-name">N. Yoshida</span>, <span class="author-name">N. Yugami</span>, <span class="author-name">T. Honda</span>, <span class="author-name">M. Hasegawa</span>, <span class="author-name">K. Mishra</span>, <span class="author-name"><b><u>A. Kuzmin</u></b></span>, <span class="author-name">K. Nakamura</span>, <span class="author-name">A. Fujisawa</span>, <span class="author-name">H. Idei</span>, <span class="author-name">Y. Nagashima</span>, <span class="author-name">O. Watanabe</span>, <span class="author-name">T. Onchi</span>, <span class="author-name">H. Watanabe</span>, <span class="author-name">K. Tokunaga</span>, <span class="author-name">A. Higashijima</span>, <span class="author-name">S. Kawasaki</span>, <span class="author-name">H. Nakashima</span>, <span class="author-name">Y. Takase</span>, <span class="author-name">A. Fukuyama</span>, <span class="author-name">O. Mitarai</span>, <span class="author-name">Y. Peng</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Journal of Nuclear Materials 2015, 463, 1084--1086</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1016/j.jnucmat.2015.01.013" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 168">
+            <div class="paper-card-top">
+                <span class="venue-badge">NF</span>
+                <span class="paper-year">📅 2015</span>
+            </div>
+            <h2 class="paper-title">Self-organization of high βₚ plasma equilibrium with an inboard poloidal magnetic field null in QUEST</h2>
+            <div class="authors"><span class="author-name">K. Mishra</span>, <span class="author-name">H. Zushi</span>, <span class="author-name">H. Idei</span>, <span class="author-name">M. Hasegawa</span>, <span class="author-name">T. Onchi</span>, <span class="author-name">S. Tashima</span>, <span class="author-name">S. Banerjee</span>, <span class="author-name">H. Hanada</span>, <span class="author-name">H. Togashi</span>, <span class="author-name">T. Yamaguchi</span>, <span class="author-name">A. Ejiri</span>, <span class="author-name">Y. Takase</span>, <span class="author-name">K. Nakamura</span>, <span class="author-name">A. Fujisawa</span>, <span class="author-name">Y. Nagashima</span>, <span class="author-name"><b><u>A. Kuzmin</u></b></span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Nuclear Fusion 2015, 55, 83009 (13 pp.).</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1088/0029-5515/55/8/083009" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 252">
+            <div class="paper-card-top">
+                <span class="venue-badge">PFR</span>
+                <span class="paper-year">📅 2014</span>
+            </div>
+            <h2 class="paper-title">First Wall Particle Flux Measurements by an F82H Permeation Probe in QUEST</h2>
+            <div class="authors"><span class="author-name">Haishan Zhou</span>, <span class="author-name">Yoshi Hirooka</span>, <span class="author-name">Hideki Zushi</span>, <span class="author-name"><b><u>Arseniy Kuzmin</u></b></span>, <span class="author-name">the QUEST group</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Plasma and Fusion Research 2014, 9, 3405041 (9 pp.).</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1585/pfr.9.3405041" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 264">
+            <div class="paper-card-top">
+                <span class="venue-badge">JPConf</span>
+                <span class="paper-year">📅 2014</span>
+            </div>
+            <h2 class="paper-title">Hydrogen retention in volumetric CFC structure</h2>
+            <div class="authors"><span class="author-name">A. Airapetov</span>, <span class="author-name">L. Begrambekov</span>, <span class="author-name">S. Br{\'e}mond</span>, <span class="author-name">D. Douai</span>, <span class="author-name"><b><u>A. Kuzmin</u></b></span>, <span class="author-name">Y. Sadovsky</span>, <span class="author-name">P. Shigin</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Journal of Physics: Conference Series 2014, 516, 012026 (5 pp.).</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1088/1742-6596/516/1/012026" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 258">
+            <div class="paper-card-top">
+                <span class="venue-badge">RSI</span>
+                <span class="paper-year">📅 2014</span>
+            </div>
+            <h2 class="paper-title">Thermal imaging of plasma with a phased array antenna in QUEST</h2>
+            <div class="authors"><span class="author-name">K. Mishra</span>, <span class="author-name">H. Idei</span>, <span class="author-name">H. Zushi</span>, <span class="author-name">K. Nagata</span>, <span class="author-name">R. Akimoto</span>, <span class="author-name">M. K. Yamamoto</span>, <span class="author-name">K. Hanada</span>, <span class="author-name">M. Hasegawa</span>, <span class="author-name">K. Nakamura</span>, <span class="author-name">A. Fujisawa</span>, <span class="author-name">Y. Nagashima</span>, <span class="author-name">S. Banerjee</span>, <span class="author-name">T. Onchi</span>, <span class="author-name"><b><u>A. Kuzmin</u></b></span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Review of Scientific Instruments 2014, 85, 11E808 (4 pp.).</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1063/1.4889903" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 252">
+            <div class="paper-card-top">
+                <span class="venue-badge">PFR</span>
+                <span class="paper-year">📅 2014</span>
+            </div>
+            <h2 class="paper-title">Analytical Solution of High βₚ Equilibria with Natural Inboard Poloidal Null Configuration Obtained in the Spherical Tokamak QUEST</h2>
+            <div class="authors"><span class="author-name">Kishore Mishra</span>, <span class="author-name">Hideki Zushi</span>, <span class="author-name">Hiroshi Idei</span>, <span class="author-name">Saya Tashima</span>, <span class="author-name">Santanu Banerjee</span>, <span class="author-name">Makoto Hasegawa</span>, <span class="author-name">Kazuaki Hanada</span>, <span class="author-name">Kazuo Nakamura</span>, <span class="author-name">Akihide Fujisawa</span>, <span class="author-name">Yoshihiko Nagashima</span>, <span class="author-name">Keisuke Matsuoka</span>, <span class="author-name"><b><u>Arseny Kuzmin</u></b></span>, <span class="author-name">Takumi Onchi</span>, <span class="author-name">QUEST Team</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Plasma and Fusion Research 2014, 9, 3402093 (5 pp.).</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1585/pfr.9.3402093" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 249">
+            <div class="paper-card-top">
+                <span class="venue-badge">JNM</span>
+                <span class="paper-year">📅 2013</span>
+            </div>
+            <h2 class="paper-title">Deuterium trapping in carbon films formed in different deposition conditions</h2>
+            <div class="authors"><span class="author-name">L. Begrambekov</span>, <span class="author-name">V. Barsuk</span>, <span class="author-name">M. Dubrov</span>, <span class="author-name">A. Kaplevsky</span>, <span class="author-name">N. Klimov</span>, <span class="author-name">D. Kovalenko</span>, <span class="author-name"><b><u>A. Kuzmin</u></b></span>, <span class="author-name">A. Mischenko</span>, <span class="author-name">V. Podkovyrov</span>, <span class="author-name">P. Shigin</span>, <span class="author-name">A. Zhitlukhin</span>, <span class="author-name">A. Zakharov</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Journal of Nuclear Materials 2013, 438, S971-S974</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1016/j.jnucmat.2013.01.211" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 249">
+            <div class="paper-card-top">
+                <span class="venue-badge">JNM</span>
+                <span class="paper-year">📅 2011</span>
+            </div>
+            <h2 class="paper-title">Glow discharge cleaning of carbon fiber composite and stainless steel</h2>
+            <div class="authors"><span class="author-name">A. Airapetov</span>, <span class="author-name">L. Begrambekov</span>, <span class="author-name">S. Brémond</span>, <span class="author-name">D. Douai</span>, <span class="author-name"><b><u>A. Kuzmin</u></b></span>, <span class="author-name">Ya. Sadovsky</span>, <span class="author-name">P. Shigin</span>, <span class="author-name">S. Vergasov</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Journal of Nuclear Materials 2011, 415, S1042-S1045</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1016/j.jnucmat.2010.10.054" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 32">
+            <div class="paper-card-top">
+                <span class="venue-badge">RuSurface</span>
+                <span class="paper-year">📅 2010</span>
+            </div>
+            <h2 class="paper-title">Hydrogen TDS spectra and their relation to the conditions of implantation and retention of hydrogen in graphite materials</h2>
+            <div class="authors"><span class="author-name">A. A. Airapetov</span>, <span class="author-name">L. B. Begrambekov</span>, <span class="author-name">S. V. Vergazov</span>, <span class="author-name"><b><u>A. A. Kuzmin</u></b></span>, <span class="author-name">O. C. Fadina</span>, <span class="author-name">P. A. Shigin</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Journal of Surface Investigation. X-ray, Synchrotron and Neutron Techniques volume 2010, 4, 567-571</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1134/S1027451010040038" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 100">
+            <div class="paper-card-top">
+                <span class="venue-badge">RuAcadPhys</span>
+                <span class="paper-year">📅 2010</span>
+            </div>
+            <h2 class="paper-title">Trapping and retention of deuterium in plasma-irradiated carbonic materials</h2>
+            <div class="authors"><span class="author-name">A. A. Airapetov</span>, <span class="author-name">L. B. Begrambekov</span>, <span class="author-name">S. V. Vergazov</span>, <span class="author-name"><b><u>A. A. Kuzmin</u></b></span>, <span class="author-name">V. M. Smirnov</span>, <span class="author-name">P. A. Shigin</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Bulletin of the Russian Academy of Sciences: Physics 2010, 74-2, 248-253</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.3103/S1062873810020279" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 32">
+            <div class="paper-card-top">
+                <span class="venue-badge">RuSurface</span>
+                <span class="paper-year">📅 2010</span>
+            </div>
+            <h2 class="paper-title">Hydrogen TDS spectra and their relation to the conditions of implantation and retention of hydrogen in graphite materials</h2>
+            <div class="authors"><span class="author-name">A. Airapetov</span>, <span class="author-name">L. Begrambekov</span>, <span class="author-name">S. Vergazov</span>, <span class="author-name"><b><u>A. Kuzmin</u></b></span>, <span class="author-name">O. Fadina</span>, <span class="author-name">P. Shigin</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Journal of Surface Investigation: X-ray, Synchrotron and Neutron Techniques 2010, 4-2, 567--571</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1134/S1027451010040038" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 100">
+            <div class="paper-card-top">
+                <span class="venue-badge">RuAcadPhys</span>
+                <span class="paper-year">📅 2010</span>
+            </div>
+            <h2 class="paper-title">Trapping and retention of deuterium in plasma-irradiated carbonic materials</h2>
+            <div class="authors"><span class="author-name">A. Airapetov</span>, <span class="author-name">L. Begrambekov</span>, <span class="author-name">S. Vergazov</span>, <span class="author-name"><b><u>A. Kuzmin</u></b></span>, <span class="author-name">V. Smirnov</span>, <span class="author-name">P. Shigin</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Bulletin of the Russian Academy of Sciences: Physics 2010, 74-2, 227--232</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.3103/S1062873810020279" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
+
+
+
+        <article class="paper-card publication-card" style="--badge-hue: 249">
+            <div class="paper-card-top">
+                <span class="venue-badge">JNM</span>
+                <span class="paper-year">📅 2009</span>
+            </div>
+            <h2 class="paper-title">Deuterium trapping in carbon fiber composites exposed to D plasma</h2>
+            <div class="authors"><span class="author-name">A. Airapetov</span>, <span class="author-name">L. Begrambekov</span>, <span class="author-name">C. Brosset</span>, <span class="author-name">J.P. Gunn</span>, <span class="author-name">C. Grisolia</span>, <span class="author-name"><b><u>A. Kuzmin</u></b></span>, <span class="author-name">T. Loarer</span>, <span class="author-name">M. Lipa</span>, <span class="author-name">P. Monier-Garbet</span>, <span class="author-name">P. Shigin</span>, <span class="author-name">E. Tsitrone</span>, <span class="author-name">A. Zakharov</span></div>
+            <div class="paper-meta">
+                <span class="paper-venue">Journal of Nuclear Materials 2009, 390-391, 589-592</span>
+            </div>
+
+            <div class="paper-actions">
+                <a class="paper-link" href="https://doi.org/10.1016/j.jnucmat.2009.01.118" target="_blank" rel="noopener noreferrer">open DOI</a>
+            </div>
+
+        </article>
 
 
         </div>
 
-        <div id="citations" class="citations"></div>
-    </div>
-    <script src="scripts/publications.js"></script>
+</div>
+
+    <script type="application/json" id="embed-publications">[{"abstract": "Hydrogen wall pumping is studied in steady state tokamak operation (SSTO) of QUEST with all metal plasma facing materials PFMs at 100 \u00b0C. The duration of SSTO is up to 820 s in fully non-inductive plasma. Global gas balance analysis shows that wall pumping at the apparent (retention\u2013release) rate of 1\u20136 \u00d7 1018 H/s is dominant and 70\u201380% of injected H2 can be retained in PFMs. However, immediately after plasma termination the H2 release rate enhances to \u223c1019 H/s. In order to understand a true retention process the direct measurement of retention flux has been carried out by permeation probes. The comparison between the evaluated wall retention and results from global analysis is discussed.", "aknotes": "", "authors": "Kuzmin, A. and Zushi, H. and Takagi, I. and Sharma, S.K. and Rusinov, A. and Inoue, Y. and Hirooka, Y. and Zhou, H. and Kobayashi, M. and Sakamoto, M. and Hanada, K. and Yoshida, N. and Nakamura, K. and Fujisawa, A. and Matsuoka, K. and Idei, H. and Nagashima, Y. and Hasegawa, M. and Onchi, T. and Banerjee, S. and Mishra, K.", "badge_hue": 249, "doi": "10.1016/j.jnucmat.2014.12.092", "issn": "", "keywords": "first", "language": "english", "note": "", "pages": "1087-1090", "title": "Global gas balance and influence of atomic hydrogen irradiation on the wall inventory in steady-state operation of QUEST tokamak", "type": "article", "url": "", "venue": "Journal of Nuclear Materials", "venue_abbr": "JNM", "volume": "463", "year": "2015"}, {"abstract": "Poloidal and radial distributions of the hydrogen flux, both atomic and ion, to the plasma facing materials (PFMs) are measured with four fixed and one movable PdCu membrane probes in the QUEST spherical tokamak. Direct information about hydrogen retention in the areas far from main plasma-wall interaction is essential because the significant part of the global retention is due to atomic hydrogen. Incident hydrogen flux \u0393inc is numerically reconstructed by fitting the experimentally measured hydrogen flux \u0393p, permeated through the membrane. The sensitivity of the probe is improved when compared with other work which allows dynamic changes of the retention flux to be monitored, allowing detection of 10% of the \u0393inc modulation, or \u223c1017 H m\u22122s\u22121.", "aknotes": "", "authors": "Kuzmin, A. and Zushi, H. and Takagi, I. and Sharma, S.K. and Hirooka, Y. and Kobayashi, M. and Sakamoto, M. and Hanada, K. and Onchi, T. and Oyama, Y. and Youshida, N. and Nakamura, K. and Fujisawa, A. and Idei, H. and Nagashima, Y. and Hasegawa, M. and Mishra, K.", "badge_hue": 45, "doi": "10.1016/j.vacuum.2016.04.025", "issn": "", "keywords": "first", "language": "english", "note": "", "pages": "178-182", "title": "Hydrogen flux measurements with permeation probes in spherical tokamak QUEST", "type": "article", "url": "", "venue": "Vacuum", "venue_abbr": "Vacuum", "volume": "129", "year": "2016"}, {"abstract": "In order to understand the atomic hydrogen distribution in different kinds of plasma and its influence on the recycling, two kinds of plasmas were used: non-confined annular electron cyclotron resonance (ECR) and confined long duration plasmas. The permeation probes are used to measure directly the atomic hydrogen flux at several poloidal positions. The permeation through metals due to the ion and atom component of the hydrogen flux to the wall is indistinguishable. To estimate the contribution of the ions directly, Langmuir probes were used. The \u0413inc profile behind the plasma facing components (PFCs) is almost constant, \u223c2\u2009\u00d71018 H/s/m2.", "aknotes": "", "authors": "Kuzmin, A. and Zushi, H. and Takagi, I. and Sharma, S.K. and Kobayashi, M. and Hirooka, Y. and Onchi, T. and Hanada, K. and Yoshida, N. and Nakamura, K. and Fujisawa, A. and Idei, H. and Nagashima, Y. and Hasegawa, M. and Mutoh, T. and Mishra, K. and Ohwada, H.", "badge_hue": 244, "doi": "10.1016/j.nme.2017.03.027", "issn": "", "keywords": "first", "language": "english", "note": "", "pages": "627-632", "title": "Spatial distribution of atomic and ion hydrogen flux and its effect on hydrogen recycling in long duration confined and non-confined plasmas", "type": "article", "url": "", "venue": "Nuclear Materials and Energy", "venue_abbr": "NME", "volume": "12", "year": "2017"}, {"abstract": "This paper presents carbon impurity flow velocity and temperature measurements in the divertor region for a wide density range ne = (1 - 14) \u00d71019 m\u22123, central electron temperature Te = 1.5 - 3.5 keV, and with total neutral beam injection power of 9 - 12 MW. The isotope effect on the transport is studied in hydrogen (H) and deuterium (D) discharges. Flow velocities for D plasma are systematically slower, by the factor of 1.4 - 2, compared to H plasma. For all selected discharges, the carbon ions flow toward the divertor in both H and D plasmas. Different velocities are obtained depending on the charge states. For C+ and C2+ they are in the range of 10 - 30 km/s, and 5 - 20 km/s for C3+ ions. It is also found that there is no change of flow direction even in the lowest density, where the impurity transport model predicts flow toward upstream in the thermal force dominant regime. In H discharges velocities increase proportionally to the plasma density, while in D discharges this dependency is weaker. Possible mechanism to interpret these observations is discussed based on the parallel momentum balance of impurity transport.", "aknotes": "", "authors": "Kuzmin, Arseniy and Kobayashi, Masahiro and Nakano, Tomohide and Hasuo, Masahiro and Fujii, Keisuke and Goto, Motoshi and Shikama, Taiichi and Morisaki, Tomohiro", "badge_hue": 252, "doi": "10.1585/pfr.13.3402058", "issn": "", "keywords": "first", "language": "english", "note": "", "pages": "3402058 (5 pp.).", "title": "Measurements of the Impurity Flow Velocity and Temperature in Deuterium and Hydrogen Plasmas in the Divertor Legs of the Stochastic Layer in LHD", "type": "article", "url": "", "venue": "Plasma and Fusion Research: Regular Articles", "venue_abbr": "PFR", "volume": "13", "year": "2018"}, {"abstract": "Impurity flow velocity measurements have been conducted for different magnetic field configurations in a wide plasma parameter range in the divertor leg region of LHD for understanding of the edge impurity transport. In all cases (densities, magnetic configurations, hydrogen (H) \u0026 deuterium (D) discharges), flows of several tens of km/s are observed. It is found that the flow in thick stochastic layer is faster than in thin stochastic layer configuration by a factor of 3. Different velocities of different charge states of carbon impurity are observed. The simulation with EMC3-EIRENE code shows similar trend as the experiments, but only qualitatively: faster flow in H compared to D discharges due to the mass effect, faster flow in the case of thick stochastic layer. However, synthetic spectra show discrepancy with experiments in the absolute Doppler shift, where the impurity velocity in the experiments is one order faster compared to the simulations.", "aknotes": "", "authors": "Kuzmin, Arseniy and Kobayashi, Masahiro and Nakano, Tomohide and Kawamura, Gakushi and Hasuo, Masahiro and Fujii, Keisuke and Morisaki, Tomohiro", "badge_hue": 244, "doi": "10.1016/j.nme.2018.11.009", "issn": "", "keywords": "first", "language": "english", "note": "", "pages": "217 - 221", "title": "Analysis of the impurity flow velocity in a wide plasma parameter range for deuterium and hydrogen plasmas in the divertor legs of the stochastic layer in LHD", "type": "article", "url": "", "venue": "Nuclear Materials and Energy", "venue_abbr": "NME", "volume": "17", "year": "2018"}, {"abstract": "Wide wavelength range with high-resolution emission spectroscopy was applied to LHD peripheral plasmas. All measured Fulcher-a band Q-branches spectra (600\u2013630 nm) were measured with a single shot exposure time of 100\u2013200 ms for all investigated discharges. Ro-vibrational populations up to v = 2 and N = 11 for H2 and up to v = 3 and N = 14 for D2 in the 3p3\u03a0u state were estimated, where v and N are vibrational and rotational quantum numbers, respectively. It was found that the rotational population of every vibrational state follows two-temperature Boltzmann distribution. From the calculation with a coronal model, ro-vibrational populations distribution up to such high N quantum numbers in the ground state are deduced.", "aknotes": "", "authors": "Hiroki Ishihara and Arseniy Kuzmin and Masahiro Kobayashi and Taiichi Shikama and Keiji Sawada and Seiki Saito and Hiroaki Nakamura and Keisuke Fujii and Masahiro Hasuo", "badge_hue": 124, "doi": "10.1016/j.jqsrt.2021.107592", "issn": "0022-4073", "keywords": "first", "language": "english", "note": "", "pages": "107592 (8 pp.).", "title": "Ro-vibrational population distribution in the ground state of hydrogen isotopologues in LHD peripheral plasmas deduced from emission spectroscopy", "type": "article", "url": "https://www.sciencedirect.com/science/article/pii/S0022407321000856", "venue": "Journal of Quantitative Spectroscopy and Radiative Transfer", "venue_abbr": "JQSRT", "volume": "267", "year": "2021"}, {"abstract": "To study radial distribution of hydrogen flux in peripheral plasma in long duration tokamak discharges,\npermeation and Langmuir reciprocate probes are used. The atomic hydrogen flux to the walls at several radial\npositions is deduced from the permeation flux. Contribution of the ions to the hydrogen flow is deduced from the\nLangmuir probe ion saturation current. It is found, that the atomic hydrogen has the most contribution to the\nhydrogen flow behind the plasma facing components (PFCs), while the ion flux there is negligible. The atomic\nflux behind the PFCs drops to the value of F~4.3 \u00d7 1015H/m2/s, which is ~6 % of that just in front of PFCs, F~\n7.7 \u00d7 1016H/m2/s.", "aknotes": "", "authors": "A. Kuzmin and M. Kobayashi and K. Hanada and H. Idei and T. Onchi and S. Mori and N. Yoneda and T. Shikama and M. Hasuo and T. Ido and Y. Nagashima and R. Ikezoe and M. Hasegawa and K. Kuroda and K. Kono and S. Matsuo and T. Nagata and S. Shimabukuro and A. Higashijima and I. Niiya and H. Zushi", "badge_hue": 244, "doi": "10.1016/j.nme.2020.100872", "issn": "2352-1791", "keywords": "Hydrogen, Atomic hydrogen, Steady state tokamak operation, PdCu, Permeation, first", "language": "english", "note": "", "pages": "100872 (4 pp.).", "title": "Investigation of radial distribution of atomic hydrogen flux to the plasma facing components in steady state discharges in QUEST tokamak", "type": "article", "url": "https://www.sciencedirect.com/science/article/pii/S2352179120301381", "venue": "Nuclear Materials and Energy", "venue_abbr": "NME", "volume": "26", "year": "2021"}, {"abstract": "A new combination diagnostic as a hydrogen recycling monitor in harsh conditions is proposed. Combining permeation membrane probe with a Langmuir probe provides a possibility to measure both atomic and ionic hydrogen fluxes to plasma facing components. A brief overview of permeation probes is given. The range of measurable H fluxes is from 1016 to more than 1020 Hm\u22122s\u22121. Time response of the permeation probe is \u223c0.1\u22120.5 s. A method to address disadvantages of permeation probes is proposed. This includes an introduction of a preparation chamber for Ar-plasma cleaning of the membrane and absolute calibration with a visible spectroscopy. The hydrogen recombination coefficient, evaluated in such calibration, is ku=5.9\u00d710\u221230m4s\u22121, which agrees well with previous research.", "aknotes": "", "authors": "A. Kuzmin and K. Miura and M. Kobayashi and K. Hanada and K. Fujii and T. Shikama and M. Hasuo and H. Zushi", "badge_hue": 227, "doi": "10.1016/j.fusengdes.2023.113462", "issn": "0920-3796", "keywords": "first", "language": "", "note": "", "pages": "113462 (5 pp.).", "title": "Atomic and ionic hydrogen flux probe for quantitative in-situ monitoring of hydrogen recycling", "type": "article", "url": "https://www.sciencedirect.com/science/article/pii/S0920379623000467", "venue": "Fusion Engineering and Design", "venue_abbr": "FED", "volume": "189", "year": "2023"}, {"abstract": "We analyzed a thousand visible spectra of Fulcher-\u03b1 band measured for divertor plasmas in Large Helical Device. With a coronal model and Bayesian inference, the population distribution of hydrogen molecule in the electronic ground state was estimated. The non-thermal population distribution was recovered with a two-temperature model, which has two sets of rotational and vibrational temperatures, as well as their mixture coefficient. The lower rotational temperature significantly changes according to the plasma parameters. Its nearly linear dependence on the electron density was found, which is consistent with previous works. The lower vibrational temperature also shows a small density dependence, as reported by a previous work. On the other hand, the higher rotational and vibrational temperatures as well as the mixture coefficient only show slight changes over the broad range of plasma parameters. These population parameters show a significant correlation; with higher electron density, all the temperatures and the fraction of the higher-temperature component increase simultaneously. This suggests that the electron impact plays an important role to determine the population distribution.", "aknotes": "featured", "authors": "Keisuke Fujii and Tsubasa Oshioka and Atsushi Niihama and Arseniy Kuzmin and Taiichi Shikama and Masahiro Kobayashi and Masahiro Hasuo", "badge_hue": 124, "doi": "10.1016/j.jqsrt.2023.108751", "issn": "0022-4073", "keywords": "Molecular spectroscopy, Divertor plasmas, Coronal model", "language": "", "note": "", "pages": "108751 (9 pp.).", "title": "Plasma-parameter dependence of ro-vibrational temperatures for H2 in LHD divertor", "type": "article", "url": "", "venue": "Journal of Quantitative Spectroscopy and Radiative Transfer", "venue_abbr": "JQSRT", "volume": "310", "year": "2023"}, {"abstract": "Collisional thermalization of a particle ensemble under the energy dissipation can be seen in variety of systems, such as heated granular gasses and particles in plasmas. Despite its universal existence, analytical descriptions of the steady-state distribution have been missing. Here, we show that the steady-state energy distribution of the wide class of collisional energy cascades can be well approximated by the generalized Mittag-Leffler distribution, which is one of stable distributions. This distribution has a power-law tail, as similar to Levy\u0027s stable distribution, the index of which is related to the energy dissipation rate. We demonstrate its universality by comparing Mont-Carlo simulations of dissipative gasses as well as the spectroscopic observation of the atom velocity distribution in a low-temperature plasma.", "aknotes": "featured", "authors": "Keisuke Fujii and Jun Imano and Arseniy Kuzmin and Taiichi Shikama and Masahiro Hasuo", "badge_hue": 242, "doi": "10.48550/arXiv.2103.04463", "issn": "", "keywords": "noreview", "language": "", "note": "", "pages": "", "title": "Stable Energy Distribution of Weakly Dissipative Gasses under Collisional Energy Cascades", "type": "misc", "url": "", "venue": "arXive", "venue_abbr": "arXiv", "volume": "", "year": "2021"}, {"abstract": "First wall particle flux measurements in the QUEST spherical tokamak have been conducted, using a permeation probe that employs a first wall candidate ferritic steel alloy F82H as the membrane and also SUS304 as a comparative reference membrane. Permeation measurements have been done during the conditioning steady-state discharges heated with 2.45 GHz and 8.2 GHz ECR. Diffusion and recombination coefficients measured in a laboratory-scale plasma device: VEHICLE-1 are used to interpret the results from the permeation probe measurements in QUEST. These permeation membranes have been analyzed with XPS to evaluate the effects of surface impurities.", "aknotes": "featured", "authors": "Haishan Zhou and Yoshi Hirooka and Hideki Zushi and Arseniy Kuzmin and the QUEST group", "badge_hue": 252, "doi": "10.1585/pfr.9.3405041", "issn": "", "keywords": "", "language": "english", "note": "", "pages": "3405041 (9 pp.).", "title": "First Wall Particle Flux Measurements by an F82H Permeation Probe in QUEST", "type": "article", "url": "", "venue": "Plasma and Fusion Research", "venue_abbr": "PFR", "volume": "9", "year": "2014"}, {"abstract": "Quantitative spectroscopy of molecular hydrogen has generated substantial demand, leading to the accumulation of diverse elementary process data encompassing radiative transitions, electron-impact transitions, predissociations, and quenching. However, their rates currently available are still sparse, and there are inconsistencies among those proposed by different authors. In this study, we demonstrate an experi- mental validation of such a molecular dataset by composing a collisional-radiative model (CRM) for molecular hydrogen and comparing experimentally obtained vibronic populations across multiple levels. From the population kinetics of molecular hydrogen, the importance of each elementary process in various parameter space is studied.", "aknotes": "featured", "authors": "Fujii, Keisuke and Sawada, Keiji and Kuzmin, Arseniy and Goto, Motoshi and Kobayashi, Masahiro and Scarlett, Liam H. and Fursa, Dmitry V. and Bray, Igor and Zammit, Mark C. and Biewer, Theodore M.", "badge_hue": 291, "doi": "10.1063/5.0220933", "issn": "1089-7674", "keywords": "", "language": "", "note": "", "pages": "092512 (15 pp.).", "title": "Experimental validation of a collision-radiation dataset for molecular hydrogen in plasmas", "type": "article", "url": "", "venue": "Physics of Plasmas", "venue_abbr": "PoP", "volume": "31", "year": "2024"}, {"abstract": "Effects of surface conditions on the plasma-driven permeation of hydrogen through a ferritic steel alloy F82H have been studied in a laboratory-scale plasma device: VEHICLE-1 and the medium-sized spherical tokamak: QUEST. Both of the surface contamination and area effects have been examined and discussed. Thick surface impurity film has been found to act as a second layer for diffusion and affect the permeation behavior in laboratory-scale and tokamak experiments. Hydrogen diffusion coefficient in the impurity layer has been estimated using the multi-layer diffusion model. A decrease in steady state permeation flux has been measured when increasing the plasma-facing surface area, which is in agreement with theoretical prediction.", "aknotes": "featured", "authors": "Zhou, H. and Hirooka, Y. and Zushi, H. and Kuzmin, A. and Ashikawa, N. and Muroga, T. and Sagara, A.", "badge_hue": 249, "doi": "10.1016/j.jnucmat.2014.10.092", "issn": "", "keywords": "", "language": "english", "note": "", "pages": "1066--1070", "title": "Effects of surface conditions on the plasma-driven permeation behaviour through a ferritic steel alloy observed in VEHICLE-1 and QUEST", "type": "article", "url": "", "venue": "Journal of Nuclear Materials", "venue_abbr": "JNM", "volume": "463", "year": "2015"}, {"abstract": "The paper experimentally investigates and analyses the features and mechanisms of both of oxygen removal by deuterium glow discharge from CFC, pyrolytic graphite and stainless steel subjected to irradiation in oxygen contaminated plasma. It is shown that oxygen implanted in pyrolytic graphite (PG) perpendicular to basal plates is removed after sputtering the layer slightly thicker than oxygen stopping zone (\u22482nm). Fast deuterium ions penetrating into CFC during GDC transfer the trapped oxygen atoms into the bulk. Thus, much thicker surface layer has to be removed (500\u20131000nm) for oxygen release. Irradiation of stainless steel in plasma leads to formation of a barrier layer with thickness (2\u20134nm) equal, or slightly higher than stopping range of oxygen ions. The layer accumulates the main fraction of implanted oxygen and prevents its penetration into the bulk. After barrier layer sputtering oxygen spreads into the bulk. Parameters and conditions of optimum GDC are discussed.", "aknotes": "featured", "authors": "A. Airapetov and L. Begrambekov and S. Br\u00e9mond and D. Douai and A. Kuzmin and Ya. Sadovsky and P. Shigin and S. Vergasov", "badge_hue": 249, "doi": "10.1016/j.jnucmat.2010.10.054", "issn": "0022-3115", "keywords": "", "language": "english", "note": "Proceedings of the 19th International Conference on Plasma-Surface Interactions in Controlled Fusion", "pages": "S1042-S1045", "title": "Glow discharge cleaning of carbon fiber composite and stainless steel", "type": "article", "url": "https://www.sciencedirect.com/science/article/pii/S0022311510006471", "venue": "Journal of Nuclear Materials", "venue_abbr": "JNM", "volume": "415", "year": "2011"}, {"abstract": "The paper presents the results of investigations on hydrogen trapping in the carbon films deposited in the plasma of four experimental devices (two laboratory stands, plasma accelerator QSPA-T and tokamak Tore Supra) covering a wide range of deposition conditions. The features of hydrogen trapping common for these devices are evaluated. It is shown that the trapping in the films of the certain device increases with the decrease of the deposition rate. Hydrogen from residual gas constitutes nearly half, or bigger part of the whole retention in the deposited films. It is trapped through inelastic interaction of the particles with the surface (\u201cpotential\u201d mechanism of trapping). Ion irradiation and oxygen impurities activate the \u201cpotential\u201d trapping. In conclusion some implications from the presented data are drawn.", "aknotes": "featured", "authors": "L. Begrambekov and V. Barsuk and M. Dubrov and A. Kaplevsky and N. Klimov and D. Kovalenko and A. Kuzmin and A. Mischenko and V. Podkovyrov and P. Shigin and A. Zhitlukhin and A. Zakharov", "badge_hue": 249, "doi": "10.1016/j.jnucmat.2013.01.211", "issn": "0022-3115", "keywords": "", "language": "english", "note": "Proceedings of the 20th International Conference on Plasma-Surface Interactions in Controlled Fusion Devices", "pages": "S971-S974", "title": "Deuterium trapping in carbon films formed in different deposition conditions", "type": "article", "url": "https://www.sciencedirect.com/science/article/pii/S0022311513002195", "venue": "Journal of Nuclear Materials", "venue_abbr": "JNM", "volume": "438", "year": "2013"}, {"abstract": "A permeation probe is a useful device for detecting the atomic hydrogen flux to plasma-facing walls. Recently, we developed a new type of probe using 60Pd-40Cu alloy (PdCu) as the permeation material. The deuterium behaviors in PdCu samples were investigated using nuclear reaction analysis (NRA) and permeation observations, and the diffusion coefficient and recombination coefficients were determined from these observations. It was found that the sensitivity of a 0.02-mm-thick probe was as high as 0.5 below 473 K and was independent of the incident flux. The response time at 473 K was 0.41 s and 1.3 s under an incident flux of 1020 m\u22122s\u22121 and 1019 m\u22122s\u22121, respectively. Thus, we concluded that the new PdCu probe can effectively detect the incident atomic hydrogen with high sensitivity and a suitable response time.", "aknotes": "featured", "authors": "Onaka, Masayuki and Takagi, Ikuji and Kobayashi, Taishi and Sasaki, Takayuki and Kuzmin, Arseniy and Zushi, Hideki", "badge_hue": 244, "doi": "10.1016/j.nme.2016.09.001", "issn": "", "keywords": "", "language": "english", "note": "", "pages": "104--108", "title": "Characteristic of a PdCu membrane as atomic hydrogen probe for QUEST", "type": "article", "url": "", "venue": "Nuclear Materials and Energy", "venue_abbr": "NME", "volume": "9", "year": "2016"}, {"abstract": "Hydrogen plasma-driven permeation (PDP) experiments have been performed using a sputter-deposited tungsten (SP-W) coated F82H membrane in the spherical tokamak QUEST. It has been found that SP-W coatings tend to enhance hydrogen PDP compared with that of bare F82H membrane. Surface recombination is a key process determining the PDP flux, suggesting that surface effects on hydrogen PDP should be further investigated.", "aknotes": "featured", "authors": "Xu, Yue and Kuzmin, Arseniy and Hirooka, Yoshi and Hanada, Kazuaki and Ashikawa, Naoko", "badge_hue": 252, "doi": "10.1585/pfr.12.1305038", "issn": "", "keywords": "", "language": "english", "note": "", "pages": "1305038 (3 pp.).", "title": "Hydrogen permeation through sputter-deposited tungsten coated F82H in QUEST", "type": "article", "url": "", "venue": "Plasma and Fusion Research: Letters", "venue_abbr": "PFR", "volume": "12", "year": "2017"}, {"abstract": "Deuterium trapping in carbon fiber composite N11 and pyrolitic graphite PG99 irradiated with plasma ions and electrons was examined with thermal desorption spectrometry. It has been found that the deuterium trapping takes place even at ion and electron energies of about 10eV. For equal ion fluences, the deuterium retention and probability of CD4 formation are higher for ion irradiation at lower ion flux. Peculiarities of the deuterium retention and CD4 formation are explained; driving forces and mechanisms of the D trapping are discussed.", "aknotes": "", "authors": "A. Airapetov and L. Begrambekov and C. Brosset and J.P. Gunn and C. Grisolia and A. Kuzmin and T. Loarer and M. Lipa and P. Monier-Garbet and P. Shigin and E. Tsitrone and A. Zakharov", "badge_hue": 249, "doi": "10.1016/j.jnucmat.2009.01.118", "issn": "0022-3115", "keywords": "", "language": "english", "note": "Proceedings of the 18th International Conference on Plasma-Surface Interactions in Controlled Fusion Device", "pages": "589-592", "title": "Deuterium trapping in carbon fiber composites exposed to D plasma", "type": "article", "url": "https://www.sciencedirect.com/science/article/pii/S002231150900186X", "venue": "Journal of Nuclear Materials", "venue_abbr": "JNM", "volume": "390-391", "year": "2009"}, {"abstract": "Based on the literature thermal desorption spectroscopy (TDS) data, TDS spectra of hydrogen were analyzed and classified by graphite materials and implantation conditions. Using our experimental results, all the spectra were recalculated to the equal heating rate of 5K/s. The peak positions in TDS spectra have been found to be related to irradiation conditions and to the type of hydrogen traps. An example of using the established regularities of the TDS spectra is given to obtain the data on hydrogen trapping and retention in graphite materials.", "aknotes": "", "authors": "A. A. Airapetov and L. B. Begrambekov and S. V. Vergazov and A. A. Kuzmin and O. C. Fadina and P. A. Shigin", "badge_hue": 32, "doi": "10.1134/S1027451010040038", "issn": "", "keywords": "", "language": "english", "note": "", "pages": "567-571", "title": "Hydrogen TDS spectra and their relation to the conditions of implantation and retention of hydrogen in graphite materials", "type": "article", "url": "", "venue": "Journal of Surface Investigation. X-ray, Synchrotron and Neutron Techniques volume", "venue_abbr": "RuSurface", "volume": "4", "year": "2010"}, {"abstract": "Trapping and retention of deuterium in the graphitized carbon composite CFC N11 and pyrolytic graphite PG99 under plasma irradiation were investigated using the technique of thermal desorption spectroscopy. In particular, it was shown that (1) deuterium is trapped even when the energy of irradiating ions approaches zero and in the case of electron irradiation\u2019 (2) the doses being equal, trapping depends on irradiation duration\u2019 and (3) the effect of temperature on trapping depends on the ion energy. Two mechanisms of deuterium trapping are considered. The observed regularities are explained by the peculiarities of their action in different conditions.", "aknotes": "", "authors": "Airapetov, A. A. and Begrambekov, L. B. and Vergazov, S. V. and Kuzmin, A. A. and Smirnov, V. M. and Shigin, P. A.", "badge_hue": 100, "doi": "10.3103/S1062873810020279", "issn": "", "keywords": "", "language": "english", "note": "", "pages": "248-253", "title": "Trapping and retention of deuterium in plasma-irradiated carbonic materials", "type": "article", "url": "", "venue": "Bulletin of the Russian Academy of Sciences: Physics", "venue_abbr": "RuAcadPhys", "volume": "74-2", "year": "2010"}, {"abstract": "Based on the literature thermal desorption spectroscopy (TDS) data, TDS spectra of hydrogen were analyzed and classified by graphite materials and implantation conditions. Using our experimental results, all the spectra were recalculated to the equal heating rate of 5K/s. The peak positions in TDS spectra have been found to be related to irradiation conditions and to the type of hydrogen traps. An example of using the established regularities of the TDS spectra is given to obtain the data on hydrogen trapping and retention in graphite materials.", "aknotes": "", "authors": "Airapetov, A. and Begrambekov, L. and Vergazov, S. and Kuzmin, A. and Fadina, O. and Shigin, P.", "badge_hue": 32, "doi": "10.1134/S1027451010040038", "issn": "", "keywords": "", "language": "english", "note": "", "pages": "567--571", "title": "Hydrogen TDS spectra and their relation to the conditions of implantation and retention of hydrogen in graphite materials", "type": "article", "url": "", "venue": "Journal of Surface Investigation: X-ray, Synchrotron and Neutron Techniques", "venue_abbr": "RuSurface", "volume": "4-2", "year": "2010"}, {"abstract": "Trapping and retention of deuterium in the graphitized carbon composite CFC N11 and pyrolytic graphite PG99 under plasma irradiation were investigated using the technique of thermal desorption spectroscopy. In particular, it was shown that (1) deuterium is trapped even when the energy of irradiating ions approaches zero and in the case of electron irradiation\u2019 (2) the doses being equal, trapping depends on irradiation duration\u2019 and (3) the effect of temperature on trapping depends on the ion energy. Two mechanisms of deuterium trapping are considered. The observed regularities are explained by the peculiarities of their action in different conditions.", "aknotes": "", "authors": "Airapetov, A. and Begrambekov, L. and Vergazov, S. and Kuzmin, A. and Smirnov, V. and Shigin, P.", "badge_hue": 100, "doi": "10.3103/S1062873810020279", "issn": "", "keywords": "", "language": "english", "note": "", "pages": "227--232", "title": "Trapping and retention of deuterium in plasma-irradiated carbonic materials", "type": "article", "url": "", "venue": "Bulletin of the Russian Academy of Sciences: Physics", "venue_abbr": "RuAcadPhys", "volume": "74-2", "year": "2010"}, {"abstract": "The paper experimentally investigates and analyses the features and mechanisms of both of oxygen removal by deuterium glow discharge from CFC, pyrolytic graphite and stainless steel subjected to irradiation in oxygen contaminated plasma. It is shown that oxygen implanted in PG perpendicular to basal plates is removed after sputtering the layer slightly thicker than oxygen stopping zone (\u22482nm). Fast deuterium ions penetrating into CFC during GDC transfer the trapped oxygen atoms into the bulk. Thus, much thicker surface layer has to be removed (500-1000 nm) for oxygen release.", "aknotes": "", "authors": "Airapetov, A. and Begrambekov, L. and Br{\\\u0027e}mond, S. and Douai, D. and Kuzmin, A. and Sadovsky, Ya. and Shigin, P.", "badge_hue": 264, "doi": "10.1088/1742-6596/516/1/012026", "issn": "", "keywords": "", "language": "english", "note": "", "pages": "012026 (5 pp.).", "title": "Hydrogen retention in volumetric CFC structure", "type": "article", "url": "", "venue": "Journal of Physics: Conference Series", "venue_abbr": "JPConf", "volume": "516", "year": "2014"}, {"abstract": "A thermal imaging system to measure plasma Electron Bernstein Emission (EBE) emanating from the mode conversion region in overdense plasma is discussed. Unlike conventional ECE/EBE imaging, this diagnostics does not employ any active mechanical scanning mirrors or focusing optics to scan for the emission cones in plasma. Instead, a standard 3 \u00d7 3 waveguide array antenna is used as a passive receiver to collect emission from plasma and imaging reconstruction is done by accurate measurements of phase and intensity of these signals by heterodyne detection technique. A broadband noise source simulating the EBE, is installed near the expected mode conversion region and its position is successfully reconstructed using phase array technique which is done in post processing.", "aknotes": "", "authors": "Mishra,Kishore and Idei,H. and Zushi,H. and Nagata,K. and Akimoto,R. and Yamamoto,M. K. and Hanada,K. and Hasegawa,M. and Nakamura,K. and Fujisawa,A. and Nagashima,Y. and Banerjee,S. and Onchi,T. and Kuzmin,A.", "badge_hue": 258, "doi": "10.1063/1.4889903", "issn": "", "keywords": "", "language": "english", "note": "", "pages": "11E808 (4 pp.).", "title": "Thermal imaging of plasma with a phased array antenna in QUEST", "type": "article", "url": "10.1063/1.4889903", "venue": "Review of Scientific Instruments", "venue_abbr": "RSI", "volume": "85", "year": "2014"}, {"abstract": "An orthogonal dynamic programming (ODP) based particle image velocimetry (PIV) technique is developed to measure the time resolved flow field of the fluctuating structures at the plasma edge and scrape off layer (SOL) of tokamaks. This non-intrusive technique can provide two dimensional velocity fields at high spatial and temporal resolution from a fast framing image sequence and hence can provide better insights into plasma flow as compared to conventional probe measurements. Applicability of the technique is tested with simulated image pairs. Finally, it is applied to tangential fast visible images of QUEST plasma to estimate the SOL flow in inboard poloidal null\u2013natural divertor configuration. This technique is also applied to investigate the intricate features of the core of the run-away dominated phase following the injection of a large amount of neutrals in the target Ohmic plasma. Development of the ODP-PIV code and its applicability on actual plasma images is reported.", "aknotes": "", "authors": "Banerjee, Santanu and Zushi, H. and Nishino, N. and Mishra, K. and Onchi, T. and Kuzmin, A. and Nagashima, Y. and Hanada, K. and Nakamura, K. and Idei, H. and Hasegawa, M. and Fujisawa, A.", "badge_hue": 258, "doi": "10.1063/1.4914838", "issn": "", "keywords": "", "language": "english", "note": "", "pages": "033505 (8 pp.).", "title": "Dynamical programming based turbulence velocimetry for fast visible imaging of tokamak plasma", "type": "article", "url": "", "venue": "Review of Scientific Instruments", "venue_abbr": "RSI", "volume": "86", "year": "2015"}, {"abstract": "Heat flux and plasma flow in the scrape-off layer (SOL) are examined for the inboard poloidal field null (IPN) configuration of the spherical tokamak QUEST. In the plasma current (Ip) ramp-up phase, high heat flux (\u003e1\u2009MW/m2) and supersonic flow (Mach number M\u2009\u003e\u20091) are found to be present simultaneously in the far-SOL. The heat flux is generated by energetic electrons excursed from the last closed flux surface. Supersonic flows in the poloidal and toroidal directions are correlated with each other. In the quasi-steady state, sawtooth-like oscillation of Ip at 20\u2009Hz is observed. Heat flux and subsonic plasma flow in the far-SOL are modified corresponding to the Ip-oscillation. The heat flow caused by motion of energetic electrons and the bulk-particle transport to the far-SOL is enhanced during the low-Ip phase. Modification of plasma flow in the far SOL occurs earlier than the Ip crash. The M\u2013Ip curve has a limit-cycle characteristic with sawtooth-like oscillation. Such a core\u2013SOL relationship indicates that the far-SOL flow plays an important role in sustaining the oscillation of Ip in the IPN configuration.", "aknotes": "", "authors": "Onchi, T. and Zushi, H. and Mishra, K. and Mahira, Y. and Nagaoka, K. and Hanada, K. and Idei, H. and Hasegawa, M. and Nakamura, K. and Fujisawa, A. and Nagashima, Y. and Matsuoka, K. and Tashima, S. and Banerjee, S. and Kuzmin, A. and Kawasaki, S. and Nakashima, H. and Higashijima, A. and Watanabe, O.", "badge_hue": 291, "doi": "10.1063/1.4928878", "issn": "", "keywords": "", "language": "english", "note": "", "pages": "82513 (14 pp.).", "title": "Heat flux and plasma flow in the far scrape-off layer of the inboard poloidal field null configuration in QUEST", "type": "article", "url": "", "venue": "Physics of Plasmas", "venue_abbr": "PoP", "volume": "22", "year": "2015"}, {"abstract": "Thermal probe with double function of thermocouples and Langmuir probe has been developed, and the initial data observed in far-SOL in QUEST is obtained. Heat flux of megawatt per square meters related to energetic electrons and sonic plasma flow in far-SOL have been observed in the current rump-up phase although no high power inductive force like ohmic winding is applied. The heat flux and the flow are suppressed after the current is built up. In the quasi-steady state, plasma current starts and keeps sawtooth-like oscillation with 20 Hz frequency. The heat flux and the flow in far-SOL have clear responses to the oscillation.", "aknotes": "", "authors": "Onchi, T. and Mahira, Y. and Nagaoka, K. and Tashima, S. and Banerjee, S. and Mishra, K. and Idei, H. and Hanada, K. and Nakamura, K. and Fujisawa, A. and Nagashima, Y. and Hasegawa, M. and Matsuoka, K. and Kuzmin, A. and Watanabe, O. and Kawasaki, S. and Nakashima, H. and Higashijima, A.", "badge_hue": 249, "doi": "10.1016/j.jnucmat.2014.11.136", "issn": "", "keywords": "", "language": "english", "note": "", "pages": "428--431", "title": "Observation of heat flux and plasma flow in scrape off layer in QUEST", "type": "article", "url": "", "venue": "Journal of Nuclear Materials", "venue_abbr": "JNM", "volume": "463", "year": "2015"}, {"abstract": "Global particle balance in non-inductive long-duration plasma on QUEST has been investigated. Approximately 70% of the fuel hydrogen (H) was retained in the wall and then was almost exhausted just after the discharge. The global recycling ratio (Rg), defined as the ratio of the evacuated H2 flux to that injected, was found to gradually increase during discharges and subsequently rose rapidly. To study the growth of Rg, the thermal desorption spectra after deuterium implantation in a specimen exposed to QUEST plasma was analyzed with a model which includes reflection, diffusion, solution, recombination, trapping, and plasma-induced desorption in the re-deposition layer. The model reconstructs the growth of Rg during a long-duration plasma and indicates solution plays a dominant role in the growth.", "aknotes": "", "authors": "Hanada, K. and Zushi, H. and Yoshida, N. and Yugami, N. and Honda, T. and Hasegawa, M. and Mishra, K. and Kuzmin, A. and Nakamura, K. and Fujisawa, A. and Idei, H. and Nagashima, Y. and Watanabe, O. and Onchi, T. and Watanabe, H. and Tokunaga, K. and Higashijima, A. and Kawasaki, S. and Nakashima, H. and Takase, Y. and Fukuyama, A. and Mitarai, O. and Peng, Y.", "badge_hue": 249, "doi": "10.1016/j.jnucmat.2015.01.013", "issn": "", "keywords": "", "language": "english", "note": "", "pages": "1084--1086", "title": "Particle balance in long duration RF driven plasmas on QUEST", "type": "article", "url": "", "venue": "Journal of Nuclear Materials", "venue_abbr": "JNM", "volume": "463", "year": "2015"}, {"abstract": "Successful production of high \u03b2p plasmas (\u03b5\u03b2p\u2009\u2a7e\u20091) fully non-inductively (NI) and their long pulse sustainment with the help of modest power (\u003c100\u2009kW) of electron cyclotron waves is demonstrated. High \u03b2p plasmas are found for the first time to be naturally self organized to form a stable natural inboard poloidal field null (IPN) equilibrium. A critical \u03b2p value is identified, which defines the transition boundary from inboard limiter (IL) to IPN equilibrium. A new feature of plasma self organization is evidenced, which enhances its negative triangular shape to sustain high \u03b2p. These results show a relatively simple method to produce and sustain high \u03b2p plasma close to the equilibrium limit in a stable configuration exploiting its self organization property.", "aknotes": "", "authors": "Mishra, Kishore and Zushi, H. and Idei, H. and Hasegawa, M. and Onchi, T. and Tashima, S. and Banerjee, S. and Hanada, H. and Togashi, H. and Yamaguchi, T. and Ejiri, A. and Takase, Y. and Nakamura, K. and Fujisawa, A. and Nagashima, Y. and Kuzmin, A.", "badge_hue": 168, "doi": "10.1088/0029-5515/55/8/083009", "issn": "", "keywords": "", "language": "english", "note": "", "pages": "83009 (13 pp.).", "title": "Self-organization of high $\\beta$p plasma equilibrium with an inboard poloidal magnetic field null in QUEST", "type": "article", "url": "", "venue": "Nuclear Fusion", "venue_abbr": "NF", "volume": "55", "year": "2015"}, {"abstract": "Fluctuations are measured in the edge and scrape-off layer (SOL) of QUEST using fast visible imaging diagnostic. Electron cyclotron wave injection in the Ohmic plasma features excitation of low frequency coherent fluctuations near the separatrix and enhanced cross-field transport. Plasma shifts from initial high field side limiter bound (inboard limited, IL) towards inboard poloidal null (IPN) configuration with steepening of the density profile at the edge. This may have facilitated the increased edge and SOL fluctuation activities. Observation of the coherent mode, associated plasma flow, and particle out-flux, for the first time in the IPN plasma configuration in a spherical tokamak may provide further impetus to the edge and SOL turbulence studies in tokamaks.", "aknotes": "", "authors": "Banerjee, Santanu and Zushi, H. and Nishino, N. and Mishra, K. and Mahira, Y. and Tashima, S. and Ejiri, A. and Yamaguchi, T. and Onchi, T. and Nagashima, Y. and Hanada, K. and Nakamura, K. and Idei, H. and Hasegawa, M. and Fujisawa, A. and Kuzmin, A. and Matsuoka, K.", "badge_hue": 291, "doi": "10.1063/1.4960117", "issn": "", "keywords": "", "language": "english", "note": "", "pages": "082507 (8 pp.).", "title": "Observation of an edge coherent mode and poloidal flow in the electron cyclotron wave induced high $\\beta$p plasma in QUEST", "type": "article", "url": "", "venue": "Physics of Plasma", "venue_abbr": "PoP", "volume": "23", "year": "2016"}, {"abstract": "The response of the far scrape-off layer (far-SOL) to strong gas puffing (SGP), and its role as the boundary condition for core plasma, are investigated using a two-point Langmuir probe measurement in the high poloidal beta configuration in the QUEST spherical tokamak. The temperature and heat flux behave in an opposite way in the far-SOL and end-plate region after SGP, although SGP increases the density globally. The apparent density decay time in the far-SOL area is much longer than that in the core. Significant co-current flow is driven solely by the electron cyclotron wave in the far-SOL flow. Sheared flow is also observed in the perpendicular velocity profile during the recovered current flat-top phase, and such flow profiles are flattened by SGP. These flow profiles are attributed not only to drift-driven flow but also to transport-driven flow, the sink effect on the end-plate, and the balance of the neutral particle source.", "aknotes": "", "authors": "Onchi, T. and Zushi, H. and Mishra, K. and Oyama, Y. and Nagashima, Y. and Hanada, K. and Idei, H. and Hasegawa, M. and Kuzmin, A. and Miura, H. and Nakamura, K. and Fujisawa, A. and Nagaoka, K.", "badge_hue": 317, "doi": "10.1088/0741-3335/58/11/115004", "issn": "", "keywords": "", "language": "english", "note": "", "pages": "115004 (12 pp.).", "title": "Response of the far scrape-off layer plasma to strong gas puffing in the high poloidal beta configuration of the QUEST spherical tokamak", "type": "article", "url": "", "venue": "Plasma Physics and Controlled Fusion", "venue_abbr": "PPCF", "volume": "58", "year": "2016"}, {"abstract": "High \u03b2p (\u03b5\u03b2p \u223c 1) equilibria obtained in a ECW heated Ohmic plasma is investigated using a simple analytic solution of Grad-Shafranov equation. The formation of a natural inboard poloidal null associated with high \u03b2p is explained consistently by high diamagnetism and negative triangularity. As \u03b2p is increased, the poloidal null point penetrates further into the vacuum vessel, which is qualitatively explained by the analytic model. Transition from inboard (high field side) limiter bound to the natural divertor configuration is associated with a reduction of the edge safety factor without appreciable enhancement of MHD activities. Such a scenario is also addressed successfully with the model.", "aknotes": "", "authors": "Kishore Mishra and Hideki Zushi and Hiroshi Idei and Saya Tashima and Santanu Banerjee and Makoto Hasegawa and Kazuaki Hanada and Kazuo Nakamura and Akihide Fujisawa and Yoshihiko Nagashima and Keisuke Matsuoka and Arseny Kuzmin and Takumi Onchi and QUEST Team", "badge_hue": 252, "doi": "10.1585/pfr.9.3402093", "issn": "", "keywords": "", "language": "english", "note": "", "pages": "3402093 (5 pp.).", "title": "Analytical Solution of High $\\beta$p Equilibria with Natural Inboard Poloidal Null Configuration Obtained in the Spherical Tokamak QUEST", "type": "article", "url": "", "venue": "Plasma and Fusion Research", "venue_abbr": "PFR", "volume": "9", "year": "2014"}, {"abstract": "Coaxial Helicity Injection (CHI) has now been implemented in QUEST. The goals for the first transient CHI experiments were to establish reliable gas breakdown conditions, and to measure CHI-produced toroidal current generation. Both these objectives were successfully met. Toroidal currents up to 29 kA were measured. Interestingly, these first plasmas on QUEST also suggest the formation of small amounts of closed magnetic flux surfaces.", "aknotes": "", "authors": "Kuroda, Kengoh and Raman, Roger and Hanada, Kazuaki and Hasegawa, Makoto and Onchi, Takumi and Ono, Masayuki and Jarboe, Thomas and Nelson, Brian and Nagata, Masayoshi and Mitarai, Osamu and Nakamura, Kazuo and Idei, Hiroshi and Rogers, John and Kawasaki, Shoji and Nagata, Takahiro and Kuzmin, Arseniy and Kojima, Shinichiro and Watanabe, Osamu and Higashijima, Aki and Takase, Yuichi and Fukuyama, Atsushi", "badge_hue": 252, "doi": "10.1585/pfr.12.1202020", "issn": "", "keywords": "", "language": "english", "note": "", "pages": "1202020 (3 pp.).", "title": "Current start-up using the new CHI system", "type": "article", "url": "", "venue": "Plasma and Fusion Research: Rapid Communications", "venue_abbr": "PFR", "volume": "12", "year": "2017"}, {"abstract": "In order to understand plasma transport in the edge stochastic layers, a visible spectrometer has been developed. Two-dimensional impurity emission intensity distributions in the edge stochastic layer of LHD, including divertor plate, divertor legs, X-point, and the last closed flux surface, have been measured. Carbon emission intensities and their distributions are found to be clearly different depending on the different magnetic field configuration and on the charge state. Effects of the edge magnetic field structure on these results are discussed.", "aknotes": "", "authors": "Kobayashi, Taisuke and Kobayashi, Masahiro and Kuzmin, Arseniy and Goto, Motoshi and Tanaka, Hirohiko and Kawamura, Gakushi and Peterson, Byron, J. and Iwama, Naofumi", "badge_hue": 252, "doi": "10.1585/pfr.13.3402030", "issn": "", "keywords": "", "language": "english", "note": "", "pages": "3402030 (5 pp.).", "title": "Measurement of Impurity Emission Intensity Distribution in the Edge Region of LHD and Its Relation with Magnetic Field Structure", "type": "article", "url": "", "venue": "Plasma and Fusion Research: Regular Articles", "venue_abbr": "PFR", "volume": "13", "year": "2018"}, {"abstract": "Dependence of heating temperature on tritium retention behavior in stainless steel type 316\u202fL (SS316L) has been examined about each process of degassing and tritium exposure. Two kinds of SS316L samples were employed: bare SS316L and plasma-exposed SS316L. The amount of tritium retained in surface layers of a sample was nondestructively measured by \u03b2-ray-induced X-ray spectrometry, and changes in the surface state with heating in vacuum were analyzed by X-ray photoelectron spectroscopy (XPS). Significant increase in tritium retention in bare SS316L samples appeared in a degassing temperature region above 600\u202fK. Similar tendency of tritium retention was observed for the plasma-exposed sample. It was seen that the degassing process prior to tritium exposure significantly influenced to the tritium retention behavior. Furthermore, it was suggested from surface analysis by XPS that chemical states of SS316L surface at high temperatures play an important role for tritium retention behavior.", "aknotes": "", "authors": "Matsuyama, M. and Zushi, H. and Tokunaga, K. and Kuzmin, A. and Hanada, K.", "badge_hue": 244, "doi": "10.1016/j.nme.2018.05.024", "issn": "", "keywords": "", "language": "english", "note": "", "pages": "52--59", "title": "Effect of heating temperature on tritium retention in stainless steel type 316L", "type": "article", "url": "", "venue": "Nuclear Materials and Energy", "venue_abbr": "NME", "volume": "16", "year": "2018"}, {"abstract": "Intensity fluctuations are investigated using the fast camera imaging technique in the slab annular plasma as a function of magnetic shear and connection length in the spherical tokamak QUEST. Note that here QUEST is operated as a simple magnetized torus with a tight aspect ratio. Slab annular plasmas feature open magnetic field lines and can mimic the tokamak edge-scrape off layer (SOL)-like plasma attributes reasonably well. Three magnetic shear regimes are realized using three poloidal magnetic field (PF) coil pairs. A whole range of connection lengths (\u223c\u221e \u2265 Lc \u2265 5.5 m) is scanned by varying the PF strength for a given toroidal field for each magnetic shear regime. For the first time a systematic study of the effect of magnetic shear and field line pitch together on edge-SOL-like plasma fluctuations is being reported. Slab plasmas with intermediate magnetic shear are observed to be more susceptible to generate distinct blobs when Lc is reduced by increasing the PF strength. A distinct coherent mode appears only at the lowest magnetic shear slab featuring a deep potential well. Such mode is not apparent at other magnetic shear cases even at the same Lc. Finally, with a combination of PF coil pairs, both the features of intermediate and low magnetic shear slabs are shown to be realizable simultaneously. Significantly stronger blobs are observed with such combination of PF mirror ratios in the presence of a coherent mode. This study may provide better insight into the effect of magnetic configuration in the tokamak edge and SOL turbulence and can help in searching for better tools to control cross-field convective intermittent transport in tokamaks.", "aknotes": "", "authors": "Banerjee, Santanu and Zushi, H. and Nishino, N. and Hanada, K. and Idei, H. and Nakamura, K. and Hasegawa, M. and Fujisawa, A. and Nagashima, Y. and Mishra, K. and Tashima, S. and Onchi, T. and Kuzmin, A. and Matsuoka, K.", "badge_hue": 317, "doi": "10.1088/1361-6587/aacb69", "issn": "", "keywords": "", "language": "english", "note": "", "pages": "085014 (12 pp.).", "title": "Effect of magnetic shear on edge turbulence in SOL-like open field line configuration in QUEST", "type": "article", "url": "", "venue": "Plasma Physics and Controlled Fusion", "venue_abbr": "PPCF", "volume": "60", "year": "2018"}, {"abstract": "Initial results from the recently implemented transient coaxial helicity injection (CHI) system on QUEST are reported. QUEST uses a new CHI electrode configuration in which the CHI insulator is not part of the vacuum boundary, making this configuration easier to implement in fusion reactors. Experimental results show that transient CHI startup in this alternate electrode configuration is indeed possible. Reliable gas breakdown was achieved, and toroidal currents up to 45 kA were generated.", "aknotes": "", "authors": "Kuroda, Kengoh and Raman, Roger and Hanada, Kazuaki and Hasegawa, Makoto and Onchi, Takumi and Ono, Masayuki and Nelson, Brian and Jarboe, Thomas and Nagata, Masayoshi and Mitarai, Osamu and Nakamura, Kazuo and Idei, Hiroshi and Rogers, John and Kawasaki, Shoji and Nagata, Takahiro and Kuzmin, Arseniy and Kojima, Shinichiro and Huang, C and Watanabe, Osamu and Higashijima, Aki and Takase, Yuichi and Fukuyama, Atsushi and Murakami, Sadayoshi", "badge_hue": 317, "doi": "10.1088/1361-6587/aadcb7", "issn": "", "keywords": "", "language": "english", "note": "", "pages": "115001 (11 pp.).", "title": "Initial results from solenoid-free plasma start-up using transient CHI on QUEST", "type": "article", "url": "", "venue": "Plasma Physics and Controlled Fusion", "venue_abbr": "PPCF", "volume": "60", "year": "2018"}, {"abstract": "In tokamaks, the temperature of the plasma-facing wall is an important parameter for achieving particle balance and therefore steady-state operation. QUEST, which is a middle-sized spherical tokamak, has hot walls that act as plasma-facing walls. They can be actively heated with sheath heaters and actively cooled with water. To control the wall temperature, heating and cooling systems have been developed. These systems adjust the power of the sheath heaters and the motor valves of the cooling system, respectively. The two systems communicate via Ethernet through UDP and control the hot-wall temperature cooperatively. The plasma control system (PCS) in QUEST has also been modified, especially with respect to gas fueling, in order to enable long-duration plasma sustainment. A feedback controller has been installed in the PCS, together with a mass flow controller, allowing H\u03b1 emission from the plasma which is used as a reference signal, to be well controlled. Plasma density calculations using a field-programmable gate array are proposed for the feedback control system.", "aknotes": "", "authors": "Hasegawa, Makoto and Nakamura, Kazuo and Hanada, Kazuaki and Kawasaki, Shoji and Kuzmin, Arseniy and Idei, Hiroshi and Tokunaga, Kazutoshi and Nagashima, Yoshihiko and Onchi, Takumi and Kuroda, Kengoh and Watanabe, Osamu and Higashijima, Aki and Nagata, Takahiro", "badge_hue": 227, "doi": "10.1016/j.fusengdes.2018.02.069", "issn": "", "keywords": "", "language": "english", "note": "", "pages": "202--206", "title": "Modification of plasma control system and hot-wall temperature control system for long-duration plasma sustainment in QUEST", "type": "article", "url": "", "venue": "Fusion Engineering and Design", "venue_abbr": "FED", "volume": "129", "year": "2018"}, {"abstract": "A new tomographic scheme is proposed for reconstructing three dimensional (3D) impurity emission distributions from two dimensional (2D) measurements with a single field-of-view in the magnetized edge plasma in a Large Helical Device (LHD). The 2D image is obtained with a multi-channel fiber array spectrometer, which views the entire region of the edge stochastic magnetic layer of LHD, including divertor plates, divertor legs, the stochastic layer, and the last closed flux surface. The scheme introduces new regularization terms in the Lagrangian function, based on the transport feature in magnetized plasma that the transport parallel to the magnetic field lines is much faster than the transport across the magnetic field, thus assuming smooth distribution in the parallel direction. The scheme is benchmarked with the test data of 3D distribution in the measurement volume, where the effectiveness of the various regularization terms is surveyed and feasibility of the scheme is confirmed. The new scheme is applied to the experimental data in LHD for carbon impurity emissions of C1+ and C3+, where the obtained distributions are discussed taking into account the plasma wall interaction and charge dependence of ionization potentials.", "aknotes": "", "authors": "Kobayashi, Taisuke and Kobayashi, Masahiro and Kuzmin, Arseniy and Goto, Motoshi and Kawamura, Gakushi", "badge_hue": 258, "doi": "10.1063/1.5048218", "issn": "", "keywords": "", "language": "english", "note": "", "pages": "123502 (9 pp.).", "title": "Single field-of-view tomographic imaging of 3D impurity emission distribution in magnetized edge plasma of LHD", "type": "article", "url": "", "venue": "Review of Scientific Instruments", "venue_abbr": "RSI", "volume": "89", "year": "2018"}, {"abstract": "Effect of the re-deposition layers formed on plasma-exposed stainless steel type 316L (SS316L) in QUEST on the retention and depth profile of tritium has been studied by both methods of tritium exposure experiments and numerical analyses of X-ray spectra observed by the \u03b2-ray-induced X-ray spectrometry (BIXS). Both samples of plasma-exposed and non-exposed SS316L were exposed to tritium gas under given temperature, time and pressure conditions. Surface of the former sample was covered with re-deposition layers after exposing to the plasma experiments. After tritium exposure, X-ray spectra induced by \u03b2-rays emitted from tritium atoms retained in the surface layers and/or dissolved into the bulk were measured using an ultra-low energy X-ray detector consisting of pure Ge semiconductor, and numerical analysis of the observed spectrum was conducted to estimate a tritium depth profile in the sample. As a result, it was found that the amount of tritium in surface layers of the plasma-exposed sample was about five times larger than that of the non-exposed sample, and the tritium depth profile for the plasma-exposed sample was about half depth in comparison with that for the non-exposed sample although the degassing temperature and tritium exposure conditions were the same for both samples. It was suggested, therefore, that the re-deposition layers played a role of diffusion barrier of tritium atoms formed on the sample surface.", "aknotes": "", "authors": "Matsuyama, M. and Zushi, H. and Tokunaga, K. and Kuzmin, A. and Hanada, K.", "badge_hue": 252, "doi": "10.1585/pfr.14.1405125", "issn": "", "keywords": "", "language": "english", "note": "", "pages": "1405125 (7 pp.).", "title": "Effect of Re-Deposition Layers in Plasma-Facing Wall on Tritium Retention and Tritium Depth Profile", "type": "article", "url": "", "venue": "Plasma and Fusion Research", "venue_abbr": "PFR", "volume": "14", "year": "2019"}, {"abstract": "The fuel particle balance during long duration discharges in the Q-shu University Experiment with steady state spherical tokamak (QUEST) was investigated. QUEST has all-metal plasma facing walls (PFWs) that were temperature controlled during the experiments. The presence of a transport barrier for hydrogen (H) at the interface between a plasma-induced deposition layer and metallic substrate was confirmed by nuclear reaction analysis with exposing deuterium plasma. An effective method to evaluate global hydrogen flux to PFWs is proposed, taking advantage of the nature of wall saturation. The outgoing flux of fuel particles from the PFWs just after the plasma termination was proportional to the square of wall-stored H, which indicates that enhanced recombination of solved hydrogen played an essential role in dynamic retention and was in agreement with predictions from the H-barrier model. A simple calculation based on the combination of wall modelling and rate equations of the H states denoted a significant impact of wall modelling on the time response of the plasma density. Hence, a proper wall model including the effects of the deposition layer creating the H barrier is required to be developed, even for all-metal PFW devices.", "aknotes": "", "authors": "Hanada, K. and Yoshida, N. and Hasegawa, M. and Hatayama, A. and Okamoto, K. and Takagi, I. and Hirata, T. and Oya, Y. and Miyamoto, M. and Oya, M. and Shikama, T. and Kuzmin, A. and Wang, Z.X. and Long, H. and Idei, H. and Nagashima, Y. and Nakamura, K. and Watanabe, O. and Onchi, T. and Watanabe, H. and Tokunaga, K. and Higashijima, A. and Kawasaki, S. and Nagata, T. and Shimabukuro, S. and Takase, Y. and Murakami, S. and Gao, X. and Liu, H. and Qian, J. and Raman, R.", "badge_hue": 168, "doi": "10.1088/1741-4326/ab1858", "issn": "", "keywords": "", "language": "english", "note": "", "pages": "076007 (9 pp.).", "title": "Particle balance investigation with the combination of the hydrogen barrier model and rate equations of hydrogen state in long duration discharges on an all-metal plasma facing wall in QUEST", "type": "article", "url": "", "venue": "Nuclear Fusion", "venue_abbr": "NF", "volume": "59-7", "year": "2019"}, {"abstract": "Three dimensional (3D) distribution of impurity emission intensity is obtained from two dimensional (2D) image using newly developed single field-of-view tomography scheme. Spectrometer with multi-channel fiber array views the entire edge region of stochastic magnetic layer of LHD, including divertor plates, divertor legs, the stochastic layer, and the last closed flux surface. The tomography scheme introduces new regularization terms in Lagrangian function, based on the transport feature in magnetized plasma that the emission assumed to be smooth along the magnetic field due to the very fast parallel transport compared to the transport across the magnetic field. Feasibility of the scheme is checked with test emission distributions. The scheme is applied to the experimental data in LHD, where the impurity emission distribution of different charge states and of different electron densities are obtained in relation to the magnetic field structure in the edge stochastic layer.", "aknotes": "", "authors": "Kobayashi, T. and Kobayashi, M. and Iwama, N. and Kuzmin, A. and Goto, M. and Kawamura, G.", "badge_hue": 244, "doi": "10.1016/j.nme.2019.02.015", "issn": "", "keywords": "", "language": "english", "note": "", "pages": "239-243", "title": "Three dimensional distribution of impurity emission in the edge region of LHD obtained by single field-of-view tomography", "type": "article", "url": "", "venue": "Nuclear Materials and Energy", "venue_abbr": "NME", "volume": "19", "year": "2019"}, {"abstract": "This paper presents a detailed design of the Q-shu University experimental steady state spherical tokamak\u0027s (QUEST\u0027s) high-field side (HFS) injection system for electron Bernstein wave (EBW) excitation and the results of an experimental comparison of the HFS eXtraordinary X-mode and low-field side (LFS) ordinary O-mode injection of 8.2 GHz radio frequency (RF) power. Waveguides, as an alternative to mirror polarizers for transmitting RF X-mode power from LFS to HFS for EBW conversion, were used instead of the installation of an RF mirror. Testing of LFS-to-HFS RF power transmission at 8.2 GHz, using an RG-50-type vacuum waveguide in a bench-scale device filled with SF6 gas at 0.03 Mpa, revealed that an RF power of 10.8 kW could traverse the fundamental electron cyclotron resonance layer for 60 s without breakdown. The short-length, open-ended waveguide antenna used in the HFS injection-induced wave diffraction reduced the efficiency of power delivery to the upper hybrid resonance (UHR) by approximately 7% at an electron temperature of 50 eV. The HFS injection was able to produce brighter camera images than the standard LFS injection. The location of the UHR, as estimated by measuring the density with an interferometer, agreed with its location as measured by plasma radiation low-field, side-edge positions shown by fast camera imaging. This indicates that the plasma was produced by mode-converted EBW. The HFS injection had an absorption efficiency of 96%, compared to 40% for LFS. A greater fluctuation of floating potential adjustable to the lower hybrid wave (LHW) was observed in the HFS case by installing a Langmuir probe, confirming that EBW conversion efficiency was higher in the HFS case. Moreover, after setting the poloidal field to BPF = 7.6 mT, plasma current (IP) in the HFS peaked at 1.3 kA, as opposed to 0.3 kA for LFS, despite LFS injection having a total power of 55 kW, compared to 40 kW for HFS. However, as the impurity level was comparatively high, it is believed that this IP is dominated by pressure-drive, which makes it difficult to analyze EBWCD. Finally, the line-integrated density in the HFS injection peaked at 1.6 \u00d7 1018 m\u22122, compared to 8 \u00d7 1017 m\u22122 in the LFS one.", "aknotes": "", "authors": "Elserafy, H. and Hanada, K. and Kojima, S. and Onchi, T. and Ikezoe, R. and Kuroda, K. and Idei, H. and Hasegawa, M. and Yoneda, R. and Fukuyama, M. and Kuzmin, A. and Higashijima, A. and Nagata, T. and Kawasaki, S. and Shimabukuro, S. and Bertelli, N.", "badge_hue": 317, "doi": "10.1088/1361-6587/ab6903", "issn": "", "keywords": "", "language": "english", "note": "", "pages": "035018 (9 pp.).", "title": "Electron Bernstein wave conversion of high-field side injected X-modes in QUEST", "type": "article", "url": "", "venue": "Plasma Physics and Controlled Fusion", "venue_abbr": "PPCF", "volume": "62-3", "year": "2020"}, {"abstract": "The spatial distribution of the hydrogen atom density was evaluated in a spherical tokamak (ST) plasma sustained only with 28 GHz electron cyclotron heating (ECH). The radially resolved H\u0026delta; emissivity was measured using multiple viewing chord spectroscopy and Abel inversion. A collisional-radiative (CR) model analysis of the emissivity resulted in a ground-state hydrogen atom density of 1015\u0026ndash;1016 m\u0026minus;3 and an ionization degree of 1\u0026ndash;0.85 in the plasma.", "aknotes": "", "authors": "Mori, Satoru and Shikama, Taiichi and Hanada, Kazuaki and Yoneda, Nao and Kuzmin, Arseniy and Hasuo, Masahiro and Idei, Hiroshi and Onchi, Takumi and Ejiri, Akira and Osawa, Yuki and Peng, Yi and Matsuzaki, Kyohei and Kado, Shinichiro and Sawada, Keiji and Ido, Takeshi and Nakamura, Kazuo and Ikezoe, Ryuya and Nagashima, Yoshihiko and Hasegawa, Makoto and Kuroda, Kengo and Higashijima, Aki and Nagata, Takahiro and Shimabukuro, Shun", "badge_hue": 236, "doi": "10.3390/atoms8030044", "issn": "2218-2004", "keywords": "", "language": "english", "note": "", "pages": "44 (8 pp.).", "title": "Spectroscopic Measurement of Hydrogen Atom Density in a Plasma Produced with 28 GHz ECH in QUEST", "type": "article", "url": "https://www.mdpi.com/2218-2004/8/3/44", "venue": "Atoms", "venue_abbr": "Atoms", "volume": "8", "year": "2020"}, {"abstract": "", "aknotes": "", "authors": "\u548c\u660e \u82b1\u7530 and \u6cf0\u4e00 \u56db\u7ac8 and \u6075\u4ecb \u85e4\u4e95 and Arseniy Kuzmin and \u5948\u751f \u7c73\u7530 and \u660c\u88d5 \u84ee\u5c3e and \u57fa\u5fd7 \u5f8c\u85e4 and \u653f\u5f18 \u5c0f\u6797", "badge_hue": 26, "doi": "", "issn": "", "keywords": "japanese", "language": "english", "note": "", "pages": "20-32", "title": "\u8868\u9762\u5206\u6790\u3068\u5206\u5149\u8a08\u6e2c\u306b\u3088\u3063\u3066\u660e\u3089\u304b\u306b\u306a\u3063\u305f\u6c34\u7d20\u539f\u5b50\u5206\u5b50\u306e\u7089\u5185\u5206\u5e03\u3068\u8f38\u9001", "type": "article", "url": "", "venue": "Journal of Plasma Fusion Research", "venue_abbr": "JPFR", "volume": "98", "year": "2022"}, {"abstract": "A limiter-like Langmuir probe system was developed to measure scrape-off layer (SOL) plasmas in the Q-shu University Experiment with a steady-state Spherical Tokamak (QUEST) all-metal device. The system is mainly made of metals such as tungsten to keep compatibility with the all-metal conditions under which retention of plasma fueling gases in first walls is controlled. The system also includes built-in water coolant systems to withstand high heat loads originating from high energy electrons excited by radio frequency plasma heating/current drive systems during the fully non-inductive operations. Development of the system enables us to measure scrape-off layer plasmas in the presence of high energy electrons during fully non-inductive steady-state tokamak operations in QUEST. Preliminary experimental results of plasma measurements in QUEST SOL plasmas where high energy particles exist are presented.", "aknotes": "", "authors": "Nagashima, Y. and Hanada, K. and Zushi, H. and Idei, H. and Hasegawa, M. and Nakamura, K. and Onchi, T. and Ikezoe, R. and Ido, T. and Kinoshita, T. and Fujisawa, A. and Kawasaki, S. and Nagata, T. and Shimabukuro, S. and Mutaguchi, T. and Kono, K. and Niiya, I. and Sugiyama, I. and Higashijima, A. and Kojima, S. and Kuroda, K. and Ejiri, A. and Takase, Y. and Shikama, T. and Kuzmin, A. and Nagaoka, K.", "badge_hue": 258, "doi": "10.1063/5.0283183", "issn": "", "keywords": "", "language": "english", "note": "", "pages": "093509", "title": "Development of a limiter-like Langmuir probe system for the Q-shu university experiment with steady-state spherical tokamak (QUEST) all-metal device", "type": "article", "url": "", "venue": "Review of Scientific Instruments", "venue_abbr": "RSI", "volume": "96", "year": "2025"}]</script>
+    <script>
+window.__PUBLICATIONS_DATA__ = JSON.parse(document.getElementById('embed-publications').textContent);
+var publicationsData = [];
+var sortButton;
+var filterButton;
+var filterInput;
+var sortAscending = false;
+var filterFeatured = false;
+var filterText = '';
+
+function escapeHTML(value) {
+    return String(value || '').replace(/[&<>"']/g, function (ch) {
+        return {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#39;'
+        }[ch];
+    });
+}
+
+function venueCode(publication) {
+    if (publication.venue_abbr) return publication.venue_abbr;
+    if (!publication.venue) return 'Work';
+    var words = publication.venue.match(/[A-Za-z0-9]+/g) || [];
+    var code = words.map(function (word) { return word.charAt(0).toUpperCase(); }).join('');
+    return code.length > 1 && code.length <= 10 ? code : words.slice(0, 2).join('').slice(0, 10);
+}
+
+function badgeHue(text) {
+    var total = 0;
+    var s = String(text || 'Work');
+    for (var i = 0; i < s.length; i++) {
+        total += s.charCodeAt(i);
+    }
+    return 20 + (total % 300);
+}
+
+function authorNameSpan(name, isMe) {
+    var safeName = escapeHTML(String(name || '').trim());
+    if (isMe) {
+        safeName = '<b><u>' + safeName + '</u></b>';
+    }
+    return '<span class="author-name">' + safeName + '</span>';
+}
+
+function cleanPublicationTitle(title) {
+    return String(title || '')
+        .replaceAll('$\\beta$p', 'βₚ')
+        .replaceAll('$\\beta_p$', 'βₚ')
+        .replaceAll('\\beta', 'β')
+        .replaceAll('$', '')
+        .replace(/\bH2\b/g, 'H₂')
+        .replace(/\bD2\b/g, 'D₂')
+        .replaceAll('Q-shu university experiment', 'Q-shu University Experiment');
+}
+
+function normalizeAuthorText(author) {
+    return String(author || '').trim().replace(/,(?=\S)/g, ', ').replace(/\s+/g, ' ');
+}
+
+function initialsName(nameParts) {
+    nameParts = nameParts.map(function (part) {
+        return part.trim();
+    }).filter(Boolean);
+    if (nameParts.length === 2) {
+        var initials = nameParts[1].split(' ').map(function (initial) {
+            return initial.charAt(0) + '.';
+        }).join(' ');
+        return (initials + ' ' + nameParts[0]).trim();
+    }
+    if (nameParts.length <= 1) {
+        return nameParts[0] || '';
+    }
+    var initials = nameParts.slice(0, -1).map(function (initial) {
+        return initial.charAt(0) + '.';
+    }).join(' ');
+    return (initials + ' ' + nameParts[nameParts.length - 1]).trim();
+}
+
+function transformAuthors(authors) {
+    if (!authors) {
+        return '';
+    }
+
+    if (authors.indexOf(' and ') === -1) {
+        var nameParts = normalizeAuthorText(authors).split(', ');
+        return authorNameSpan(initialsName(nameParts), authors.toLowerCase().includes('kuzmin'));
+    } else {
+        var authorList = authors.split(' and ');
+        var transformedAuthors = authorList.map(function (author) {
+            var nameParts = normalizeAuthorText(author).split(', ');
+            return authorNameSpan(initialsName(nameParts), author.toLowerCase().includes('kuzmin'));
+        });
+        return transformedAuthors.join(', ');
+    }
+}
+
+function publicationMatches(publication, text) {
+    if (!text) return true;
+    var hay = [
+        publication.title,
+        publication.authors,
+        publication.venue,
+        publication.venue_abbr,
+        publication.year,
+        publication.doi
+    ].join(' ').toLowerCase();
+    return hay.indexOf(text) !== -1;
+}
+
+function isFeatured(publication) {
+    return Boolean(publication.aknotes && publication.aknotes.indexOf('featured') !== -1);
+}
+
+function currentPublications() {
+    var text = filterText.trim().toLowerCase();
+    var list = publicationsData.filter(function (publication) {
+        return (
+            publicationMatches(publication, text) &&
+            (!filterFeatured || isFeatured(publication))
+        );
+    });
+
+    list.sort(function (a, b) {
+        var ya = parseInt(a.year, 10);
+        var yb = parseInt(b.year, 10);
+        return sortAscending ? ya - yb : yb - ya;
+    });
+    return list;
+}
+
+function renderPublications() {
+    var list = currentPublications();
+    var citations = document.getElementById('citations');
+    citations.innerHTML = '';
+
+    for (var i = 0; i < list.length; i++) {
+        var publication = list[i];
+        var code = venueCode(publication);
+        var card = document.createElement('article');
+        card.className = 'paper-card publication-card';
+        card.style.setProperty('--badge-hue', publication.badge_hue || badgeHue(code));
+
+        var top = document.createElement('div');
+        top.className = 'paper-card-top';
+        top.innerHTML = '<span class="venue-badge">' + escapeHTML(code) + '</span>' +
+            '<span class="paper-year">📅 ' + escapeHTML(publication.year) + '</span>';
+        card.appendChild(top);
+
+        var title = document.createElement('h2');
+        title.className = 'paper-title';
+        title.textContent = cleanPublicationTitle(publication.title);
+        card.appendChild(title);
+
+        var authors = document.createElement('div');
+        authors.className = 'authors';
+        authors.innerHTML = transformAuthors(publication.authors);
+        card.appendChild(authors);
+
+        var meta = document.createElement('div');
+        meta.className = 'paper-meta';
+        var venueLine = String(publication.venue || '');
+        if (publication.year) venueLine += ' ' + publication.year;
+        if (publication.volume) venueLine += ', ' + publication.volume;
+        if (publication.pages) venueLine += ', ' + publication.pages;
+        meta.innerHTML = '<span class="paper-venue">' + escapeHTML(venueLine) + '</span>';
+        card.appendChild(meta);
+
+        if (publication.doi) {
+            var actions = document.createElement('div');
+            actions.className = 'paper-actions';
+            var doi = document.createElement('a');
+            doi.className = 'paper-link';
+            doi.href = 'https://doi.org/' + publication.doi;
+            doi.target = '_blank';
+            doi.rel = 'noopener noreferrer';
+            doi.textContent = 'open DOI';
+            actions.appendChild(doi);
+            card.appendChild(actions);
+        }
+
+        citations.appendChild(card);
+    }
+
+    document.getElementById('publicationCount').textContent = list.length;
+}
+
+publicationsData = window.__PUBLICATIONS_DATA__ || [];
+sortButton = document.getElementById('sortButton');
+filterButton = document.getElementById('filterButton');
+filterInput = document.getElementById('publicationFilter');
+
+if (sortButton) {
+    sortButton.addEventListener('click', function () {
+        sortAscending = !sortAscending;
+        sortButton.classList.toggle('active', sortAscending);
+        renderPublications();
+    });
+}
+
+if (filterButton) {
+    filterButton.addEventListener('click', function () {
+        filterFeatured = !filterFeatured;
+        filterButton.classList.toggle('active', filterFeatured);
+        renderPublications();
+    });
+}
+
+if (filterInput) {
+    filterInput.addEventListener('input', function () {
+        filterText = filterInput.value;
+        renderPublications();
+    });
+}
+
+renderPublications();
+    </script>
+
 </body>
 
 </html>

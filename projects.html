@@ -1,46 +1,336 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <script>
-        if (localStorage.getItem('darkMode') === '1') {
-        document.documentElement.classList.add('dark-mode');
-        }
-    </script>    
+        (function () {
+            if (localStorage.getItem('darkMode') === '1') {
+                document.documentElement.classList.add('dark-mode');
+            }
+        })();
+    </script>
+    <style>html{background-color:#fff}html.dark-mode{background-color:#1c1c1c}</style>
+    <base href="/">
     <meta charset="UTF-8">
-    <title>Arseniy Kuzmin: About</title>
-    <link rel="stylesheet" href="styles/styles.css">
+    <title>Arseniy Kuzmin: Projects</title>
+    <link rel="canonical" href="https://arseniykuzmin.github.io/projects.html">
+    <link rel="alternate" href="https://queezz.github.io/projects.html">
+    <link rel="icon" href="static/favicon.ico">
+    <link rel="stylesheet" href="styles/styles.css?v=1783179235">
+    <script type="speculationrules">
+    {"prefetch": [{"where": {"href_matches": "/*"}, "eagerness": "moderate"}]}
+    </script>
+    
     <link rel="stylesheet" href="styles/projects.css">
-    <link rel="stylesheet" href="styles/scrollnav.css">
     <meta name="keywords" content="physics, fusion, hydrogen, oxygen, tokamak">
     <meta name="viewport" content="width=device-width">
     <meta name="description" content="Plasma physicist">
-    <meta property="og:image" content="https://queezz.github.io/kaa.jpg">
+    <meta property="og:image" content="https://arseniykuzmin.github.io/static/kaa.jpg">
     <meta property="og:title" content="Arseniy Kuzmin, Plasma Physicist">
     <meta property="og:description" content="Hello. I'm an experienced plasma physicist looking for a job.">
-    <meta property="og:url" content="https://queezz.github.io/index.html">
+    <meta property="og:url" content="https://arseniykuzmin.github.io/projects.html">
+
 </head>
 
 <body>
-    <script src="scripts/navbar.js"></script>
-    <script src="scripts/scroltotop.js"></script>
+
+
+    <script>
+function updateToggleIcon() {
+    const toggleButton = document.getElementById('darkModeToggle');
+    const isDark = document.documentElement.classList.contains('dark-mode');
+    if (toggleButton) {
+        toggleButton.textContent = isDark ? '🌝' : '🌚';
+    }
+}
+
+function setupDarkModeToggle() {
+    const toggleButton = document.getElementById('darkModeToggle');
+    if (!toggleButton) return;
+    toggleButton.addEventListener('click', () => {
+        const html = document.documentElement;
+        html.classList.toggle('dark-mode');
+        localStorage.setItem('darkMode', html.classList.contains('dark-mode') ? '1' : '0');
+        updateToggleIcon();
+    });
+    updateToggleIcon();
+}
+
+function setupPrimaryNav() {
+    const toggle = document.querySelector('.nav-toggle');
+    const menu = document.getElementById('primary-menu');
+    if (!toggle || !menu) return;
+
+    const close = () => {
+        toggle.setAttribute('aria-expanded', 'false');
+        menu.classList.remove('is-open');
+    };
+    const open = () => {
+        toggle.setAttribute('aria-expanded', 'true');
+        menu.classList.add('is-open');
+    };
+
+    toggle.addEventListener('click', () => {
+        toggle.getAttribute('aria-expanded') === 'true' ? close() : open();
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+            close();
+            toggle.focus();
+        }
+    });
+
+    document.addEventListener('click', (e) => {
+        if (toggle.getAttribute('aria-expanded') !== 'true') return;
+        if (!menu.contains(e.target) && !toggle.contains(e.target)) close();
+    });
+
+    menu.addEventListener('click', (e) => {
+        if (e.target.closest('a')) close();
+    });
+}
+
+function setupHeaderScrollTitle() {
+    const header = document.querySelector('.site-header');
+    const sectionTitle = document.querySelector('.site-section-title');
+    if (!header || !sectionTitle) return;
+
+    const updateHeaderHeight = () => {
+        document.documentElement.style.setProperty('--current-header-height', header.offsetHeight + 'px');
+    };
+
+    const update = () => {
+        const scrolled = window.scrollY > 96;
+        header.classList.toggle('is-scrolled', scrolled);
+        sectionTitle.hidden = !scrolled;
+        window.requestAnimationFrame(updateHeaderHeight);
+    };
+
+    sectionTitle.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', updateHeaderHeight);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    setupDarkModeToggle();
+    setupPrimaryNav();
+    setupHeaderScrollTitle();
+});
+    </script>
+    <script src="scripts/scroltotop.js?v=1783179235"></script>
 
     <!-- Floating button to go back to the top -->
-    <script src="script_scroltotop.js"></script>
-    <div class="scroll-to-top-button" id="scrollToTopButton"><span class="scroll-to-top-arrow"></span></div>
+    <button class="scroll-to-top-button" id="scrollToTopButton" type="button" aria-label="Back to top" aria-hidden="true">
+        <span class="scroll-to-top-arrow"></span>
+        <span class="scroll-to-top-label">Back to top</span>
+    </button>
 
-    <div class="main-content">
-        <nav id="navbar"></nav>
 
-        <h1>Projects</h1>
-        <div class="grid-container" id="gridContainer">
-            <!-- Grid items will be added here -->
-        </div>
-
+<header class="site-header">
+    <div class="site-header-inner">
+        <a class="site-brand" href="/index.html">Arseniy Kuzmin</a>
+        
+        <button class="site-section-title" type="button" data-scroll-top hidden>
+            Projects
+        </button>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-menu" aria-label="Menu">
+            <span class="nav-toggle-box"><span class="nav-toggle-inner"></span></span>
+        </button>
+        <nav class="primary-nav" aria-label="Primary">
+            <ul class="nav-menu" id="primary-menu">
+                <li><a href="/index.html">About</a></li>
+                <li><a href="/conferences.html">Conferences</a></li>
+                <li><a href="/publications.html">Publications</a></li>
+                <li><a href="/projects.html" class="is-active" aria-current="page">Projects</a></li>
+                <li class="nav-theme"><button id="darkModeToggle" type="button" aria-label="Toggle dark mode">🌙</button></li>
+            </ul>
+        </nav>
     </div>
+</header>
 
-    <script src="scripts/projects.js"></script>
-    <script src="scripts/scrollnav.js" defer></script>
+<div class="main-content">
+    
+        <section class="projects-page">
+            <header class="projects-header">
+                <h1 class="page-title">Projects</h1>
+            </header>
+
+            <div class="grid-container" id="gridContainer">
+
+                <a class="grid-item" href="projects/deposition-device/">
+                    <figure class="project-card-media">
+                        <img src="/img/vup2-metal.jpg" alt="W-C Deposition Device" loading="lazy" decoding="async" width="1709" height="1709">
+                    </figure>
+                    <div class="project-card-body">
+                        <span class="project-card-meta">Experimental device</span>
+                        <h2>W-C Deposition Device</h2>
+                        <p>Device for simultaneous tungsten-carbon film deposition.</p>
+                    </div>
+                </a>
+
+                <a class="grid-item" href="projects/hydrogen-retention-tore-supra/">
+                    <figure class="project-card-media">
+                        <img src="/img/ToreSupra.png" alt="Hydrogen Retention in Tore-Supra Tiles" loading="lazy" decoding="async" width="673" height="534">
+                    </figure>
+                    <div class="project-card-body">
+                        <span class="project-card-meta">Materials analysis</span>
+                        <h2>Hydrogen Retention in Tore-Supra Tiles</h2>
+                        <p>Study of hydrogen retention in Tore-Supra tokamak tiles.</p>
+                    </div>
+                </a>
+
+                <a class="grid-item" href="projects/wc-film-growth-model/">
+                    <figure class="project-card-media">
+                        <img src="/img/wcfilm.jpg" alt="Tungsten-Carbon Film Growth Model" loading="lazy" decoding="async" width="1181" height="558">
+                    </figure>
+                    <div class="project-card-body">
+                        <span class="project-card-meta">Growth model</span>
+                        <h2>Tungsten-Carbon Film Growth Model</h2>
+                        <p>Modeling growth of W-C films during dual sputtering.</p>
+                    </div>
+                </a>
+
+                <a class="grid-item" href="projects/oxygen-removal-graphite-wall/">
+                    <figure class="project-card-media">
+                        <img src="/img/CO2-m.png" alt="Oxygen Removal from Graphite Wall" loading="lazy" decoding="async" width="881" height="639">
+                    </figure>
+                    <div class="project-card-body">
+                        <span class="project-card-meta">Plasma cleaning</span>
+                        <h2>Oxygen Removal from Graphite Wall</h2>
+                        <p>Glow discharge cleaning parameters for oxygen removal.</p>
+                    </div>
+                </a>
+
+                <a class="grid-item" href="projects/cell-adhesion-study/">
+                    <figure class="project-card-media">
+                        <img src="/img/bioshake.png" alt="Cell Adhesion Study" loading="lazy" decoding="async" width="1250" height="1250">
+                    </figure>
+                    <div class="project-card-body">
+                        <span class="project-card-meta">Bioinstrumentation</span>
+                        <h2>Cell Adhesion Study</h2>
+                        <p>Prototype to measure cell adhesion forces using automated tracking.</p>
+                    </div>
+                </a>
+
+                <a class="grid-item" href="projects/plasma-device-control-unit/">
+                    <figure class="project-card-media">
+                        <img src="/img/ControlUnit.png" alt="Plasma Device Control Unit" loading="lazy" decoding="async" width="2048" height="1536">
+                    </figure>
+                    <div class="project-card-body">
+                        <span class="project-card-meta">Instrument control</span>
+                        <h2>Plasma Device Control Unit</h2>
+                        <p>Open-source control and acquisition unit for plasma experiments.</p>
+                    </div>
+                </a>
+
+                <a class="grid-item" href="projects/x-ray-filter-inspection/">
+                    <figure class="project-card-media">
+                        <img src="/img/Xrayfilter.jpg" alt="X-ray Filter for Non-destructive Inspection" loading="lazy" decoding="async" width="592" height="555">
+                    </figure>
+                    <div class="project-card-body">
+                        <span class="project-card-meta">Design patent</span>
+                        <h2>X-ray Filter for Non-destructive Inspection</h2>
+                        <p>Improved X-ray filter design for weld inspection.</p>
+                    </div>
+                </a>
+
+                <a class="grid-item" href="projects/quest-permeation-experiments/">
+                    <figure class="project-card-media">
+                        <img src="/img/kaainquest.jpg" alt="Permeation Experiments in QUEST" loading="lazy" decoding="async" width="176" height="235">
+                    </figure>
+                    <div class="project-card-body">
+                        <span class="project-card-meta">Tokamak diagnostic</span>
+                        <h2>Permeation Experiments in QUEST</h2>
+                        <p>Hydrogen flux measurements with membrane probes in QUEST tokamak.</p>
+                    </div>
+                </a>
+
+                <a class="grid-item" href="projects/carbon-impurity-flow-lhd/">
+                    <figure class="project-card-media">
+                        <img src="/img/carbonflow.png" alt="Carbon impurity flow in LHD" loading="lazy" decoding="async" width="706" height="928">
+                    </figure>
+                    <div class="project-card-body">
+                        <span class="project-card-meta">Spectroscopy analysis</span>
+                        <h2>Carbon impurity flow in LHD</h2>
+                        <p>Analysis of carbon impurity transport in LHD peripheral plasma.</p>
+                    </div>
+                </a>
+
+                <a class="grid-item" href="projects/boron-powder-plasma-sputtering/">
+                    <figure class="project-card-media">
+                        <img src="/img/boronpowder.jpg" alt="Boron powder plasma sputtering" loading="lazy" decoding="async" width="500" height="437">
+                    </figure>
+                    <div class="project-card-body">
+                        <span class="project-card-meta">Deposition prototype</span>
+                        <h2>Boron powder plasma sputtering</h2>
+                        <p>Prototype sputtering device for boron powder deposition.</p>
+                    </div>
+                </a>
+
+                <a class="grid-item" href="projects/hydrogen-molecule-spectroscopy/">
+                    <figure class="project-card-media">
+                        <img src="/img/fulcheralpha.png" alt="Hydrogen Molecule Spectroscopy" loading="lazy" decoding="async" width="2649" height="2542">
+                    </figure>
+                    <div class="project-card-body">
+                        <span class="project-card-meta">Molecular spectroscopy</span>
+                        <h2>Hydrogen Molecule Spectroscopy</h2>
+                        <p>Spectroscopy of hydrogen molecule populations in LHD plasma.</p>
+                    </div>
+                </a>
+
+                <a class="grid-item" href="projects/seawater-desalination-device/">
+                    <figure class="project-card-media">
+                        <img src="/img/CuFefilm.png" alt="Seawater Desalination Device" loading="lazy" decoding="async" width="924" height="991">
+                    </figure>
+                    <div class="project-card-body">
+                        <span class="project-card-meta">Device concept</span>
+                        <h2>Seawater Desalination Device</h2>
+                        <p>Renewable-powered multi-effect evaporation desalination system.</p>
+                    </div>
+                </a>
+
+                <a class="grid-item" href="projects/echelle-spectrometer-gui/">
+                    <figure class="project-card-media">
+                        <img src="/img/echellegui.png" alt="GUI for Echelle Spectrometer Image processing" loading="lazy" decoding="async" width="999" height="929">
+                    </figure>
+                    <div class="project-card-body">
+                        <span class="project-card-meta">Analysis software</span>
+                        <h2>GUI for Echelle Spectrometer Image processing</h2>
+                        <p>PyQt GUI converts 2D echelle images to calibrated spectra.</p>
+                    </div>
+                </a>
+
+                <a class="grid-item" href="projects/oxygen-effect-hydrogen-retention/">
+                    <figure class="project-card-media">
+                        <img src="/img/D2O2-m.png" alt="Oxygen Effect on Hydrogen Retention in Graphites" loading="lazy" decoding="async" width="785" height="537">
+                    </figure>
+                    <div class="project-card-body">
+                        <span class="project-card-meta">Retention study</span>
+                        <h2>Oxygen Effect on Hydrogen Retention in Graphites</h2>
+                        <p>Oxygen addition drastically increases hydrogen retention in graphites.</p>
+                    </div>
+                </a>
+
+                <a class="grid-item" href="projects/fulcher-alpha-analizer/">
+                    <figure class="project-card-media">
+                        <img src="/img/fulcheranalizer.png" alt="Fulcher-alpha Emission Analizer" loading="lazy" decoding="async" width="771" height="679">
+                    </figure>
+                    <div class="project-card-body">
+                        <span class="project-card-meta">Analysis software</span>
+                        <h2>Fulcher-alpha Emission Analizer</h2>
+                        <p>Python tool for analyzing molecular hydrogen Fulcher-alpha emission.</p>
+                    </div>
+                </a>
+
+            </div>
+        </section>
+
+</div>
 
 </body>
 

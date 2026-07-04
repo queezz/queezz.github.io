@@ -1,100 +1,311 @@
-/* Citations */
+/* Publication and conference cards */
 .citations {
-    counter-reset: mycounter;
     max-width: var(--main-content-width);
     margin: 0 auto;
-    background-color: #ffffff;
     padding: 10px;
-}
-
-
-.citations-spacer {
-    padding: 50px 0 30px 0;
-}
-
-.split {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-.split li::before {
-    counter-increment: mycounter;
-    content: counter(mycounter) ". ";
-}
-
-.citations .citations-item {
-    border-bottom: 1px solid #a91a1a;
+    box-sizing: border-box;
 }
 
 .citations h1 {
-    background-color: #fff;
-    margin: -10px auto 0 auto;
-    z-index: 5;
-    line-height: 1.3em;
-    font-size: 24px;
-    text-align: left;
-    font-weight: normal;
+    margin: 0 0 14px;
+    line-height: 1.2;
+    font-size: var(--page-title-size);
+    font-weight: 600;
+    color: #8c0c0c;
 }
 
-.citations h1 span {
-    letter-spacing: 2px;
-    padding: 8px 20px;
-    font-size: 11px;
-    z-index: 100;
-    color: #fff;
-    background-color: #000;
+.citations-heading {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    min-height: calc(var(--page-title-size) * 1.16);
+    margin-bottom: 14px;
 }
 
-.citations .citations-item .title {
-    font-family: "Archer-Book", Georgia, Serif;
-    font-size: 18px;
-    font-weight: normal;
+.citations-heading h1 {
+    margin: 0;
 }
 
-div.citations .authors {
-    font-family: "Archer-Book", Georgia, Serif;
-    font-size: 12px;
-    font-weight: normal;
-    margin-bottom: 10px;
+.button-container {
+    display: grid;
+    grid-template-columns: minmax(0, 300px) repeat(2, max-content) minmax(16px, 1fr) minmax(3ch, max-content);
+    align-items: center;
+    column-gap: 14px;
+    row-gap: 10px;
+    margin-bottom: 16px;
 }
 
-.citations .authors span {
-    font-family: "Archer-Book", Georgia, Serif;
-    font-weight: normal;
-    font-style: italic;
-    text-decoration: underline;
-    margin-top: 5px;
-    color: #888;
-}
-
-.citations .journal {
-    font-size: 14px;
-    font-weight: normal;
-    margin-top: 2px;
-    margin-bottom: 10px;
-}
-
-.citations .citations-link {
-    margin: 5px 0 5px 10px;
+.filter-box {
+    height: 36px;
+    box-sizing: border-box;
+    padding: 0 12px;
+    width: 100%;
     font-size: 15px;
+    color: #242321;
+    background: #fff;
+    border: 1px solid #d8d5ce;
+    border-radius: 4px;
+    appearance: none;
+    -webkit-appearance: none;
 }
 
-.citations .citations-link a {
-    margin-right: 5px;
-    border-radius: 100%;
-    padding: 5px;
-    background-color: #fff;
+.filter-box::placeholder {
+    color: #8f8a82;
 }
 
-.citations .citations-link a:hover {
-    transition: .4s;
-    background-color: #dbff38;
+.filter-box:focus {
+    outline: 2px solid rgba(140, 12, 12, 0.4);
+    outline-offset: 1px;
 }
 
-@media (max-width: 960px) {
+.count-label {
+    grid-column: -2 / -1;
+    justify-self: end;
+    margin: 0;
+    min-width: 3ch;
+    font-size: 16px;
+    font-weight: 700;
+    color: #8c0c0c;
+    text-align: right;
+}
+
+.bibtex-link {
+    display: inline-flex;
+    align-items: center;
+    height: 28px;
+    box-sizing: border-box;
+    padding: 0 9px;
+    color: #742310;
+    background: #fff7e2;
+    border: 1px solid #d9ba70;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.bibtex-link:hover {
+    background: #ffe8a6;
+}
+
+.paper-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+    gap: 14px;
+    padding-top: 0;
+}
+
+.paper-card {
+    min-height: 220px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 16px;
+    color: #2f2b25;
+    background:
+        linear-gradient(135deg, rgba(140, 12, 12, 0.035), rgba(255, 255, 255, 0)),
+        #fbfaf7;
+    border: 1px solid #ded8cf;
+    border-radius: 8px;
+    box-shadow: 0 8px 18px rgba(60, 47, 38, 0.1);
+}
+
+.paper-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.venue-badge {
+    display: inline-flex;
+    align-items: center;
+    max-width: 70%;
+    min-height: 28px;
+    box-sizing: border-box;
+    padding: 4px 9px;
+    color: hsl(var(--badge-hue), 48%, 18%);
+    background: hsl(var(--badge-hue), 72%, 78%);
+    border: 1px solid hsl(var(--badge-hue), 58%, 52%);
+    border-radius: 5px;
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 1.1;
+    overflow-wrap: anywhere;
+}
+
+.paper-year {
+    flex: 0 0 auto;
+    color: #8c0c0c;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.paper-title {
+    margin: 0;
+    color: #2d2923;
+    background: transparent;
+    font-size: 18px;
+    line-height: 1.28;
+    font-weight: 700;
+}
+
+.paper-card .authors {
+    color: #5e574d;
+    font-family: "Archer-Book", Georgia, Serif;
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.paper-card .authors .author-name {
+    white-space: nowrap;
+}
+
+.paper-card .authors b,
+.paper-card .authors u {
+    color: #2d2923;
+    text-decoration-color: #8c0c0c;
+}
+
+.paper-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: auto;
+    color: #6f665b;
+    font-size: 13px;
+    line-height: 1.35;
+}
+
+.paper-actions {
+    display: flex;
+    gap: 8px;
+    padding-top: 0;
+}
+
+.paper-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+    box-sizing: border-box;
+    padding: 2px 7px;
+    color: #5d5a55;
+    background: #ece9e3;
+    border: 1px solid #d5d0c7;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.paper-link:visited {
+    color: #5d5a55;
+}
+
+.paper-link:hover {
+    color: #332f2a;
+    background: #e0dbd1;
+}
+
+html.dark-mode .citations,
+html.dark-mode .citations h1 {
+    color: #dcd6cc;
+    background: transparent;
+}
+
+html.dark-mode .filter-box {
+    color: #cbc5bb;
+    background: #242320;
+    border-color: #3a3630;
+}
+
+html.dark-mode .filter-box::placeholder {
+    color: #8b8780;
+}
+
+html.dark-mode .paper-card {
+    color: #f0ece3;
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0)),
+        #23211d;
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: none;
+}
+
+html.dark-mode .paper-title {
+    color: #fffaf0;
+    background: transparent;
+}
+
+html.dark-mode .paper-year {
+    color: #e8c66e;
+}
+
+html.dark-mode .paper-card .authors {
+    color: #d2cbbb;
+}
+
+html.dark-mode .paper-card .authors b,
+html.dark-mode .paper-card .authors u {
+    color: #ffffff;
+    text-decoration-color: #e8c66e;
+}
+
+html.dark-mode .paper-meta {
+    color: #bfb8aa;
+}
+
+html.dark-mode .bibtex-link {
+    color: #ffe8a6;
+    background: #2a2518;
+    border-color: #6d5722;
+}
+
+html.dark-mode .citations .paper-link,
+html.dark-mode .citations .paper-link:visited {
+    color: #c8c0b4;
+    background: #33302a;
+    border-color: #474138;
+}
+
+html.dark-mode .citations .paper-link:hover {
+    color: #f0ece3;
+    background: #403b33;
+}
+
+html.dark-mode #conferenceCount,
+html.dark-mode #publicationCount {
+    color: #ffc857;
+}
+
+@media (max-width: 680px) {
     .citations {
         padding: 0;
     }
-}
 
+    .citations-heading {
+        gap: 8px;
+        margin-bottom: 12px;
+    }
+
+    .button-container {
+        grid-template-columns: minmax(92px, max-content) minmax(104px, max-content) minmax(12px, 1fr) minmax(3ch, max-content);
+        column-gap: 8px;
+    }
+
+    .bibtex-link {
+        height: 26px;
+        padding: 0 8px;
+        font-size: 12px;
+    }
+
+    .filter-box {
+        grid-column: 1 / -1;
+    }
+
+    .count-label {
+        grid-column: -2 / -1;
+    }
+}

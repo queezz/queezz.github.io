@@ -1,63 +1,685 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <script>
-  if (localStorage.getItem('darkMode') === '1') {
-    document.documentElement.classList.add('dark-mode');
-  }
-</script>
+        (function () {
+            if (localStorage.getItem('darkMode') === '1') {
+                document.documentElement.classList.add('dark-mode');
+            }
+        })();
+    </script>
+    <style>html{background-color:#fff}html.dark-mode{background-color:#1c1c1c}</style>
+    <base href="/">
     <meta charset="UTF-8">
     <title>Arseniy Kuzmin: Conferences</title>
-    <link rel="stylesheet" href="styles/conferences.css">
-    <link rel="stylesheet" href="styles/sortbuttons.css">
-    <link rel="stylesheet" href="styles/citations.css">
-    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="canonical" href="https://arseniykuzmin.github.io/conferences.html">
+    <link rel="alternate" href="https://queezz.github.io/conferences.html">
+    <link rel="icon" href="static/favicon.ico">
+    <link rel="stylesheet" href="styles/styles.css?v=1783179235">
+    <script type="speculationrules">
+    {"prefetch": [{"where": {"href_matches": "/*"}, "eagerness": "moderate"}]}
+    </script>
+    
+    <link rel="stylesheet" href="styles/conferences.css?v=1783179235">
+    <link rel="stylesheet" href="styles/sortbuttons.css?v=1783179235">
+    <link rel="stylesheet" href="styles/citations.css?v=1783179235">
     <meta name="keywords" content="physics, fusion, hydrogen, oxygen, tokamak">
     <meta name="viewport" content="width=device-width">
     <meta name="description" content="Plasma physicist">
-    <meta property="og:image" content="https://queezz.github.io/kaa.jpg">
+    <meta property="og:image" content="https://arseniykuzmin.github.io/static/kaa.jpg">
     <meta property="og:title" content="Arseniy Kuzmin, Plasma Physicist">
     <meta property="og:description" content="Hello. I'm an experienced plasma physicist looking for a job.">
-    <meta property="og:url" content="https://queezz.github.io/index.html">
+    <meta property="og:url" content="https://arseniykuzmin.github.io/conferences.html">
+
 </head>
 
 <body>
-    <script src="scripts/conferences.js"></script>
-    <div class="main-content">
-        <nav id="navbar"></nav>
-        <div class="citations">
-            <h1>International Conferences</h1>
-            <div class="button-container">
-                <button id="sortButton" class="sort-button">Year<span class="arrow"></span></button>
-                <p id="conferenceCount" class="count-label">0</p>
-            </div>
 
-            <div class="citations" id="conference-list"></div>
-        </div>
-        <!--
-        <div class="citations">
-            <h1>Domestic Conferences</h1>
-        </div>
 
-        <div class="bd-sidebar-secondary bd-toc">
-            <div class="sidebar-secondary-items sidebar-secondary__inner">
-                <div class="page-toc tocsection onthispage">
-                    <i class="fa-solid fa-list"></i> Contents
-                </div>
-                <nav class="bd-toc-nav page-toc">
-                    <ul class="visible nav section-nav flex-column"></ul>
-                </nav>
-            </div>
-        </div>
+    <script>
+function updateToggleIcon() {
+    const toggleButton = document.getElementById('darkModeToggle');
+    const isDark = document.documentElement.classList.contains('dark-mode');
+    if (toggleButton) {
+        toggleButton.textContent = isDark ? '🌝' : '🌚';
+    }
+}
 
+function setupDarkModeToggle() {
+    const toggleButton = document.getElementById('darkModeToggle');
+    if (!toggleButton) return;
+    toggleButton.addEventListener('click', () => {
+        const html = document.documentElement;
+        html.classList.toggle('dark-mode');
+        localStorage.setItem('darkMode', html.classList.contains('dark-mode') ? '1' : '0');
+        updateToggleIcon();
+    });
+    updateToggleIcon();
+}
+
+function setupPrimaryNav() {
+    const toggle = document.querySelector('.nav-toggle');
+    const menu = document.getElementById('primary-menu');
+    if (!toggle || !menu) return;
+
+    const close = () => {
+        toggle.setAttribute('aria-expanded', 'false');
+        menu.classList.remove('is-open');
+    };
+    const open = () => {
+        toggle.setAttribute('aria-expanded', 'true');
+        menu.classList.add('is-open');
+    };
+
+    toggle.addEventListener('click', () => {
+        toggle.getAttribute('aria-expanded') === 'true' ? close() : open();
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+            close();
+            toggle.focus();
+        }
+    });
+
+    document.addEventListener('click', (e) => {
+        if (toggle.getAttribute('aria-expanded') !== 'true') return;
+        if (!menu.contains(e.target) && !toggle.contains(e.target)) close();
+    });
+
+    menu.addEventListener('click', (e) => {
+        if (e.target.closest('a')) close();
+    });
+}
+
+function setupHeaderScrollTitle() {
+    const header = document.querySelector('.site-header');
+    const sectionTitle = document.querySelector('.site-section-title');
+    if (!header || !sectionTitle) return;
+
+    const updateHeaderHeight = () => {
+        document.documentElement.style.setProperty('--current-header-height', header.offsetHeight + 'px');
+    };
+
+    const update = () => {
+        const scrolled = window.scrollY > 96;
+        header.classList.toggle('is-scrolled', scrolled);
+        sectionTitle.hidden = !scrolled;
+        window.requestAnimationFrame(updateHeaderHeight);
+    };
+
+    sectionTitle.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', updateHeaderHeight);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    setupDarkModeToggle();
+    setupPrimaryNav();
+    setupHeaderScrollTitle();
+});
+    </script>
+    <script src="scripts/scroltotop.js?v=1783179235"></script>
+
+    <!-- Floating button to go back to the top -->
+    <button class="scroll-to-top-button" id="scrollToTopButton" type="button" aria-label="Back to top" aria-hidden="true">
+        <span class="scroll-to-top-arrow"></span>
+        <span class="scroll-to-top-label">Back to top</span>
+    </button>
+
+
+<header class="site-header">
+    <div class="site-header-inner">
+        <a class="site-brand" href="/index.html">Arseniy Kuzmin</a>
+        
+        <button class="site-section-title" type="button" data-scroll-top hidden>
+            Conferences
+        </button>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-menu" aria-label="Menu">
+            <span class="nav-toggle-box"><span class="nav-toggle-inner"></span></span>
+        </button>
+        <nav class="primary-nav" aria-label="Primary">
+            <ul class="nav-menu" id="primary-menu">
+                <li><a href="/index.html">About</a></li>
+                <li><a href="/conferences.html" class="is-active" aria-current="page">Conferences</a></li>
+                <li><a href="/publications.html">Publications</a></li>
+                <li><a href="/projects.html">Projects</a></li>
+                <li class="nav-theme"><button id="darkModeToggle" type="button" aria-label="Toggle dark mode">🌙</button></li>
+            </ul>
+        </nav>
     </div>
--->
-        <script src="scripts/navbar.js"></script>
-        <!-- <script src="scripts/sidemenu.js" defer></script> -->
-        <!-- Floating button to go back to the top -->
-        <script src="scripts/scroltotop.js"></script>
-        <div class="scroll-to-top-button" id="scrollToTopButton"><span class="scroll-to-top-arrow"></span></div>
+</header>
+
+<div class="main-content">
+    
+        <div class="citations">
+            <div class="citations-heading">
+                <h1 class="page-title">International Conferences</h1>
+            </div>
+            <div class="button-container">
+                <input type="search" id="conferenceFilter" class="filter-box" placeholder="Filter conferences…" aria-label="Filter conferences" autocomplete="off">
+                <button id="sortButton" class="sort-button">Year<span class="arrow"></span></button>
+                <p id="conferenceCount" class="count-label">21</p>
+            </div>
+        </div>
+
+        <div class="citations paper-grid" id="conference-list">
+
+
+            <article class="paper-card conference-card" style="--badge-hue: 106">
+                <div class="paper-card-top">
+                    <span class="venue-badge">PSI-27</span>
+                    <span class="paper-year">📅 2026</span>
+                </div>
+                <h2 class="paper-title">BH molecular emission in the divertor region of LHD: dependence on magnetic axis, plasma parameters, and multi-view spectroscopy</h2>
+                <div class="authors">A. Kuzmin, T. Shikama, M. Goto, T. Kawate, S. Masuzaki, M. Shoji, F. Nespoli, R. Lunsford, E. Gilson, M. Hasuo</div>
+                <div class="paper-meta">
+                    <span>27th International Conference on Plasma Surface Interactions in Controlled Fusion Devices</span>
+                    <span>📍 Regensburg, Germany</span>
+                    <span>17-22 May 2026</span>
+                    <span>📌 poster presentation</span>
+                </div>
+            </article>
+
+
+
+            <article class="paper-card conference-card" style="--badge-hue: 283">
+                <div class="paper-card-top">
+                    <span class="venue-badge">APiP 2025</span>
+                    <span class="paper-year">📅 2025</span>
+                </div>
+                <h2 class="paper-title">BH molecular emission in the divertor region of LHD: Q-branch analysis and rotational temperature measurement</h2>
+                <div class="authors">A. Kuzmin, T. Shikama, T. Kawate, S. Masuzaki, M. Shoji, F. Nespoli, R. Lunsford, E. Gilson, M. Hasuo</div>
+                <div class="paper-meta">
+                    <span>22nd International Conference on Atomic Processes in Plasmas</span>
+                    <span>📍 Tokyo, Japan</span>
+                    <span>21-25 July 2025</span>
+                    <span>📌 poster presentation</span>
+                </div>
+            </article>
+
+
+
+            <article class="paper-card conference-card" style="--badge-hue: 312">
+                <div class="paper-card-top">
+                    <span class="venue-badge">ICFRC 2025</span>
+                    <span class="paper-year">📅 2025</span>
+                </div>
+                <h2 class="paper-title">Formation, surface characterization, and stability of boron-containing films under plasma irradiation</h2>
+                <div class="authors">A. Kuzmin, J. Hayashi, N. Mizuno, T. Shikama, M. Hasuo</div>
+                <div class="paper-meta">
+                    <span>22nd International Conference on Fusion Reactor Materials</span>
+                    <span>📍 Shizuoka, Japan</span>
+                    <span>28 Setember - 3 October 2025</span>
+                    <span>📌 poster presentation</span>
+                </div>
+            </article>
+
+
+
+            <article class="paper-card conference-card" style="--badge-hue: 105">
+                <div class="paper-card-top">
+                    <span class="venue-badge">ICMSET 2024</span>
+                    <span class="paper-year">📅 2024</span>
+                </div>
+                <h2 class="paper-title">Effect of oxide and tungsten films on plasma driven hydrogen permeation through Pd, Ni, and steel membranes</h2>
+                <div class="authors">A. Kuzmin,J. Hayashi, T. Hashizuka, T. Shikama,M. Hasuo</div>
+                <div class="paper-meta">
+                    <span>13th International Conference on Material Science and Engineering Technology</span>
+                    <span>📍 Nagoya, Japan</span>
+                    <span>22-24 November 2024</span>
+                    <span>🎤 oral presentation</span>
+                </div>
+            </article>
+
+
+
+            <article class="paper-card conference-card" style="--badge-hue: 215">
+                <div class="paper-card-top">
+                    <span class="venue-badge">MRM2023 / IUMRS-ICA2023</span>
+                    <span class="paper-year">📅 2023</span>
+                </div>
+                <h2 class="paper-title">Effect of oxygen on plasma driven permeation of hydrogen through metal membranes</h2>
+                <div class="authors">A. Kuzmin, K. Miura, S. Kurokawa, T. Shikama, M. Hasuo</div>
+                <div class="paper-meta">
+                    <span>International conference on materials innovation for sustainable development goals (MRM2023 / IUMRS-ICA2023)</span>
+                    <span>📍 Kyoto, Japan</span>
+                    <span>11-16 December 2023</span>
+                    <span>🎤 oral presentation</span>
+                </div>
+            </article>
+
+
+
+            <article class="paper-card conference-card" style="--badge-hue: 104">
+                <div class="paper-card-top">
+                    <span class="venue-badge">PSI-25</span>
+                    <span class="paper-year">📅 2022</span>
+                </div>
+                <h2 class="paper-title">Atomic and ionic hydrogen flux probe for quantitative in-situ monitoring of hydrogen recycling</h2>
+                <div class="authors">A. Kuzmin, K. Miura, M. Kobayashi, K. Hanada, K. Fujii, T. Shikama, M. Hasuo</div>
+                <div class="paper-meta">
+                    <span>25th international conference on plasma surface interactions in controlled fusion devices (PSI-25)</span>
+                    <span>📍 Korea (online)</span>
+                    <span>13-17 June 2022</span>
+                    <span>📌 poster presentation</span>
+                </div>
+            </article>
+
+
+
+            <article class="paper-card conference-card" style="--badge-hue: 103">
+                <div class="paper-card-top">
+                    <span class="venue-badge">PSI-24</span>
+                    <span class="paper-year">📅 2021</span>
+                </div>
+                <h2 class="paper-title">Investigation of radial distribution of atomic hydrogen flow to the plasma facing components in steady state tokamak operation</h2>
+                <div class="authors">A. Kuzmin, M. Kobayashi, K. Hanada, H. Idei, T. Onchi, S. Mori, N. Yoneda, T. Shikama, M. Hasuo, T. Ido, Y. Nagashima, R. Ikezoe, M. Hasegawa, K. Kuroda, K. Kono, S. Matsuo, T. Nagata, S. Shimabukuro, A. Higashijima, I. Niiya, H. Zushi</div>
+                <div class="paper-meta">
+                    <span>24th international conference on plasma surface interactions in controlled fusion devices (PSI-24)</span>
+                    <span>📍 Jeju, Korea (online)</span>
+                    <span>25-29 January 2021</span>
+                    <span>📌 poster presentation</span>
+                </div>
+            </article>
+
+
+
+            <article class="paper-card conference-card" style="--badge-hue: 88">
+                <div class="paper-card-top">
+                    <span class="venue-badge">ITC-30</span>
+                    <span class="paper-year">📅 2021</span>
+                </div>
+                <h2 class="paper-title">Oxygen effect on hydrogen permeability through PdCu membrane under hydrogen plasma irradiation</h2>
+                <div class="authors">A. Kuzmin, K. Miura, K. Hanada, T. Shikama, K. Fujii, M. Kobayashi, M. Hasuo</div>
+                <div class="paper-meta">
+                    <span>30th international Toki conference (ITC-30)</span>
+                    <span>📍 Toki, Japan (online)</span>
+                    <span>2021</span>
+                    <span>📌 poster presentation</span>
+                </div>
+            </article>
+
+
+
+            <article class="paper-card conference-card" style="--badge-hue: 96">
+                <div class="paper-card-top">
+                    <span class="venue-badge">ITC-29</span>
+                    <span class="paper-year">📅 2020</span>
+                </div>
+                <h2 class="paper-title">Ro-vibrational population distribution in the ground state of hydrogen and deuterium molecules in LHD peripheral plasma deduced from emission spectroscopy</h2>
+                <div class="authors">A. Kuzmin, M. Kobayashi, T. Nakanoa, G. Kawamura, M. Hasuob, K. Fujiib, T. Morisaki</div>
+                <div class="paper-meta">
+                    <span>29th international Toki conference (ITC-29)</span>
+                    <span>📍 Toki, Japan</span>
+                    <span>2020</span>
+                    <span>📌 poster presentation</span>
+                </div>
+            </article>
+
+
+
+            <article class="paper-card conference-card" style="--badge-hue: 102">
+                <div class="paper-card-top">
+                    <span class="venue-badge">PSI-23</span>
+                    <span class="paper-year">📅 2018</span>
+                </div>
+                <h2 class="paper-title">Measurements of the impurity flow velocity and temperature in a wide plasma parameter range for Deuterium and Hydrogen plasmas in the divertor legs of the stochastic layer in LHD</h2>
+                <div class="authors">A. Kuzmin, M. Kobayashi, T. Nakano, G. Kawamura, M. Hasuob, K. Fujiib, T. Morisaki</div>
+                <div class="paper-meta">
+                    <span>23rd International Conference on Plasma Surface Interactions in Controlled Fusion Devices (PSI-23)</span>
+                    <span>📍 Princeton, New Jersy, USA</span>
+                    <span>17-22 June 2018</span>
+                    <span>📌 poster presentation</span>
+                </div>
+            </article>
+
+
+
+            <article class="paper-card conference-card" style="--badge-hue: 175">
+                <div class="paper-card-top">
+                    <span class="venue-badge">ITC-27 &amp; APPTC2018</span>
+                    <span class="paper-year">📅 2018</span>
+                </div>
+                <h2 class="paper-title">Helium and carbon collisional-radiative model for evaluation of plasma parameters in stochastic layer of LHD</h2>
+                <div class="authors">A. Kuzmin, M. Kobayashi, T. Nakanoa, G. Kawamura, M. Hasuob, K. Fujiib, T. Morisaki</div>
+                <div class="paper-meta">
+                    <span>27th international Toki conference &amp; 13th Asia Pacific Plasma Theory Conference (ITC-27 &amp; APPTC2018)</span>
+                    <span>📍 Toki, Japan</span>
+                    <span>2018</span>
+                    <span>📌 poster presentation</span>
+                </div>
+            </article>
+
+
+
+            <article class="paper-card conference-card" style="--badge-hue: 318">
+                <div class="paper-card-top">
+                    <span class="venue-badge">ITC-26 &amp; APFA-11</span>
+                    <span class="paper-year">📅 2017</span>
+                </div>
+                <h2 class="paper-title">Investigation of the impurity flow velocity and temperature in the edge plasma of LHD: dependence on density and isotope effect</h2>
+                <div class="authors">A. Kuzmin, M. Kobayashi, M. Hasuo, T. Shikama, T. Nakano, K. Fujii, M. Goto, T. Morisaki</div>
+                <div class="paper-meta">
+                    <span>26th international Toki conference on plasma and fusion research &amp; 11th Asia Plasma and Fusion Association Conference (ITC-26 &amp; APFA-11)</span>
+                    <span>📍 Toki, Japan</span>
+                    <span>2017</span>
+                    <span>📌 poster presentation</span>
+                </div>
+            </article>
+
+
+
+            <article class="paper-card conference-card" style="--badge-hue: 101">
+                <div class="paper-card-top">
+                    <span class="venue-badge">PSI-22</span>
+                    <span class="paper-year">📅 2016</span>
+                </div>
+                <h2 class="paper-title">Spatial distribution of the hydrogen retention in long duration discharges</h2>
+                <div class="authors">A. Kuzmin, H. Zushi, I. Takagi, S. K. Sharma, M. Kobayashi, Y. Hirooka, T. Onchi, K. Hanada, Y. Oyama, N. Yoshida, K. Nakamura, A. Fujisawa, H. Idei, Y. Nagashima, M. Hasegawa, T. Mutoh, K. Mishra, H. Ohwada</div>
+                <div class="paper-meta">
+                    <span>22nd international conference on plasma surface interactions in controlled fusion devices (PSI-22)</span>
+                    <span>📍 Rome, Italy</span>
+                    <span>30 May - 3 June 2016</span>
+                    <span>📌 poster presentation</span>
+                </div>
+            </article>
+
+
+
+            <article class="paper-card conference-card" style="--badge-hue: 269">
+                <div class="paper-card-top">
+                    <span class="venue-badge">IAEA SSO</span>
+                    <span class="paper-year">📅 2015</span>
+                </div>
+                <h2 class="paper-title">Gas balance and permeation probes for hydrogen retention analysis in QUEST</h2>
+                <div class="authors">A. Kuzmin, H. Zushi, I. Takagi, K. Hanada, Y. Hirooka, H. Zhou, M. Kobayashi, M. Sakamoto, S. K. Sharma, A. Rusinov, N. Yoshida, K. Nakamura, A. Fujisawa, K. Matsuoka, H. Idei, Y. Nagashima, M. Hasegawa, T. Onchi, K. Mishra</div>
+                <div class="paper-meta">
+                    <span>8th IAEA technical meeting on &#39;steady state operation&#39; of magnetic fusion devices (IAEA SSO 2015)</span>
+                    <span>📍 Nara, Japan</span>
+                    <span>26-29 May 2015</span>
+                    <span>📌 poster presentation</span>
+                </div>
+            </article>
+
+
+
+            <article class="paper-card conference-card" style="--badge-hue: 249">
+                <div class="paper-card-top">
+                    <span class="venue-badge">ISI</span>
+                    <span class="paper-year">📅 2015</span>
+                </div>
+                <h2 class="paper-title">Permeation probes for hydrogen retention measurements</h2>
+                <div class="authors">A. Kuzmin, H. Zushi, I. Takagi, K. Hanada, Y. Hirooka, H. Zhou, M. Kobayashi, M. Sakamoto, T. Onchi, Y. Oyama, N. Yoshida, K. Nakamura, A. Fujisawa, K. Matsuoka, H. Idei, Y. Nagashima, M. Hasegawa, K. Mishra</div>
+                <div class="paper-meta">
+                    <span>22nd international conference on ion-surface interactions (ISI 2015)</span>
+                    <span>📍 Moscow, Russia</span>
+                    <span>20-24 August 2015</span>
+                    <span>🎤 oral presentation</span>
+                </div>
+            </article>
+
+
+
+            <article class="paper-card conference-card" style="--badge-hue: 100">
+                <div class="paper-card-top">
+                    <span class="venue-badge">PSI-21</span>
+                    <span class="paper-year">📅 2014</span>
+                </div>
+                <h2 class="paper-title">Global gas balance and influence of atomic hydrogen irradiation on the wall inventory in steady-state operation of QUEST tokamak</h2>
+                <div class="authors">A. Kuzmin, H. Zushi, I. Takagi, S. K. Sharma, Y. Hirooka, H. Zhou, M. Kobayashi, M. Sakamoto, K. Hanada, N. Yoshida, K. Nakamura, A. Fujisawa, K. Matsuoka, H. Idei, Y. Nagashima, M. Hasegawa, T. Onchi, S. Banerjee, K. Mishra</div>
+                <div class="paper-meta">
+                    <span>21st international conference on plasma surface interactions in controlled fusion devices (PSI 2014)</span>
+                    <span>📍 Kanazawa, Japan</span>
+                    <span>26-30 May 2014</span>
+                    <span>📌 poster presentation</span>
+                </div>
+            </article>
+
+
+
+            <article class="paper-card conference-card" style="--badge-hue: 226">
+                <div class="paper-card-top">
+                    <span class="venue-badge">FEC</span>
+                    <span class="paper-year">📅 2014</span>
+                </div>
+                <h2 class="paper-title">Determination of the system function for the particle circulation process using perturbation technique in QUEST</h2>
+                <div class="authors">H. Zushi, A. Kuzmin, I. Takagi, S. K. Sharma, M. Hasegawa, M. Kobayashi, Y. Hirooka, N. Yoshida, A. Rusinov, A. Inoue, H. Zhou, A. Fujisawa, K. Hanada, H. Idei, K. Nakamura, Y. Nagashima, K. Matsuoka, T. Onchi, S. Tashima, S. Banerjee, N. Sakaguchi, E. Kalinnikova, K. Mishra, X. Liu, S. Kubo, Y. Ueda, T. Fujita, S. Ide, N. Ohno, A. Hatayama, A. Ejiri, T. Yamaguchi, J. Hiratsuka, H. Togashi, Y. Takase, A. Fukuyama, O. Mitarai</div>
+                <div class="paper-meta">
+                    <span>25th fusion energy conference (FEC 2014)</span>
+                    <span>📍 St. Petersburg, Russia</span>
+                    <span>13-18 October 2014</span>
+                    <span>📌 poster presentation</span>
+                </div>
+            </article>
+
+
+
+            <article class="paper-card conference-card" style="--badge-hue: 278">
+                <div class="paper-card-top">
+                    <span class="venue-badge">TRITIUM</span>
+                    <span class="paper-year">📅 2013</span>
+                </div>
+                <h2 class="paper-title">Atomic hydrogen flux measurement using permeation probes in steady state QUEST spherical tokamak plasma</h2>
+                <div class="authors">A. Kuzmin, H. Zushi, I. Takagi, S. K. Sharma, A. Rusinov, Y. Inoue, Y. Hirooka, H. Zhou, M. Kobayashi, M. Sakamoto, K. Hanada, N. Yoshida, K. Nakamura, A. Fujisawa, K. Matsuoka, H. Idei, Y. Nagashima, M. Hasegawa, T. Onchi, S. Banerjee, K. Mishra</div>
+                <div class="paper-meta">
+                    <span>10th international conference on tritium science and technology (TRITIUM 2013)</span>
+                    <span>📍 Nice, France</span>
+                    <span>21-25 October 2013</span>
+                    <span>📌 poster presentation</span>
+                </div>
+            </article>
+
+
+
+            <article class="paper-card conference-card" style="--badge-hue: 32">
+                <div class="paper-card-top">
+                    <span class="venue-badge">VEIT</span>
+                    <span class="paper-year">📅 2011</span>
+                </div>
+                <h2 class="paper-title">Deposition of carbon and tungsten-carbon films in argon discharge with deuterium contaminant</h2>
+                <div class="authors">L. Begrambekov, A. Kuzmin, A. Makarov, Ya. Sadovsky, P. Shigin</div>
+                <div class="paper-meta">
+                    <span>17th international summer school on vacuum, electron and ion technologies (VEIT 2011)</span>
+                    <span>📍 Sunny Beach, Bulgaria</span>
+                    <span>19-23 September 2011</span>
+                    <span>🎤 oral presentation</span>
+                </div>
+            </article>
+
+
+
+            <article class="paper-card conference-card" style="--badge-hue: 98">
+                <div class="paper-card-top">
+                    <span class="venue-badge">IHISM</span>
+                    <span class="paper-year">📅 2009</span>
+                </div>
+                <h2 class="paper-title">Oxygen depletion from carbon fiber composite in deuterium plasma with oxygen admixture</h2>
+                <div class="authors">A. Airapetov, L. Begrambekov, A. Kuzmin, P. Shigin</div>
+                <div class="paper-meta">
+                    <span>International Conference “Interaction between hydrogen isotopes and structural materials” (IHISM 2009)</span>
+                    <span>📍 Sarov, Russia</span>
+                    <span>06-09 July 2009</span>
+                    <span>🎤 oral presentation</span>
+                </div>
+            </article>
+
+
+
+            <article class="paper-card conference-card" style="--badge-hue: 98">
+                <div class="paper-card-top">
+                    <span class="venue-badge">IHISM</span>
+                    <span class="paper-year">📅 2008</span>
+                </div>
+                <h2 class="paper-title">Investigation of hydrogen isotope trapping and retention in Tore Supra tiles</h2>
+                <div class="authors">A. Kuzmin,A.  Ajrapetov, L. Begrambekov, P. Shigin</div>
+                <div class="paper-meta">
+                    <span>International Conference “Interaction between hydrogen isotopes and structural materials” (IHISM 2008)</span>
+                    <span>📍 Nizhnij Novgorod, Russia</span>
+                    <span>04-08 July 2008</span>
+                    <span>🎤 oral presentation</span>
+                </div>
+            </article>
+
+
+        </div>
+
+</div>
+
+    <script type="application/json" id="embed-conferences">[{"authors": "A. Kuzmin,A.  Ajrapetov, L. Begrambekov, P. Shigin", "conference": {"abbr": "IHISM", "badge_hue": 98, "date": "04-08 July 2008", "location": "Nizhnij Novgorod, Russia", "name": "International Conference \u201cInteraction between hydrogen isotopes and structural materials\u201d (IHISM 2008)", "year": "2008"}, "presentation": "oral presentation", "title": "Investigation of hydrogen isotope trapping and retention in Tore Supra tiles"}, {"authors": "A. Airapetov, L. Begrambekov, A. Kuzmin, P. Shigin", "conference": {"abbr": "IHISM", "badge_hue": 98, "date": "06-09 July 2009", "location": "Sarov, Russia", "name": "International Conference \u201cInteraction between hydrogen isotopes and structural materials\u201d (IHISM 2009)", "year": "2009"}, "presentation": "oral presentation", "title": "Oxygen depletion from carbon fiber composite in deuterium plasma with oxygen admixture"}, {"authors": "L. Begrambekov, A. Kuzmin, A. Makarov, Ya. Sadovsky, P. Shigin", "conference": {"abbr": "VEIT", "badge_hue": 32, "date": "19-23 September 2011", "location": "Sunny Beach, Bulgaria", "name": "17th international summer school on vacuum, electron and ion technologies (VEIT 2011)", "year": "2011"}, "presentation": "oral presentation", "title": "Deposition of carbon and tungsten-carbon films in argon discharge with deuterium contaminant"}, {"authors": "A. Kuzmin, H. Zushi, I. Takagi, S. K. Sharma, A. Rusinov, Y. Inoue, Y. Hirooka, H. Zhou, M. Kobayashi, M. Sakamoto, K. Hanada, N. Yoshida, K. Nakamura, A. Fujisawa, K. Matsuoka, H. Idei, Y. Nagashima, M. Hasegawa, T. Onchi, S. Banerjee, K. Mishra", "conference": {"abbr": "TRITIUM", "badge_hue": 278, "date": "21-25 October 2013", "location": "Nice, France", "name": "10th international conference on tritium science and technology (TRITIUM 2013)", "year": "2013"}, "presentation": "poster presentation", "title": "Atomic hydrogen flux measurement using permeation probes in steady state QUEST spherical tokamak plasma"}, {"authors": "A. Kuzmin, H. Zushi, I. Takagi, S. K. Sharma, Y. Hirooka, H. Zhou, M. Kobayashi, M. Sakamoto, K. Hanada, N. Yoshida, K. Nakamura, A. Fujisawa, K. Matsuoka, H. Idei, Y. Nagashima, M. Hasegawa, T. Onchi, S. Banerjee, K. Mishra", "conference": {"abbr": "PSI-21", "badge_hue": 100, "date": "26-30 May 2014", "location": "Kanazawa, Japan", "name": "21st international conference on plasma surface interactions in controlled fusion devices (PSI 2014)", "year": "2014"}, "presentation": "poster presentation", "title": "Global gas balance and influence of atomic hydrogen irradiation on the wall inventory in steady-state operation of QUEST tokamak"}, {"authors": "H. Zushi, A. Kuzmin, I. Takagi, S. K. Sharma, M. Hasegawa, M. Kobayashi, Y. Hirooka, N. Yoshida, A. Rusinov, A. Inoue, H. Zhou, A. Fujisawa, K. Hanada, H. Idei, K. Nakamura, Y. Nagashima, K. Matsuoka, T. Onchi, S. Tashima, S. Banerjee, N. Sakaguchi, E. Kalinnikova, K. Mishra, X. Liu, S. Kubo, Y. Ueda, T. Fujita, S. Ide, N. Ohno, A. Hatayama, A. Ejiri, T. Yamaguchi, J. Hiratsuka, H. Togashi, Y. Takase, A. Fukuyama, O. Mitarai", "conference": {"abbr": "FEC", "badge_hue": 226, "date": "13-18 October 2014", "location": "St. Petersburg, Russia", "name": "25th fusion energy conference (FEC 2014)", "year": "2014"}, "presentation": "poster presentation", "title": "Determination of the system function for the particle circulation process using perturbation technique in QUEST"}, {"authors": "A. Kuzmin, H. Zushi, I. Takagi, K. Hanada, Y. Hirooka, H. Zhou, M. Kobayashi, M. Sakamoto, S. K. Sharma, A. Rusinov, N. Yoshida, K. Nakamura, A. Fujisawa, K. Matsuoka, H. Idei, Y. Nagashima, M. Hasegawa, T. Onchi, K. Mishra", "conference": {"abbr": "IAEA SSO", "badge_hue": 269, "date": "26-29 May 2015", "location": "Nara, Japan", "name": "8th IAEA technical meeting on \u0027steady state operation\u0027 of magnetic fusion devices (IAEA SSO 2015)", "year": "2015"}, "presentation": "poster presentation", "title": "Gas balance and permeation probes for hydrogen retention analysis in QUEST"}, {"authors": "A. Kuzmin, H. Zushi, I. Takagi, K. Hanada, Y. Hirooka, H. Zhou, M. Kobayashi, M. Sakamoto, T. Onchi, Y. Oyama, N. Yoshida, K. Nakamura, A. Fujisawa, K. Matsuoka, H. Idei, Y. Nagashima, M. Hasegawa, K. Mishra", "conference": {"abbr": "ISI", "badge_hue": 249, "date": "20-24 August 2015", "location": "Moscow, Russia", "name": "22nd international conference on ion-surface interactions (ISI 2015)", "year": "2015"}, "presentation": "oral presentation", "title": "Permeation probes for hydrogen retention measurements"}, {"authors": "A. Kuzmin, H. Zushi, I. Takagi, S. K. Sharma, M. Kobayashi, Y. Hirooka, T. Onchi, K. Hanada, Y. Oyama, N. Yoshida, K. Nakamura, A. Fujisawa, H. Idei, Y. Nagashima, M. Hasegawa, T. Mutoh, K. Mishra, H. Ohwada", "conference": {"abbr": "PSI-22", "badge_hue": 101, "date": "30 May - 3 June 2016", "location": "Rome, Italy", "name": "22nd international conference on plasma surface interactions in controlled fusion devices (PSI-22)", "year": "2016"}, "presentation": "poster presentation", "title": "Spatial distribution of the hydrogen retention in long duration discharges"}, {"authors": "A. Kuzmin, M. Kobayashi, M. Hasuo, T. Shikama, T. Nakano, K. Fujii, M. Goto, T. Morisaki", "conference": {"abbr": "ITC-26 \u0026 APFA-11", "badge_hue": 318, "date": "2017", "location": "Toki, Japan", "name": "26th international Toki conference on plasma and fusion research \u0026 11th Asia Plasma and Fusion Association Conference (ITC-26 \u0026 APFA-11)", "year": "2017"}, "presentation": "poster presentation", "title": "Investigation of the impurity flow velocity and temperature in the edge plasma of LHD: dependence on density and isotope effect"}, {"authors": "A. Kuzmin, M. Kobayashi, T. Nakano, G. Kawamura, M. Hasuob, K. Fujiib, T. Morisaki", "conference": {"abbr": "PSI-23", "badge_hue": 102, "date": "17-22 June 2018", "location": "Princeton, New Jersy, USA", "name": "23rd International Conference on Plasma Surface Interactions in Controlled Fusion Devices (PSI-23)", "year": "2018"}, "presentation": "poster presentation", "title": "Measurements of the impurity flow velocity and temperature in a wide plasma parameter range for Deuterium and Hydrogen plasmas in the divertor legs of the stochastic layer in LHD"}, {"authors": "A. Kuzmin, M. Kobayashi, T. Nakanoa, G. Kawamura, M. Hasuob, K. Fujiib, T. Morisaki", "conference": {"abbr": "ITC-27 \u0026 APPTC2018", "badge_hue": 175, "date": "2018", "location": "Toki, Japan", "name": "27th international Toki conference \u0026 13th Asia Pacific Plasma Theory Conference (ITC-27 \u0026 APPTC2018)", "year": "2018"}, "presentation": "poster presentation", "title": "Helium and carbon collisional-radiative model for evaluation of plasma parameters in stochastic layer of LHD"}, {"authors": "A. Kuzmin, M. Kobayashi, T. Nakanoa, G. Kawamura, M. Hasuob, K. Fujiib, T. Morisaki", "conference": {"abbr": "ITC-29", "badge_hue": 96, "date": "2020", "location": "Toki, Japan", "name": "29th international Toki conference (ITC-29)", "year": "2020"}, "poster": "Poster-2-F3-14", "presentation": "poster presentation", "title": "Ro-vibrational population distribution in the ground state of hydrogen and deuterium molecules in LHD peripheral plasma deduced from emission spectroscopy"}, {"authors": "A. Kuzmin, M. Kobayashi, K. Hanada, H. Idei, T. Onchi, S. Mori, N. Yoneda, T. Shikama, M. Hasuo, T. Ido, Y. Nagashima, R. Ikezoe, M. Hasegawa, K. Kuroda, K. Kono, S. Matsuo, T. Nagata, S. Shimabukuro, A. Higashijima, I. Niiya, H. Zushi", "conference": {"abbr": "PSI-24", "badge_hue": 103, "date": "25-29 January 2021", "location": "Jeju, Korea (online)", "name": "24th international conference on plasma surface interactions in controlled fusion devices (PSI-24)", "year": "2021"}, "presentation": "poster presentation", "title": "Investigation of radial distribution of atomic hydrogen flow to the plasma facing components in steady state tokamak operation"}, {"authors": "A. Kuzmin, K. Miura, K. Hanada, T. Shikama, K. Fujii, M. Kobayashi, M. Hasuo", "conference": {"abbr": "ITC-30", "badge_hue": 88, "date": "2021", "location": "Toki, Japan (online)", "name": "30th international Toki conference (ITC-30)", "year": "2021"}, "presentation": "poster presentation", "title": "Oxygen effect on hydrogen permeability through PdCu membrane under hydrogen plasma irradiation"}, {"authors": "A. Kuzmin, K. Miura, M. Kobayashi, K. Hanada, K. Fujii, T. Shikama, M. Hasuo", "conference": {"abbr": "PSI-25", "badge_hue": 104, "date": "13-17 June 2022", "location": "Korea (online)", "name": "25th international conference on plasma surface interactions in controlled fusion devices (PSI-25)", "year": "2022"}, "presentation": "poster presentation", "title": "Atomic and ionic hydrogen flux probe for quantitative in-situ monitoring of hydrogen recycling"}, {"authors": "A. Kuzmin, K. Miura, S. Kurokawa, T. Shikama, M. Hasuo", "conference": {"abbr": "MRM2023 / IUMRS-ICA2023", "badge_hue": 215, "date": "11-16 December 2023", "location": "Kyoto, Japan", "name": "International conference on materials innovation for sustainable development goals (MRM2023 / IUMRS-ICA2023)", "year": "2023"}, "presentation": "oral presentation", "title": "Effect of oxygen on plasma driven permeation of hydrogen through metal membranes"}, {"authors": "A. Kuzmin,J. Hayashi, T. Hashizuka, T. Shikama,M. Hasuo", "conference": {"abbr": "ICMSET 2024", "badge_hue": 105, "conf": "ICMSET 2024", "date": "22-24 November 2024", "location": "Nagoya, Japan", "name": "13th International Conference on Material Science and Engineering Technology", "year": "2024"}, "presentation": "oral presentation", "title": "Effect of oxide and tungsten films on plasma driven hydrogen permeation through Pd, Ni, and steel membranes"}, {"authors": "A. Kuzmin, T. Shikama, T. Kawate, S. Masuzaki, M. Shoji, F. Nespoli, R. Lunsford, E. Gilson, M. Hasuo", "conference": {"abbr": "APiP 2025", "badge_hue": 283, "conf": "APiP 2025", "date": "21-25 July 2025", "location": "Tokyo, Japan", "name": "22nd International Conference on Atomic Processes in Plasmas", "type": "poster", "year": 2025}, "presentation": "poster presentation", "title": "BH molecular emission in the divertor region of LHD: Q-branch analysis and rotational temperature measurement"}, {"authors": "A. Kuzmin, J. Hayashi, N. Mizuno, T. Shikama, M. Hasuo", "conference": {"abbr": "ICFRC 2025", "badge_hue": 312, "conf": "ICFRC 2025", "date": "28 Setember - 3 October 2025", "location": "Shizuoka, Japan", "name": "22nd International Conference on Fusion Reactor Materials", "type": "poster", "year": 2025}, "presentation": "poster presentation", "title": "Formation, surface characterization, and stability of boron-containing films under plasma irradiation"}, {"authors": "A. Kuzmin, T. Shikama, M. Goto, T. Kawate, S. Masuzaki, M. Shoji, F. Nespoli, R. Lunsford, E. Gilson, M. Hasuo", "conference": {"abbr": "PSI-27", "badge_hue": 106, "conf": "PSI-27", "date": "17-22 May 2026", "location": "Regensburg, Germany", "name": "27th International Conference on Plasma Surface Interactions in Controlled Fusion Devices", "type": "poster", "year": 2026}, "presentation": "poster presentation", "title": "BH molecular emission in the divertor region of LHD: dependence on magnetic axis, plasma parameters, and multi-view spectroscopy"}]</script>
+    <script>
+window.__CONFERENCES_DATA__ = JSON.parse(document.getElementById('embed-conferences').textContent);
+var conferencesData = [];
+var sortButton;
+var filterInput;
+var sortAscending = false;
+var filterText = '';
+
+function escapeHTML(value) {
+    return String(value || '').replace(/[&<>"']/g, function (ch) {
+        return {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#39;'
+        }[ch];
+    });
+}
+
+function badgeHue(text) {
+    var total = 0;
+    var s = String(text || 'Work');
+    for (var i = 0; i < s.length; i++) {
+        total += s.charCodeAt(i);
+    }
+    return 20 + (total % 300);
+}
+
+function fallbackCode(name) {
+    var fullName = String(name || '');
+    var matches = fullName.match(/\(([^()]+)\)/g) || [];
+    if (matches.length) {
+        var code = matches[matches.length - 1].replace(/[()]/g, '');
+        code = code.replace(/\b(?:19|20)\d{2}\b/g, '').replace(/^[\s-/]+|[\s-/]+$/g, '');
+        var ordinal = fullName.match(/\b(\d+)(?:st|nd|rd|th)\b/i);
+        if (code.toUpperCase() === 'PSI' && ordinal) {
+            return 'PSI-' + ordinal[1];
+        }
+        if (code) return code;
+    }
+    var words = fullName.match(/[A-Za-z0-9]+/g) || [];
+    var acronym = words.map(function (word) { return word.charAt(0).toUpperCase(); }).join('');
+    return acronym.length > 1 && acronym.length <= 12 ? acronym : words.slice(0, 2).join('').slice(0, 12);
+}
+
+function conferenceBadge(conference) {
+    var c = conference.conference || {};
+    return c.abbr || c.conf || fallbackCode(c.name) || 'Conf';
+}
+
+function conferenceMatches(conference, text) {
+    if (!text) return true;
+    var c = conference.conference || {};
+    var hay = [
+        conference.title,
+        conference.authors,
+        c.name,
+        c.conf,
+        c.abbr,
+        c.location,
+        c.year,
+        conference.presentation
+    ].join(' ').toLowerCase();
+    return hay.indexOf(text) !== -1;
+}
+
+function currentConferences() {
+    var text = filterText.trim().toLowerCase();
+    var list = conferencesData.filter(function (conference) {
+        return conferenceMatches(conference, text);
+    });
+    list.sort(function (a, b) {
+        var ya = parseInt(a.conference.year, 10);
+        var yb = parseInt(b.conference.year, 10);
+        return sortAscending ? ya - yb : yb - ya;
+    });
+    return list;
+}
+
+function renderConferences() {
+    var list = currentConferences();
+    var conferenceList = document.getElementById('conference-list');
+    conferenceList.innerHTML = '';
+
+    for (var i = 0; i < list.length; i++) {
+        var conference = list[i];
+        var c = conference.conference || {};
+        var code = conferenceBadge(conference);
+
+        var card = document.createElement('article');
+        card.className = 'paper-card conference-card';
+        card.style.setProperty('--badge-hue', c.badge_hue || badgeHue(code));
+
+        var top = document.createElement('div');
+        top.className = 'paper-card-top';
+        top.innerHTML = '<span class="venue-badge">' + escapeHTML(code) + '</span>' +
+            '<span class="paper-year">📅 ' + escapeHTML(c.year) + '</span>';
+        card.appendChild(top);
+
+        var title = document.createElement('h2');
+        title.className = 'paper-title';
+        title.textContent = conference.title || '';
+        card.appendChild(title);
+
+        var authors = document.createElement('div');
+        authors.className = 'authors';
+        authors.textContent = conference.authors || '';
+        card.appendChild(authors);
+
+        var meta = document.createElement('div');
+        meta.className = 'paper-meta';
+        var presentationIcon = String(conference.presentation || '').toLowerCase().indexOf('oral') !== -1 ? '🎤' : '📌';
+        meta.innerHTML = '<span>' + escapeHTML(c.name) + '</span>' +
+            '<span>📍 ' + escapeHTML(c.location) + '</span>' +
+            '<span>' + escapeHTML(c.date) + '</span>' +
+            '<span>' + presentationIcon + ' ' + escapeHTML(conference.presentation) + '</span>';
+        card.appendChild(meta);
+
+        conferenceList.appendChild(card);
+    }
+
+    document.getElementById('conferenceCount').textContent = list.length;
+}
+
+function sortConferences() {
+    sortAscending = !sortAscending;
+    sortButton.classList.toggle('active', sortAscending);
+    renderConferences();
+}
+
+conferencesData = window.__CONFERENCES_DATA__ || [];
+sortButton = document.getElementById('sortButton');
+filterInput = document.getElementById('conferenceFilter');
+
+if (sortButton) {
+    sortButton.addEventListener('click', sortConferences);
+}
+if (filterInput) {
+    filterInput.addEventListener('input', function () {
+        filterText = filterInput.value;
+        renderConferences();
+    });
+}
+
+renderConferences();
+    </script>
+
 </body>
 
 </html>

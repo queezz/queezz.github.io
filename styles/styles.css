@@ -20,108 +20,269 @@
 /*********************** Google Fonts ***********************/
 :root {
     --main-content-width: 1040px;
+    --accent: #8c0c0c;
+    --accent-strong: #b01414;
+    --header-height: 64px;
+    --current-header-height: var(--header-height);
+    --nav-surface: #f2f2f2;
+    --nav-ink: #333333;
+    --page-title-size: clamp(1.55rem, 2.1vw, 1.75rem);
 }
 
-/* MARK: Navbar */
-.navbar {
-    background-color: #f2f2f2;
-    height: 30px;
-    padding: 20px;
+@view-transition {
+    navigation: auto;
+}
+
+html {
+    background-color: #fff;
+}
+
+/* MARK: Site header / primary nav */
+.site-header {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     z-index: 9999;
+    background-color: var(--nav-surface);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
 }
 
-.navbar-container {
+.site-header-inner {
     max-width: var(--main-content-width);
+    min-height: var(--header-height);
     margin: 0 auto;
+    padding: 0 20px;
+    box-sizing: border-box;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 0;
+    gap: 16px;
 }
 
-.navbar a {
-    text-decoration: none;
-    color: #8c0c0c;
-}
-
-.navbar-logo {
+.site-brand {
     font-weight: bold;
-    font-size: 30px;
-}
-
-.navbar-toggle {
     font-size: 24px;
-    cursor: pointer;
-    display: none;
+    text-decoration: none;
+    color: var(--accent);
+    white-space: nowrap;
+    transition: font-size 0.16s ease;
 }
 
-.navbar-items {
-    display: flex;
-    list-style-type: none;
-    margin: 0;
+.site-section-title {
+    display: none;
+    min-width: 0;
     padding: 0;
-    margin-right: 30px;
-    flex-wrap: wrap;
+    color: #615b54;
+    background: transparent;
+    border: 0;
+    font: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.primary-nav {
     margin-left: auto;
 }
 
-
-.navbar-items li {
-    margin-left: 20px;
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }
 
-.navbar-items li a {
+.nav-menu a {
+    display: inline-block;
+    min-width: 104px;
+    box-sizing: border-box;
+    padding: 6px 2px;
+    color: var(--nav-ink);
+    font-size: 16px;
+    text-align: center;
     text-decoration: none;
-    color: #333;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s ease, border-color 0.15s ease;
 }
 
-/* Media query for mobile devices */
+.nav-menu a:hover {
+    color: var(--accent);
+}
 
-@media (max-width: 960px) {
-    .navbar {
-        width: 20px;
-        height: 20px;
-        padding: 20px;
-        padding-top: 10px;
+.nav-menu a.is-active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+}
+
+.nav-theme {
+    display: flex;
+    align-items: center;
+}
+
+/* Hamburger toggle — hidden on desktop */
+.nav-toggle {
+    display: none;
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.nav-toggle-box {
+    display: block;
+    position: relative;
+    width: 24px;
+    height: 18px;
+}
+
+.nav-toggle-inner,
+.nav-toggle-inner::before,
+.nav-toggle-inner::after {
+    position: absolute;
+    left: 0;
+    width: 24px;
+    height: 2px;
+    background: var(--accent);
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.nav-toggle-inner {
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.nav-toggle-inner::before {
+    content: "";
+    top: -8px;
+}
+
+.nav-toggle-inner::after {
+    content: "";
+    top: 8px;
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle-inner {
+    transform: translateY(-50%) rotate(45deg);
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle-inner::before {
+    top: 0;
+    transform: rotate(90deg);
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle-inner::after {
+    opacity: 0;
+}
+
+/* Mobile: hamburger + collapsible panel */
+@media (max-width: 760px) {
+    :root {
+        --header-height: 54px;
     }
 
-    .navbar-logo {
-        display: none;
+    .site-header-inner {
+        gap: 8px;
+        padding: 0 14px;
     }
 
-    .navbar-toggle {
+    .site-brand {
+        flex: 0 1 auto;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: clamp(17px, 5.4vw, 20px);
+    }
+
+    .site-header.is-scrolled .site-brand {
+        font-size: 17px;
+    }
+
+    .site-section-title:not([hidden]) {
         display: block;
+        flex: 1 1 auto;
+        font-size: 14px;
     }
 
-    .navbar-items {
-        display: none;
-        flex-direction: column;
+    .nav-toggle {
+        display: block;
+        margin-left: auto;
+        flex: 0 0 36px;
+        width: 36px;
+        height: 36px;
+        padding: 7px;
+    }
+
+    .primary-nav {
+        margin-left: 0;
+    }
+
+    .nav-menu {
         position: absolute;
         top: 100%;
         left: 0;
         right: 0;
-        background-color: #f2f2f2;
-        padding: 5px;
-        margin: 0;
-        width: 100%;
-        box-sizing: border-box;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        background-color: var(--nav-surface);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.2s ease;
     }
 
-    .navbar-items.show {
-        display: flex;
-        width: max-content;
+    .nav-menu li {
+        border-top: 1px solid rgba(140, 12, 12, 0.1);
     }
 
-    .navbar-items li {
-        margin-bottom: 10px;
+    .nav-menu li:first-child {
+        border-top: 0;
     }
 
-    .navbar-items li a {
-        font-size: 20px;
+    .nav-menu.is-open {
+        max-height: 70vh;
+    }
+
+    .nav-menu a {
+        display: block;
+        min-width: 0;
+        position: relative;
+        padding: 14px 44px 14px 20px;
+        font-size: 18px;
+        text-align: left;
+        border-bottom: 0;
+        border-left: 3px solid transparent;
+    }
+
+    .nav-menu a::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: 22px;
+        width: 7px;
+        height: 7px;
+        border-top: 2px solid currentColor;
+        border-right: 2px solid currentColor;
+        opacity: 0.45;
+        transform: translateY(-50%) rotate(45deg);
+    }
+
+    .nav-menu a:hover,
+    .nav-menu a:focus-visible {
+        background-color: rgba(140, 12, 12, 0.06);
+    }
+
+    .nav-menu a.is-active {
+        background-color: rgba(140, 12, 12, 0.08);
+        border-bottom-color: transparent;
+        border-left-color: var(--accent);
     }
 }
 
@@ -147,60 +308,59 @@
     /* Removing the underline. */
 }
 
-.dark-mode-toggle {
-  background: none;
-  border: none;
-  color: inherit;
-  font-size: 1.2em;
-  cursor: pointer;
-  padding: 0 10px;
-  align-self: center;
-}
-
-.navbar-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-
 /* MARK: Scroll */
 
 .scroll-to-top-button {
-    display: none;
     position: fixed;
-    bottom: 20px;
-    right: 30px;
-    z-index: 99;
-    border: none;
-    background-color: #8c0c0c;
+    top: calc(var(--current-header-height) + 5px);
+    left: 50%;
+    z-index: 9998;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    min-height: 26px;
+    padding: 0 10px;
+    color: #f6f2ec;
+    background-color: rgba(65, 59, 53, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 999px;
+    box-shadow: 0 4px 12px rgba(36, 33, 29, 0.18);
     cursor: pointer;
-    padding: 15px;
-    border-radius: 50%;
-    font-size: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -10px);
+    transition: opacity 0.16s ease, transform 0.16s ease;
+}
+
+.scroll-to-top-button:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
 }
 
 .scroll-to-top-button.show {
-    display: block;
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, 0);
 }
 
 .scroll-to-top-button .scroll-to-top-arrow {
     width: 0;
     height: 0;
     border-style: solid;
-    border-width: 10px 7px 0 7px;
-    border-color: rgb(165, 152, 128) transparent transparent transparent;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(180deg);
-    -webkit-transform: translate(-50%, -50%) rotate(180deg);
+    border-width: 0 4px 6px 4px;
+    border-color: transparent transparent currentColor transparent;
+}
+
+.scroll-to-top-label {
+    display: inline-block;
 }
 
 /* MARK: main */
 .main-content {
-    margin-top: 60px;
-    /* Add margin to the top of the main content */
+    margin-top: calc(var(--header-height) - 8px);
     max-width: var(--main-content-width);
     margin-left: auto;
     margin-right: auto;
@@ -216,6 +376,14 @@ body {
 h1 {
     color: #8c0c0c;
     margin-bottom: 20px;
+}
+
+.page-title {
+    margin: 0;
+    color: var(--accent);
+    font-size: var(--page-title-size);
+    font-weight: 600;
+    line-height: 1.16;
 }
 
 h3 span {
@@ -245,7 +413,7 @@ h3 span {
 
 @media (max-width:960px) {
     .main-content {
-        margin-top: 50px;
+        margin-top: calc(var(--header-height) - 8px);
     }
 }
 
@@ -258,8 +426,9 @@ h3 span {
 
 /* MARK: Dark */
 html.dark-mode {
+    color-scheme: dark;
     background-color: #1c1c1c;
-    color: #e0e0e0;
+    color: #cbc5bb;
 }
 
 html.dark-mode a {
@@ -280,11 +449,14 @@ html.dark-mode .education-item {
 html.dark-mode h1,
 html.dark-mode h2,
 html.dark-mode h3 {
-    color: #ffffff;
+    color: #dcd6cc;
 }
 
 html.dark-mode .scroll-to-top-button {
-    background-color: #444;
+    color: #f3eee6;
+    background-color: #3a332d;
+    border-color: #574d43;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
 }
 
 html.dark-mode .section-title {
@@ -292,23 +464,24 @@ html.dark-mode .section-title {
     color: #fff;
 }
 
-html.dark-mode .navbar {
+html.dark-mode .site-header {
     background-color: #2a2a2a;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
-html.dark-mode .navbar a {
-    color: #e0e0e0;
+html.dark-mode .site-brand {
+    color: #e6b8b8;
 }
 
-html.dark-mode .navbar a:hover {
-    color: #80bfff;
+html.dark-mode .site-section-title {
+    color: #cfc8bd;
 }
 
 html.dark-mode .skills-title,
 html.dark-mode .education-item-title,
 html.dark-mode .experience-title,
 html.dark-mode .section-title {
-    color: #fff;
+    color: #dcd6cc;
 }
 
 html.dark-mode .education-item-degree {
@@ -329,29 +502,60 @@ html.dark-mode .experience-details p:nth-child(2) {
     color: #ece3c6;
 }
 
-html.dark-mode .navbar-items {
+html.dark-mode .nav-menu {
     background-color: #2a2a2a;
 }
 
-html.dark-mode .navbar-items a {
+html.dark-mode .nav-menu a {
     color: #e0e0e0;
 }
 
-html.dark-mode .navbar-items a:hover {
-    color: #80bfff;
+html.dark-mode .nav-menu a:hover,
+html.dark-mode .nav-menu a.is-active {
+    color: #ff9a9a;
+    border-bottom-color: #ff9a9a;
+}
+
+html.dark-mode .nav-menu a.is-active {
+    border-left-color: #ff9a9a;
+}
+
+@media (max-width: 760px) {
+    html.dark-mode .nav-menu li {
+        border-top-color: rgba(255, 255, 255, 0.07);
+    }
+
+    html.dark-mode .nav-menu a:hover,
+    html.dark-mode .nav-menu a:focus-visible {
+        background-color: rgba(255, 154, 154, 0.08);
+    }
+
+    html.dark-mode .nav-menu a.is-active {
+        background-color: rgba(255, 154, 154, 0.09);
+    }
+}
+
+html.dark-mode .nav-toggle-inner,
+html.dark-mode .nav-toggle-inner::before,
+html.dark-mode .nav-toggle-inner::after {
+    background: #e6b8b8;
 }
 
 /* Citations - Dark mode overrides */
 html.dark-mode .citations {
     background-color: #1c1c1c;
-    color: #e0e0e0;
+    color: #cbc5bb;
 }
 
 html.dark-mode .citations h1,
 html.dark-mode .citations h2,
 html.dark-mode .citations h3 {
     background-color: #1c1c1c;
-    color: #e0e0e0;
+    color: #dcd6cc;
+}
+
+html.dark-mode .citations .paper-title {
+    background-color: transparent;
 }
 
 html.dark-mode .citations h1 span {
@@ -390,29 +594,36 @@ html.dark-mode #publicationCount {
     color: #ffc857; /* soft yellow or pick your preferred highlight color */
 }
 
-/* Dark mode toggle button — global, not specific to theme */
+/* Dark mode toggle — subtle, at the end of the nav menu */
 #darkModeToggle {
-    font-size: 1.5rem;
+    font-size: 1.05rem;
+    line-height: 1;
     background: none;
     border: none;
     color: inherit;
     cursor: pointer;
-    padding: 0 10px;
-    align-self: center;
+    padding: 6px;
+    opacity: 0.7;
+    transition: opacity 0.15s ease;
     display: flex;
     align-items: center;
-    justify-content: center;
 }
 
-@media (max-width: 960px) {
-    #darkModeToggle {
-        margin-left: 10px;
-        padding: 4px;
+#darkModeToggle:hover {
+    opacity: 1;
+}
+
+@media (max-width: 760px) {
+    .nav-theme {
+        border-top: 1px solid rgba(0, 0, 0, 0.08);
     }
 
-    .navbar-container {
+    #darkModeToggle {
+        width: 100%;
         justify-content: flex-start;
-        gap: 15px;
+        padding: 13px 20px;
+        font-size: 1.25rem;
+        opacity: 1;
     }
 }
 

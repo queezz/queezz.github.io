@@ -1,38 +1,338 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-  <script>
-    if (localStorage.getItem('darkMode') === '1') {
-      document.documentElement.classList.add('dark-mode');
-    }
-  </script>
-  <meta charset="UTF-8" />
-  <title>Project Details</title>
-  <meta name="viewport" content="width=device-width" />
-  <link rel="stylesheet" href="../../styles/styles.css" />
-  <link rel="stylesheet" href="../../styles/project.css" />
-  <link rel="stylesheet" href="../../styles/scrollnav.css" />
+    <script>
+        (function () {
+            if (localStorage.getItem('darkMode') === '1') {
+                document.documentElement.classList.add('dark-mode');
+            }
+        })();
+    </script>
+    <style>html{background-color:#fff}html.dark-mode{background-color:#1c1c1c}</style>
+    <base href="/">
+    <meta charset="UTF-8">
+    <title>Plasma Device Control Unit</title>
+    <link rel="canonical" href="https://arseniykuzmin.github.io/projects/plasma-device-control-unit/">
+    <link rel="alternate" href="https://queezz.github.io/projects/plasma-device-control-unit/">
+    <link rel="icon" href="static/favicon.ico">
+    <link rel="stylesheet" href="styles/styles.css?v=1783179235">
+    <script type="speculationrules">
+    {"prefetch": [{"where": {"href_matches": "/*"}, "eagerness": "moderate"}]}
+    </script>
+    
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="styles/project.css?v=1783179235" />
+
 </head>
+
 <body>
-  <script>window.__SITE_ROOT__ = "../../";</script>
-  <script src="../../scripts/navbar.js"></script>
-  <nav id="navbar"></nav>
 
-  <script src="../../scripts/scroltotop.js"></script>
-  <div class="scroll-to-top-button" id="scrollToTopButton"><span class="scroll-to-top-arrow"></span></div>
 
-  <div class="main-content">
-    <a href="../../projects.html" class="back-link">&larr; Back to Projects</a>
-    <div id="projectContainer" class="project-content"></div>
-  </div>
+    <script>
+function updateToggleIcon() {
+    const toggleButton = document.getElementById('darkModeToggle');
+    const isDark = document.documentElement.classList.contains('dark-mode');
+    if (toggleButton) {
+        toggleButton.textContent = isDark ? '🌝' : '🌚';
+    }
+}
 
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4/dist/js-yaml.min.js"></script>
+function setupDarkModeToggle() {
+    const toggleButton = document.getElementById('darkModeToggle');
+    if (!toggleButton) return;
+    toggleButton.addEventListener('click', () => {
+        const html = document.documentElement;
+        html.classList.toggle('dark-mode');
+        localStorage.setItem('darkMode', html.classList.contains('dark-mode') ? '1' : '0');
+        updateToggleIcon();
+    });
+    updateToggleIcon();
+}
+
+function setupPrimaryNav() {
+    const toggle = document.querySelector('.nav-toggle');
+    const menu = document.getElementById('primary-menu');
+    if (!toggle || !menu) return;
+
+    const close = () => {
+        toggle.setAttribute('aria-expanded', 'false');
+        menu.classList.remove('is-open');
+    };
+    const open = () => {
+        toggle.setAttribute('aria-expanded', 'true');
+        menu.classList.add('is-open');
+    };
+
+    toggle.addEventListener('click', () => {
+        toggle.getAttribute('aria-expanded') === 'true' ? close() : open();
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+            close();
+            toggle.focus();
+        }
+    });
+
+    document.addEventListener('click', (e) => {
+        if (toggle.getAttribute('aria-expanded') !== 'true') return;
+        if (!menu.contains(e.target) && !toggle.contains(e.target)) close();
+    });
+
+    menu.addEventListener('click', (e) => {
+        if (e.target.closest('a')) close();
+    });
+}
+
+function setupHeaderScrollTitle() {
+    const header = document.querySelector('.site-header');
+    const sectionTitle = document.querySelector('.site-section-title');
+    if (!header || !sectionTitle) return;
+
+    const updateHeaderHeight = () => {
+        document.documentElement.style.setProperty('--current-header-height', header.offsetHeight + 'px');
+    };
+
+    const update = () => {
+        const scrolled = window.scrollY > 96;
+        header.classList.toggle('is-scrolled', scrolled);
+        sectionTitle.hidden = !scrolled;
+        window.requestAnimationFrame(updateHeaderHeight);
+    };
+
+    sectionTitle.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', updateHeaderHeight);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    setupDarkModeToggle();
+    setupPrimaryNav();
+    setupHeaderScrollTitle();
+});
+    </script>
+    <script src="scripts/scroltotop.js?v=1783179235"></script>
+
+    <!-- Floating button to go back to the top -->
+    <button class="scroll-to-top-button" id="scrollToTopButton" type="button" aria-label="Back to top" aria-hidden="true">
+        <span class="scroll-to-top-arrow"></span>
+        <span class="scroll-to-top-label">Back to top</span>
+    </button>
+
+
+<header class="site-header">
+    <div class="site-header-inner">
+        <a class="site-brand" href="/index.html">Arseniy Kuzmin</a>
+        
+        <button class="site-section-title" type="button" data-scroll-top hidden>
+            Projects
+        </button>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-menu" aria-label="Menu">
+            <span class="nav-toggle-box"><span class="nav-toggle-inner"></span></span>
+        </button>
+        <nav class="primary-nav" aria-label="Primary">
+            <ul class="nav-menu" id="primary-menu">
+                <li><a href="/index.html">About</a></li>
+                <li><a href="/conferences.html">Conferences</a></li>
+                <li><a href="/publications.html">Publications</a></li>
+                <li><a href="/projects.html" class="is-active" aria-current="page">Projects</a></li>
+                <li class="nav-theme"><button id="darkModeToggle" type="button" aria-label="Toggle dark mode">🌙</button></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<div class="main-content">
+    
+    <section class="project-detail-page">
+        <div class="project-shell">
+            <aside class="project-rail project-rail--left">
+                <a class="rail-back" href="projects.html">&larr; All projects</a>
+                <nav aria-label="Projects">
+                    <ul class="rail-project-list">
+
+                        <li><a href="projects/deposition-device/">W-C Deposition Device</a></li>
+
+                        <li><a href="projects/hydrogen-retention-tore-supra/">Hydrogen Retention in Tore-Supra Tiles</a></li>
+
+                        <li><a href="projects/wc-film-growth-model/">Tungsten-Carbon Film Growth Model</a></li>
+
+                        <li><a href="projects/oxygen-removal-graphite-wall/">Oxygen Removal from Graphite Wall</a></li>
+
+                        <li><a href="projects/cell-adhesion-study/">Cell Adhesion Study</a></li>
+
+                        <li><a href="projects/plasma-device-control-unit/" class="is-active" aria-current="page">Plasma Device Control Unit</a></li>
+
+                        <li><a href="projects/x-ray-filter-inspection/">X-ray Filter for Non-destructive Inspection</a></li>
+
+                        <li><a href="projects/quest-permeation-experiments/">Permeation Experiments in QUEST</a></li>
+
+                        <li><a href="projects/carbon-impurity-flow-lhd/">Carbon impurity flow in LHD</a></li>
+
+                        <li><a href="projects/boron-powder-plasma-sputtering/">Boron powder plasma sputtering</a></li>
+
+                        <li><a href="projects/hydrogen-molecule-spectroscopy/">Hydrogen Molecule Spectroscopy</a></li>
+
+                        <li><a href="projects/seawater-desalination-device/">Seawater Desalination Device</a></li>
+
+                        <li><a href="projects/echelle-spectrometer-gui/">GUI for Echelle Spectrometer Image processing</a></li>
+
+                        <li><a href="projects/oxygen-effect-hydrogen-retention/">Oxygen Effect on Hydrogen Retention in Graphites</a></li>
+
+                        <li><a href="projects/fulcher-alpha-analizer/">Fulcher-alpha Emission Analizer</a></li>
+
+                    </ul>
+                </nav>
+            </aside>
+
+            <main class="project-main">
+                <div class="project-mobile-actions">
+                    <a href="projects.html" class="back-link back-link--mobile">&larr; Projects</a>
+                    <button class="project-details-button" type="button" data-project-drawer-open aria-controls="projectDetailsDrawer" aria-expanded="false">
+                        Details
+                    </button>
+                </div>
+                <div id="projectContainer" class="project-content"><header class="project-header"><p class="project-kicker">Instrument control</p><h1 class="project-title">Plasma Device Control Unit</h1><p class="project-subtitle">Open-source control and acquisition unit for plasma experiments.</p></header><section class="project-layout"><figure class="project-figure"><img alt="Plasma Device Control Unit" decoding="async" fetchpriority="high" src="/projects/plasma-device-control-unit/controlunit-render.jpg"/><figcaption>CAD layout of the aluminum-framed unit — a Raspberry Pi with a stacked HAT, DAC boards, and a front panel of feedthroughs, thermocouple ports, and mains inlet.</figcaption></figure><article class="project-body"><p>An open-source control and data-acquisition unit for my plasma irradiation and
+hydrogen transport experiments (PIHTI). It runs on a Raspberry Pi with a
+Python/PyQt interface — logging vacuum and plasma parameters, driving the gas
+flows, and closing the loop on plasma current — while staying cheap, hackable,
+and fully documented.</p></article></section><section class="project-more"><h2 id="what-it-does">What it does</h2>
+<ul>
+<li>Orchestrates a plasma run end to end — logging chamber pressures and
+  plasma/probe currents through onboard ADC boards over long, steady-state
+  operations.</li>
+<li>Drives the process-gas mass-flow controllers and closes a feedback loop on
+  the plasma current.</li>
+<li>Emits sync signals and a front-panel LED to time-align external instruments
+  such as the QMS.</li>
+<li>Built on a Raspberry Pi with custom PiHat breakout PCBs, Hall current
+  sensors, a proper power supply, and deliberate grounding and EMI proofing.</li>
+<li>Python software — open-source and documented.</li>
+</ul>
+<h2 id="from-spaghetti-to-an-instrument">From spaghetti to an instrument</h2>
+<p>The unit grew up over six years. It began as a bare Raspberry Pi and a HAT
+living in a plastic food box, wired straight into the experiment. That prototype
+earned a proper home — an aluminum-extrusion enclosure drawn in CAD, then built,
+with the boards, breadboard, and feedthroughs laid out behind a real front
+panel. The current generation adds a proper MeanWell PSU, custom breakout PCBs,
+and genuine attention to grounding and signal routing: the difference between
+"works on the bench" and an instrument you can trust.</p>
+<h2 id="where-its-going">Where it's going</h2>
+<p>The next step trades the single box for <strong>small, self-contained modules</strong> —
+3D-printed slide-in cases that drop into a rack, each an ESP32 (or Raspberry Pi)
+that talks over <strong>LAN</strong>. Let the network carry the distance, and keep the fast,
+noisy SPI/I²C buses local to each module, so a sensor's analog front end never
+has to cross the lab.</p>
+<p>It's a deliberate bet against the National Instruments / LabVIEW way: something
+more flexible, far cheaper, and — honestly — more charming. If there is ever
+time to finish it. But someone will.</p></section><h2 class="project-section-title" id="gallery">Gallery</h2><div class="gallery"><figure><div class="thumb"><img alt="" decoding="async" loading="lazy" src="/projects/plasma-device-control-unit/controlunit-spaghetti.jpg"/></div><figcaption>2019 — a bare Raspberry Pi and HAT in a food container, wired straight into the plasma bench.</figcaption></figure><figure><div class="thumb"><img alt="" decoding="async" loading="lazy" src="/projects/plasma-device-control-unit/controlunit-prototype.jpg"/></div><figcaption>2020 — the breadboard prototype beside its CAD render and the first aluminum-extrusion enclosure.</figcaption></figure><figure><div class="thumb"><img alt="" decoding="async" loading="lazy" src="/projects/plasma-device-control-unit/controlunit-pcb.jpg"/></div><figcaption>2025 — the custom aklab Pi-Hat Breakout (rev 1) PCB, retiring the hand-soldered perfboards for a proper board.</figcaption></figure><figure><div class="thumb"><img alt="" decoding="async" loading="lazy" src="/projects/plasma-device-control-unit/controlunit-panel-2026.jpg"/></div><figcaption>2026 — cleaning up the plug interfaces — the scratched, hand-labeled panel (bottom) gives way to keyed connectors, labeled BNCs, and an RJ45 for LAN (top).</figcaption></figure><figure><div class="thumb"><img alt="" decoding="async" loading="lazy" src="/projects/plasma-device-control-unit/controlunit-heater.jpg"/></div><figcaption>A sibling 3D-printed module — the probe-heater box — small, self-contained, and slide-in, the way the design is heading.</figcaption></figure><figure><div class="thumb"><img alt="" decoding="async" loading="lazy" src="/projects/plasma-device-control-unit/controlunit-tclogger.jpg"/></div><figcaption>The new direction in the flesh — a networked ESP32 thermocouple logger, 3D-printed, with an OLED readout and phone access over Wi-Fi.</figcaption></figure></div></div>
+            </main>
+
+            <aside class="project-rail project-rail--right">
+                <div class="rail-card">
+                    <p class="rail-card-label">Category</p>
+                    <p class="rail-card-value">Instrument control</p>
+                </div>
+
+                <div class="rail-card rail-card--meta">
+                    <p class="rail-card-label">Details</p>
+
+                    <p class="rail-card-label">Period</p>
+                    <p class="rail-card-value">2019-Present</p>
+
+
+
+                    <div class="rail-link-list">
+
+                        <a href="https://github.com/queezz/ControlUnit" target="_blank" rel="noopener noreferrer">GitHub &#8599;</a>
+
+                        <a href="https://queezz.github.io/ControlUnit/" target="_blank" rel="noopener noreferrer">Documentation &#8599;</a>
+
+                    </div>
+
+                </div>
+
+
+                <nav class="rail-outline" aria-label="On this page">
+                    <p class="rail-outline-title">On this page</p>
+                    <ul>
+
+                        <li class="lvl-2"><a href="projects/plasma-device-control-unit/#what-it-does">What it does</a></li>
+
+                        <li class="lvl-2"><a href="projects/plasma-device-control-unit/#from-spaghetti-to-an-instrument">From spaghetti to an instrument</a></li>
+
+                        <li class="lvl-2"><a href="projects/plasma-device-control-unit/#where-its-going">Where it&#39;s going</a></li>
+
+                        <li class="lvl-2"><a href="projects/plasma-device-control-unit/#gallery">Gallery</a></li>
+
+                    </ul>
+                </nav>
+
+            </aside>
+        </div>
+
+        <div class="project-drawer" id="projectDetailsDrawer" aria-hidden="true">
+            <button class="project-drawer-backdrop" type="button" data-project-drawer-close aria-label="Close project details"></button>
+            <aside class="project-drawer-sheet" role="dialog" aria-modal="true" aria-labelledby="projectDetailsTitle" tabindex="-1">
+                <div class="project-drawer-header">
+                    <h2 id="projectDetailsTitle">Project Details</h2>
+                    <button class="project-drawer-close" type="button" data-project-drawer-close aria-label="Close project details">&times;</button>
+                </div>
+                <div class="rail-card">
+                    <p class="rail-card-label">Category</p>
+                    <p class="rail-card-value">Instrument control</p>
+                </div>
+
+                <div class="rail-card rail-card--meta">
+                    <p class="rail-card-label">Details</p>
+
+                    <p class="rail-card-label">Period</p>
+                    <p class="rail-card-value">2019-Present</p>
+
+
+
+                    <div class="rail-link-list">
+
+                        <a href="https://github.com/queezz/ControlUnit" target="_blank" rel="noopener noreferrer">GitHub &#8599;</a>
+
+                        <a href="https://queezz.github.io/ControlUnit/" target="_blank" rel="noopener noreferrer">Documentation &#8599;</a>
+
+                    </div>
+
+                </div>
+
+
+                <nav class="rail-outline project-drawer-outline" aria-label="On this page">
+                    <p class="rail-outline-title">On this page</p>
+                    <ul>
+
+                        <li class="lvl-2"><a href="projects/plasma-device-control-unit/#what-it-does">What it does</a></li>
+
+                        <li class="lvl-2"><a href="projects/plasma-device-control-unit/#from-spaghetti-to-an-instrument">From spaghetti to an instrument</a></li>
+
+                        <li class="lvl-2"><a href="projects/plasma-device-control-unit/#where-its-going">Where it&#39;s going</a></li>
+
+                        <li class="lvl-2"><a href="projects/plasma-device-control-unit/#gallery">Gallery</a></li>
+
+                    </ul>
+                </nav>
+
+            </aside>
+        </div>
+    </section>
+
+</div>
+
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js"></script>
+  <script defer src="scripts/project_detail_ui.js?v=1783179235"></script>
 
-  <script defer src="../../scripts/project.js"></script>
-  <script defer src="../../scripts/scrollnav.js"></script>
 </body>
+
 </html>
