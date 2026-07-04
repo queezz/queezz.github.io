@@ -16,17 +16,40 @@
     <link rel="canonical" href="https://arseniykuzmin.github.io/projects/wc-film-growth-model/">
     <link rel="alternate" href="https://queezz.github.io/projects/wc-film-growth-model/">
     <link rel="icon" href="static/favicon.ico">
-    <link rel="stylesheet" href="styles/styles.css?v=1783179235">
+    <link rel="stylesheet" href="styles/styles.css?v=1783180765">
     <script type="speculationrules">
     {"prefetch": [{"where": {"href_matches": "/*"}, "eagerness": "moderate"}]}
     </script>
     
     <meta name="viewport" content="width=device-width" />
-    <link rel="stylesheet" href="styles/project.css?v=1783179235" />
+    <link rel="stylesheet" href="styles/project.css?v=1783180765" />
 
 </head>
 
 <body>
+
+
+<header class="site-header">
+    <div class="site-header-inner">
+        <a class="site-brand" href="/index.html">Arseniy Kuzmin</a>
+        
+        <button class="site-section-title" type="button" data-scroll-top hidden>
+            Projects
+        </button>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-menu" aria-label="Menu">
+            <span class="nav-toggle-box"><span class="nav-toggle-inner"></span></span>
+        </button>
+        <nav class="primary-nav" aria-label="Primary">
+            <ul class="nav-menu" id="primary-menu">
+                <li><a href="/index.html">About</a></li>
+                <li><a href="/conferences.html">Conferences</a></li>
+                <li><a href="/publications.html">Publications</a></li>
+                <li><a href="/projects.html" class="is-active" aria-current="page">Projects</a></li>
+                <li class="nav-theme"><button id="darkModeToggle" type="button" aria-label="Toggle dark mode">🌙</button></li>
+            </ul>
+        </nav>
+    </div>
+</header>
 
 
     <script>
@@ -110,42 +133,25 @@ function setupHeaderScrollTitle() {
     window.addEventListener('resize', updateHeaderHeight);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+function initNavbarChrome() {
     setupDarkModeToggle();
     setupPrimaryNav();
     setupHeaderScrollTitle();
-});
+}
+
+if (document.readyState === 'loading' && !document.querySelector('.site-header')) {
+    document.addEventListener('DOMContentLoaded', initNavbarChrome, { once: true });
+} else {
+    initNavbarChrome();
+}
     </script>
-    <script src="scripts/scroltotop.js?v=1783179235"></script>
+    <script src="scripts/scroltotop.js?v=1783180765"></script>
 
     <!-- Floating button to go back to the top -->
     <button class="scroll-to-top-button" id="scrollToTopButton" type="button" aria-label="Back to top" aria-hidden="true">
         <span class="scroll-to-top-arrow"></span>
         <span class="scroll-to-top-label">Back to top</span>
     </button>
-
-
-<header class="site-header">
-    <div class="site-header-inner">
-        <a class="site-brand" href="/index.html">Arseniy Kuzmin</a>
-        
-        <button class="site-section-title" type="button" data-scroll-top hidden>
-            Projects
-        </button>
-        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-menu" aria-label="Menu">
-            <span class="nav-toggle-box"><span class="nav-toggle-inner"></span></span>
-        </button>
-        <nav class="primary-nav" aria-label="Primary">
-            <ul class="nav-menu" id="primary-menu">
-                <li><a href="/index.html">About</a></li>
-                <li><a href="/conferences.html">Conferences</a></li>
-                <li><a href="/publications.html">Publications</a></li>
-                <li><a href="/projects.html" class="is-active" aria-current="page">Projects</a></li>
-                <li class="nav-theme"><button id="darkModeToggle" type="button" aria-label="Toggle dark mode">🌙</button></li>
-            </ul>
-        </nav>
-    </div>
-</header>
 
 <div class="main-content">
     
@@ -232,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js"></script>
-  <script defer src="scripts/project_detail_ui.js?v=1783179235"></script>
+  <script defer src="scripts/project_detail_ui.js?v=1783180765"></script>
 
 </body>
 
