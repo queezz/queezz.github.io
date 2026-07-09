@@ -4,9 +4,17 @@
 <head>
     <script>
         (function () {
-            if (localStorage.getItem('darkMode') === '1') {
+            var storedTheme = null;
+            try {
+                storedTheme = localStorage.getItem('darkMode');
+            } catch (e) {
+                storedTheme = null;
+            }
+            var systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (storedTheme === '1' || (storedTheme === null && systemDark)) {
                 document.documentElement.classList.add('dark-mode');
             }
+            document.documentElement.dataset.themeSource = storedTheme === null ? 'system' : 'manual';
         })();
     </script>
     <style>html{background-color:#fff}html.dark-mode{background-color:#1c1c1c}</style>
@@ -16,13 +24,13 @@
     <link rel="canonical" href="https://arseniykuzmin.github.io/projects/x-ray-filter-inspection/">
     <link rel="alternate" href="https://queezz.github.io/projects/x-ray-filter-inspection/">
     <link rel="icon" href="static/favicon.ico">
-    <link rel="stylesheet" href="styles/styles.css?v=1783180765">
+    <link rel="stylesheet" href="styles/styles.css?v=1783566494">
     <script type="speculationrules">
     {"prefetch": [{"where": {"href_matches": "/*"}, "eagerness": "moderate"}]}
     </script>
     
     <meta name="viewport" content="width=device-width" />
-    <link rel="stylesheet" href="styles/project.css?v=1783180765" />
+    <link rel="stylesheet" href="styles/project.css?v=1783566494" />
 
 </head>
 
@@ -53,6 +61,35 @@
 
 
     <script>
+const THEME_QUERY = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+
+function storedThemePreference() {
+    try {
+        return localStorage.getItem('darkMode');
+    } catch (e) {
+        return null;
+    }
+}
+
+function setStoredThemePreference(value) {
+    try {
+        localStorage.setItem('darkMode', value);
+    } catch (e) {
+        return;
+    }
+}
+
+function systemPrefersDark() {
+    return Boolean(THEME_QUERY && THEME_QUERY.matches);
+}
+
+function applyStoredOrSystemTheme() {
+    const stored = storedThemePreference();
+    const shouldUseDark = stored === '1' || (stored === null && systemPrefersDark());
+    document.documentElement.classList.toggle('dark-mode', shouldUseDark);
+    document.documentElement.dataset.themeSource = stored === null ? 'system' : 'manual';
+}
+
 function updateToggleIcon() {
     const toggleButton = document.getElementById('darkModeToggle');
     const isDark = document.documentElement.classList.contains('dark-mode');
@@ -66,10 +103,26 @@ function setupDarkModeToggle() {
     if (!toggleButton) return;
     toggleButton.addEventListener('click', () => {
         const html = document.documentElement;
-        html.classList.toggle('dark-mode');
-        localStorage.setItem('darkMode', html.classList.contains('dark-mode') ? '1' : '0');
+        const nextDark = !html.classList.contains('dark-mode');
+        html.classList.toggle('dark-mode', nextDark);
+        html.dataset.themeSource = 'manual';
+        setStoredThemePreference(nextDark ? '1' : '0');
         updateToggleIcon();
     });
+    if (THEME_QUERY) {
+        const onSystemThemeChange = () => {
+            if (storedThemePreference() === null) {
+                applyStoredOrSystemTheme();
+                updateToggleIcon();
+            }
+        };
+        if (THEME_QUERY.addEventListener) {
+            THEME_QUERY.addEventListener('change', onSystemThemeChange);
+        } else if (THEME_QUERY.addListener) {
+            THEME_QUERY.addListener(onSystemThemeChange);
+        }
+    }
+    applyStoredOrSystemTheme();
     updateToggleIcon();
 }
 
@@ -145,7 +198,7 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
     initNavbarChrome();
 }
     </script>
-    <script src="scripts/scroltotop.js?v=1783180765"></script>
+    <script src="scripts/scroltotop.js?v=1783566494"></script>
 
     <!-- Floating button to go back to the top -->
     <button class="scroll-to-top-button" id="scrollToTopButton" type="button" aria-label="Back to top" aria-hidden="true">
@@ -158,7 +211,7 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
     <section class="project-detail-page">
         <div class="project-shell">
             <aside class="project-rail project-rail--left">
-                <a class="rail-back" href="projects.html">&larr; All projects</a>
+                <a class="rail-back" href="projects.html#x-ray-filter-inspection">&larr; All projects</a>
                 <nav aria-label="Projects">
                     <ul class="rail-project-list">
 
@@ -184,7 +237,7 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
 
                         <li><a href="projects/hydrogen-molecule-spectroscopy/">Hydrogen Molecule Spectroscopy</a></li>
 
-                        <li><a href="projects/seawater-desalination-device/">Seawater Desalination Device</a></li>
+                        <li><a href="projects/seawater-desalination-device/">Sea Water Desalination Device</a></li>
 
                         <li><a href="projects/echelle-spectrometer-gui/">GUI for Echelle Spectrometer Image processing</a></li>
 
@@ -198,12 +251,20 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
 
             <main class="project-main">
                 <div class="project-mobile-actions">
-                    <a href="projects.html" class="back-link back-link--mobile">&larr; Projects</a>
+                    <a href="projects.html#x-ray-filter-inspection" class="back-link back-link--mobile">&larr; Projects</a>
                     <button class="project-details-button" type="button" data-project-drawer-open aria-controls="projectDetailsDrawer" aria-expanded="false">
                         Details
                     </button>
                 </div>
-                <div id="projectContainer" class="project-content"><header class="project-header"><p class="project-kicker">Design patent</p><h1 class="project-title">X-ray Filter for Non-destructive Inspection</h1><p class="project-subtitle">Improved X-ray filter design for weld inspection.</p></header><section class="project-layout"><figure class="project-figure"><img alt="X-ray Filter for Non-destructive Inspection" decoding="async" fetchpriority="high" height="555" src="/img/Xrayfilter.jpg" width="592"/></figure><article class="project-body"><p>I developed a new filter for X-ray and radio isotope sources used for non-destructive inspecion of welded joints. Significant improvement of the detection limit for defects was achived. This designed was patented, <a href="https://patents.google.com/patent/RU2530452C1/en?oq=RU2530452C1" rel="noopener noreferrer" target="_blank">RU2530452C1</a>.</p></article></section></div>
+                <div id="projectContainer" class="project-content"><header class="project-header"><p class="project-kicker">Design patent</p><h1 class="project-title">X-ray Filter for Non-destructive Inspection</h1><p class="project-subtitle">MCNP simulation and patented filter design for radioisotope inspection of annular welded joints.</p></header><section class="project-layout flow"><figure class="project-figure"><img alt="X-ray Filter for Non-destructive Inspection" decoding="async" fetchpriority="high" height="555" src="generated/project-cards/x-ray-filter-inspection.webp?v=1783566494" width="592"/><figcaption>Concept of the perforated radiographic filter disk. The hexagonal channels shape the radiation field reaching the detector.
+</figcaption></figure><article class="project-body"><p>This project came from a very applied corner of nuclear engineering: how do you see a tiny defect in a welded joint when the object itself is a compact radiation-scattering machine?</p>
+<p>In fission-reactor fuel assemblies and related tube structures, welded joints are not decorative details. Their quality matters, but cutting the part open defeats the point, so the inspection has to be non-destructive. Radioisotope radiography is a natural route: place a gamma source inside the structure and record the transmitted radiation outside.</p>
+<p>The difficulty is the geometry. Source holder, pipe, flange, weld, detector, and surrounding hardware all sit very close to each other. The useful signal carries information about the weld, but the same compact metal geometry also produces scattered radiation, which lowers contrast and makes small defects harder to see.</p>
+<p>My part was the modelling side. I built an MCNP mock-up of the inspection setup: gamma source, fuel pipe, annular weld, flange, detector, and a candidate filter between the object and the detector. The simulation was not meant to make a pretty picture. It was meant to answer a practical question: if a small defect is present near the weld, does it leave a measurable signature in the detector intensity?</p>
+<p>The filter itself is a deliberately strange object: a thin radiation-opaque disk perforated by a regular pattern of hexagonal channels. During exposure the disk rotates or oscillates, so the detector does not simply see the hole pattern. It sees a time-averaged filtered radiation field. The aim is simple: keep more of the useful directional information and suppress part of the scattered background.</p>
+<p>The MCNP result was encouraging. In the synthetic image, the defect appears as a local perturbation in the intensity field, and the line profile shows it clearly. In the old presentation we wrote the result in the most direct engineering language: with the new filter, defects smaller than 0.1 mm could be detected in the model.</p>
+<p>The work later became part of Russian patent <a href="https://patents.google.com/patent/RU2530452C1/en?oq=RU2530452C1">RU2530452C1</a>, Method and apparatus for radioisotope flaw detection of annular weld joints. It is one of those projects where the useful output was not a paper, but a device concept, a simulation argument, and a small patented piece of nuclear-engineering hardware.</p></article></section><h2 class="project-section-title" id="gallery">Gallery</h2><div class="gallery"><figure><div class="thumb"><img alt="" decoding="async" loading="lazy" src="/projects/x-ray-filter-inspection/mcnp-simulation-layout.png"/></div><figcaption>MCNP geometry used to test the inspection concept: source, fuel pipe, weld, flange, defect, filter, and detector.
+</figcaption></figure><figure><div class="thumb"><img alt="" decoding="async" loading="lazy" src="/projects/x-ray-filter-inspection/mcnp-simulation-of-defect-detecton.png"/></div><figcaption>Synthetic radiographic image from the MCNP model. The artificial defect appears as a local intensity disturbance and is also visible in the profile.</figcaption></figure></div></div>
             </main>
 
             <aside class="project-rail project-rail--right">
@@ -212,6 +273,28 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
                     <p class="rail-card-value">Design patent</p>
                 </div>
 
+
+                <div class="rail-card rail-card--patents">
+                    <p class="rail-card-label">Patent</p>
+                    <div class="rail-paper-list">
+
+                        <div class="rail-paper-item">
+                            <a href="https://patents.google.com/patent/RU2530452C1/en?oq=RU2530452C1" target="_blank" rel="noopener noreferrer" title="Patent: RU2530452C1">RU2530452C1 &#8599;</a>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+                <nav class="rail-outline" aria-label="On this page">
+                    <p class="rail-outline-title">On this page</p>
+                    <ul>
+
+                        <li class="lvl-2"><a href="projects/x-ray-filter-inspection/#gallery">Gallery</a></li>
+
+                    </ul>
+                </nav>
 
             </aside>
         </div>
@@ -229,6 +312,28 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
                 </div>
 
 
+                <div class="rail-card rail-card--patents">
+                    <p class="rail-card-label">Patent</p>
+                    <div class="rail-paper-list">
+
+                        <div class="rail-paper-item">
+                            <a href="https://patents.google.com/patent/RU2530452C1/en?oq=RU2530452C1" target="_blank" rel="noopener noreferrer" title="Patent: RU2530452C1">RU2530452C1 &#8599;</a>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+                <nav class="rail-outline project-drawer-outline" aria-label="On this page">
+                    <p class="rail-outline-title">On this page</p>
+                    <ul>
+
+                        <li class="lvl-2"><a href="projects/x-ray-filter-inspection/#gallery">Gallery</a></li>
+
+                    </ul>
+                </nav>
+
             </aside>
         </div>
     </section>
@@ -238,7 +343,7 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js"></script>
-  <script defer src="scripts/project_detail_ui.js?v=1783180765"></script>
+  <script defer src="scripts/project_detail_ui.js?v=1783566494"></script>
 
 </body>
 

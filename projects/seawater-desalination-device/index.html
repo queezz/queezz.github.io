@@ -4,25 +4,33 @@
 <head>
     <script>
         (function () {
-            if (localStorage.getItem('darkMode') === '1') {
+            var storedTheme = null;
+            try {
+                storedTheme = localStorage.getItem('darkMode');
+            } catch (e) {
+                storedTheme = null;
+            }
+            var systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (storedTheme === '1' || (storedTheme === null && systemDark)) {
                 document.documentElement.classList.add('dark-mode');
             }
+            document.documentElement.dataset.themeSource = storedTheme === null ? 'system' : 'manual';
         })();
     </script>
     <style>html{background-color:#fff}html.dark-mode{background-color:#1c1c1c}</style>
     <base href="/">
     <meta charset="UTF-8">
-    <title>Seawater Desalination Device</title>
+    <title>Sea Water Desalination Device</title>
     <link rel="canonical" href="https://arseniykuzmin.github.io/projects/seawater-desalination-device/">
     <link rel="alternate" href="https://queezz.github.io/projects/seawater-desalination-device/">
     <link rel="icon" href="static/favicon.ico">
-    <link rel="stylesheet" href="styles/styles.css?v=1783180765">
+    <link rel="stylesheet" href="styles/styles.css?v=1783566494">
     <script type="speculationrules">
     {"prefetch": [{"where": {"href_matches": "/*"}, "eagerness": "moderate"}]}
     </script>
     
     <meta name="viewport" content="width=device-width" />
-    <link rel="stylesheet" href="styles/project.css?v=1783180765" />
+    <link rel="stylesheet" href="styles/project.css?v=1783566494" />
 
 </head>
 
@@ -53,6 +61,35 @@
 
 
     <script>
+const THEME_QUERY = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+
+function storedThemePreference() {
+    try {
+        return localStorage.getItem('darkMode');
+    } catch (e) {
+        return null;
+    }
+}
+
+function setStoredThemePreference(value) {
+    try {
+        localStorage.setItem('darkMode', value);
+    } catch (e) {
+        return;
+    }
+}
+
+function systemPrefersDark() {
+    return Boolean(THEME_QUERY && THEME_QUERY.matches);
+}
+
+function applyStoredOrSystemTheme() {
+    const stored = storedThemePreference();
+    const shouldUseDark = stored === '1' || (stored === null && systemPrefersDark());
+    document.documentElement.classList.toggle('dark-mode', shouldUseDark);
+    document.documentElement.dataset.themeSource = stored === null ? 'system' : 'manual';
+}
+
 function updateToggleIcon() {
     const toggleButton = document.getElementById('darkModeToggle');
     const isDark = document.documentElement.classList.contains('dark-mode');
@@ -66,10 +103,26 @@ function setupDarkModeToggle() {
     if (!toggleButton) return;
     toggleButton.addEventListener('click', () => {
         const html = document.documentElement;
-        html.classList.toggle('dark-mode');
-        localStorage.setItem('darkMode', html.classList.contains('dark-mode') ? '1' : '0');
+        const nextDark = !html.classList.contains('dark-mode');
+        html.classList.toggle('dark-mode', nextDark);
+        html.dataset.themeSource = 'manual';
+        setStoredThemePreference(nextDark ? '1' : '0');
         updateToggleIcon();
     });
+    if (THEME_QUERY) {
+        const onSystemThemeChange = () => {
+            if (storedThemePreference() === null) {
+                applyStoredOrSystemTheme();
+                updateToggleIcon();
+            }
+        };
+        if (THEME_QUERY.addEventListener) {
+            THEME_QUERY.addEventListener('change', onSystemThemeChange);
+        } else if (THEME_QUERY.addListener) {
+            THEME_QUERY.addListener(onSystemThemeChange);
+        }
+    }
+    applyStoredOrSystemTheme();
     updateToggleIcon();
 }
 
@@ -145,7 +198,7 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
     initNavbarChrome();
 }
     </script>
-    <script src="scripts/scroltotop.js?v=1783180765"></script>
+    <script src="scripts/scroltotop.js?v=1783566494"></script>
 
     <!-- Floating button to go back to the top -->
     <button class="scroll-to-top-button" id="scrollToTopButton" type="button" aria-label="Back to top" aria-hidden="true">
@@ -158,7 +211,7 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
     <section class="project-detail-page">
         <div class="project-shell">
             <aside class="project-rail project-rail--left">
-                <a class="rail-back" href="projects.html">&larr; All projects</a>
+                <a class="rail-back" href="projects.html#seawater-desalination-device">&larr; All projects</a>
                 <nav aria-label="Projects">
                     <ul class="rail-project-list">
 
@@ -184,7 +237,7 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
 
                         <li><a href="projects/hydrogen-molecule-spectroscopy/">Hydrogen Molecule Spectroscopy</a></li>
 
-                        <li><a href="projects/seawater-desalination-device/" class="is-active" aria-current="page">Seawater Desalination Device</a></li>
+                        <li><a href="projects/seawater-desalination-device/" class="is-active" aria-current="page">Sea Water Desalination Device</a></li>
 
                         <li><a href="projects/echelle-spectrometer-gui/">GUI for Echelle Spectrometer Image processing</a></li>
 
@@ -198,20 +251,52 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
 
             <main class="project-main">
                 <div class="project-mobile-actions">
-                    <a href="projects.html" class="back-link back-link--mobile">&larr; Projects</a>
+                    <a href="projects.html#seawater-desalination-device" class="back-link back-link--mobile">&larr; Projects</a>
                     <button class="project-details-button" type="button" data-project-drawer-open aria-controls="projectDetailsDrawer" aria-expanded="false">
                         Details
                     </button>
                 </div>
-                <div id="projectContainer" class="project-content"><header class="project-header"><p class="project-kicker">Device concept</p><h1 class="project-title">Seawater Desalination Device</h1><p class="project-subtitle">Renewable-powered multi-effect evaporation desalination system.</p></header><section class="project-layout"><figure class="project-figure"><img alt="Seawater Desalination Device" decoding="async" fetchpriority="high" height="991" src="/img/CuFefilm.png" width="924"/></figure><article class="project-body"><p>I've participated in R&amp;D of a  multi-effect evaporation seawater desalination system based on renewable energy. Plasma deposition was used to increase light absorptivity of the heat pipes to boil water.</p></article></section></div>
+                <div id="projectContainer" class="project-content"><header class="project-header"><p class="project-kicker">Applied R&amp;D</p><h1 class="project-title">Sea Water Desalination Device</h1><p class="project-subtitle">Solar-assisted multi-effect evaporation desalination work with practical product-engineering lessons.</p></header><section class="project-layout flow"><figure class="project-figure"><img alt="Sea Water Desalination Device" decoding="async" fetchpriority="high" height="414" src="generated/project-cards/seawater-desalination-device.webp?v=1783566494" width="665"/><figcaption>Outdoor collector-field installation for the desalination system.</figcaption></figure><article class="project-body"><p>All students in Professor Begrambekov's lab participated in the desalination
+project. For us it was mostly like a modern research-assistant role: we had our
+own plasma work, but sometimes helped with the device development when the
+project needed hands.</p></article></section><section class="project-more"><p>The work ranged from vacuum condensation and boiling salted water to solar
+collectors, glass-to-metal connections, and actual plasma deposition experiments
+for the black coating on the collector pipes. It was a side job, but it taught
+us a lot about practical product-engineering struggles: sealing, heating,
+condensing, connecting unlike materials, and making a real prototype behave
+outside the clean boundaries of a paper design.</p></section><h2 class="project-section-title" id="gallery">Gallery</h2><div class="gallery"><figure><div class="thumb"><img alt="" decoding="async" height="1156" loading="lazy" src="/projects/seawater-desalination-device/desalination-flow-diagram.png" width="1981"/></div><figcaption>Process schematic for the solar-assisted multi-effect evaporation desalination device.</figcaption></figure><figure><div class="thumb"><img alt="" decoding="async" height="483" loading="lazy" src="/projects/seawater-desalination-device/desalination-system-render.png" width="645"/></div><figcaption>Concept render of the integrated desalination sub-unit, solar thermal modules, PV cells, and support frame.</figcaption></figure><figure><div class="thumb"><img alt="" decoding="async" height="2689" loading="lazy" src="/projects/seawater-desalination-device/2011-mephi-lbb-lab-06.jpg" width="4034"/></div><figcaption>Lab-scale desalination hardware in the MEPhI lab, with vacuum, heating, and condensation hardware under active development.</figcaption></figure><figure><div class="thumb"><img alt="" decoding="async" height="3347" loading="lazy" src="/projects/seawater-desalination-device/2011-mephi-lbb-lab-deposition-stand-01.jpg" width="5021"/></div><figcaption>Plasma deposition work around collector-pipe black coatings and related lab hardware.</figcaption></figure></div></div>
             </main>
 
             <aside class="project-rail project-rail--right">
                 <div class="rail-card">
                     <p class="rail-card-label">Category</p>
-                    <p class="rail-card-value">Device concept</p>
+                    <p class="rail-card-value">Applied R&amp;D</p>
                 </div>
 
+                <div class="rail-card rail-card--meta">
+                    <p class="rail-card-label">Details</p>
+
+                    <p class="rail-card-label">Period</p>
+                    <p class="rail-card-value">2006-2012</p>
+
+
+                    <p class="rail-card-label">Lab</p>
+                    <p class="rail-card-value">Prof. Begrambekov lab, MEPhI</p>
+
+
+                </div>
+
+
+
+
+                <nav class="rail-outline" aria-label="On this page">
+                    <p class="rail-outline-title">On this page</p>
+                    <ul>
+
+                        <li class="lvl-2"><a href="projects/seawater-desalination-device/#gallery">Gallery</a></li>
+
+                    </ul>
+                </nav>
 
             </aside>
         </div>
@@ -225,9 +310,33 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
                 </div>
                 <div class="rail-card">
                     <p class="rail-card-label">Category</p>
-                    <p class="rail-card-value">Device concept</p>
+                    <p class="rail-card-value">Applied R&amp;D</p>
                 </div>
 
+                <div class="rail-card rail-card--meta">
+                    <p class="rail-card-label">Details</p>
+
+                    <p class="rail-card-label">Period</p>
+                    <p class="rail-card-value">2006-2012</p>
+
+
+                    <p class="rail-card-label">Lab</p>
+                    <p class="rail-card-value">Prof. Begrambekov lab, MEPhI</p>
+
+
+                </div>
+
+
+
+
+                <nav class="rail-outline project-drawer-outline" aria-label="On this page">
+                    <p class="rail-outline-title">On this page</p>
+                    <ul>
+
+                        <li class="lvl-2"><a href="projects/seawater-desalination-device/#gallery">Gallery</a></li>
+
+                    </ul>
+                </nav>
 
             </aside>
         </div>
@@ -238,7 +347,7 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js"></script>
-  <script defer src="scripts/project_detail_ui.js?v=1783180765"></script>
+  <script defer src="scripts/project_detail_ui.js?v=1783566494"></script>
 
 </body>
 

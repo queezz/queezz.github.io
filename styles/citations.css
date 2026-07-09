@@ -29,7 +29,7 @@
 
 .button-container {
     display: grid;
-    grid-template-columns: minmax(0, 300px) repeat(2, max-content) minmax(16px, 1fr) minmax(3ch, max-content);
+    grid-template-columns: minmax(0, 300px) repeat(3, max-content) minmax(16px, 1fr) minmax(3ch, max-content);
     align-items: center;
     column-gap: 14px;
     row-gap: 10px;
@@ -110,6 +110,18 @@
     border: 1px solid #ded8cf;
     border-radius: 8px;
     box-shadow: 0 8px 18px rgba(60, 47, 38, 0.1);
+    scroll-margin-top: 96px;
+}
+
+.paper-card:target,
+.paper-card.is-linked-target {
+    background:
+        linear-gradient(135deg, rgba(140, 12, 12, 0.12), rgba(255, 255, 255, 0)),
+        #fffaf0;
+    border-color: rgba(140, 12, 12, 0.9);
+    outline: 3px solid rgba(140, 12, 12, 0.28);
+    outline-offset: 3px;
+    box-shadow: 0 18px 42px rgba(140, 12, 12, 0.24);
 }
 
 .paper-card-top {
@@ -119,10 +131,19 @@
     gap: 10px;
 }
 
+.paper-card-badges {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
 .venue-badge {
     display: inline-flex;
     align-items: center;
-    max-width: 70%;
+    flex: 0 0 auto;
     min-height: 28px;
     box-sizing: border-box;
     padding: 4px 9px;
@@ -133,7 +154,7 @@
     font-size: 13px;
     font-weight: 800;
     line-height: 1.1;
-    overflow-wrap: anywhere;
+    white-space: nowrap;
 }
 
 .paper-year {
@@ -143,6 +164,23 @@
     font-weight: 700;
 }
 
+.paper-role-pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 22px;
+    box-sizing: border-box;
+    padding: 2px 7px;
+    color: #5d5145;
+    background: #eee8dc;
+    border: 1px solid #d5cabc;
+    border-radius: 999px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.1;
+    white-space: nowrap;
+}
+
 .paper-title {
     margin: 0;
     color: #2d2923;
@@ -150,6 +188,13 @@
     font-size: 18px;
     line-height: 1.28;
     font-weight: 700;
+}
+
+.paper-subtitle {
+    margin: -4px 0 0;
+    color: #665d51;
+    font-size: 14px;
+    line-height: 1.35;
 }
 
 .paper-card .authors {
@@ -234,13 +279,33 @@ html.dark-mode .paper-card {
     box-shadow: none;
 }
 
+html.dark-mode .paper-card:target,
+html.dark-mode .paper-card.is-linked-target {
+    background:
+        linear-gradient(135deg, rgba(232, 198, 110, 0.14), rgba(255, 255, 255, 0)),
+        #2c271d;
+    border-color: rgba(232, 198, 110, 0.92);
+    outline-color: rgba(232, 198, 110, 0.34);
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.36);
+}
+
 html.dark-mode .paper-title {
     color: #fffaf0;
     background: transparent;
 }
 
+html.dark-mode .paper-subtitle {
+    color: #d2cbbb;
+}
+
 html.dark-mode .paper-year {
     color: #e8c66e;
+}
+
+html.dark-mode .paper-role-pill {
+    color: #e7ded0;
+    background: #353028;
+    border-color: #554b3d;
 }
 
 html.dark-mode .paper-card .authors {
@@ -291,7 +356,7 @@ html.dark-mode #publicationCount {
     }
 
     .button-container {
-        grid-template-columns: minmax(92px, max-content) minmax(104px, max-content) minmax(12px, 1fr) minmax(3ch, max-content);
+        grid-template-columns: minmax(92px, max-content) minmax(76px, max-content) minmax(12px, 1fr) minmax(3ch, max-content);
         column-gap: 8px;
     }
 
@@ -305,7 +370,13 @@ html.dark-mode #publicationCount {
         grid-column: 1 / -1;
     }
 
+    .corresponding-toggle {
+        grid-column: 1 / span 2;
+        justify-self: start;
+    }
+
     .count-label {
         grid-column: -2 / -1;
+        grid-row: 2;
     }
 }

@@ -4,9 +4,17 @@
 <head>
     <script>
         (function () {
-            if (localStorage.getItem('darkMode') === '1') {
+            var storedTheme = null;
+            try {
+                storedTheme = localStorage.getItem('darkMode');
+            } catch (e) {
+                storedTheme = null;
+            }
+            var systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (storedTheme === '1' || (storedTheme === null && systemDark)) {
                 document.documentElement.classList.add('dark-mode');
             }
+            document.documentElement.dataset.themeSource = storedTheme === null ? 'system' : 'manual';
         })();
     </script>
     <style>html{background-color:#fff}html.dark-mode{background-color:#1c1c1c}</style>
@@ -16,13 +24,13 @@
     <link rel="canonical" href="https://arseniykuzmin.github.io/projects/oxygen-effect-hydrogen-retention/">
     <link rel="alternate" href="https://queezz.github.io/projects/oxygen-effect-hydrogen-retention/">
     <link rel="icon" href="static/favicon.ico">
-    <link rel="stylesheet" href="styles/styles.css?v=1783180765">
+    <link rel="stylesheet" href="styles/styles.css?v=1783566494">
     <script type="speculationrules">
     {"prefetch": [{"where": {"href_matches": "/*"}, "eagerness": "moderate"}]}
     </script>
     
     <meta name="viewport" content="width=device-width" />
-    <link rel="stylesheet" href="styles/project.css?v=1783180765" />
+    <link rel="stylesheet" href="styles/project.css?v=1783566494" />
 
 </head>
 
@@ -53,6 +61,35 @@
 
 
     <script>
+const THEME_QUERY = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+
+function storedThemePreference() {
+    try {
+        return localStorage.getItem('darkMode');
+    } catch (e) {
+        return null;
+    }
+}
+
+function setStoredThemePreference(value) {
+    try {
+        localStorage.setItem('darkMode', value);
+    } catch (e) {
+        return;
+    }
+}
+
+function systemPrefersDark() {
+    return Boolean(THEME_QUERY && THEME_QUERY.matches);
+}
+
+function applyStoredOrSystemTheme() {
+    const stored = storedThemePreference();
+    const shouldUseDark = stored === '1' || (stored === null && systemPrefersDark());
+    document.documentElement.classList.toggle('dark-mode', shouldUseDark);
+    document.documentElement.dataset.themeSource = stored === null ? 'system' : 'manual';
+}
+
 function updateToggleIcon() {
     const toggleButton = document.getElementById('darkModeToggle');
     const isDark = document.documentElement.classList.contains('dark-mode');
@@ -66,10 +103,26 @@ function setupDarkModeToggle() {
     if (!toggleButton) return;
     toggleButton.addEventListener('click', () => {
         const html = document.documentElement;
-        html.classList.toggle('dark-mode');
-        localStorage.setItem('darkMode', html.classList.contains('dark-mode') ? '1' : '0');
+        const nextDark = !html.classList.contains('dark-mode');
+        html.classList.toggle('dark-mode', nextDark);
+        html.dataset.themeSource = 'manual';
+        setStoredThemePreference(nextDark ? '1' : '0');
         updateToggleIcon();
     });
+    if (THEME_QUERY) {
+        const onSystemThemeChange = () => {
+            if (storedThemePreference() === null) {
+                applyStoredOrSystemTheme();
+                updateToggleIcon();
+            }
+        };
+        if (THEME_QUERY.addEventListener) {
+            THEME_QUERY.addEventListener('change', onSystemThemeChange);
+        } else if (THEME_QUERY.addListener) {
+            THEME_QUERY.addListener(onSystemThemeChange);
+        }
+    }
+    applyStoredOrSystemTheme();
     updateToggleIcon();
 }
 
@@ -145,7 +198,7 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
     initNavbarChrome();
 }
     </script>
-    <script src="scripts/scroltotop.js?v=1783180765"></script>
+    <script src="scripts/scroltotop.js?v=1783566494"></script>
 
     <!-- Floating button to go back to the top -->
     <button class="scroll-to-top-button" id="scrollToTopButton" type="button" aria-label="Back to top" aria-hidden="true">
@@ -158,7 +211,7 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
     <section class="project-detail-page">
         <div class="project-shell">
             <aside class="project-rail project-rail--left">
-                <a class="rail-back" href="projects.html">&larr; All projects</a>
+                <a class="rail-back" href="projects.html#oxygen-effect-hydrogen-retention">&larr; All projects</a>
                 <nav aria-label="Projects">
                     <ul class="rail-project-list">
 
@@ -184,7 +237,7 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
 
                         <li><a href="projects/hydrogen-molecule-spectroscopy/">Hydrogen Molecule Spectroscopy</a></li>
 
-                        <li><a href="projects/seawater-desalination-device/">Seawater Desalination Device</a></li>
+                        <li><a href="projects/seawater-desalination-device/">Sea Water Desalination Device</a></li>
 
                         <li><a href="projects/echelle-spectrometer-gui/">GUI for Echelle Spectrometer Image processing</a></li>
 
@@ -198,18 +251,36 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
 
             <main class="project-main">
                 <div class="project-mobile-actions">
-                    <a href="projects.html" class="back-link back-link--mobile">&larr; Projects</a>
+                    <a href="projects.html#oxygen-effect-hydrogen-retention" class="back-link back-link--mobile">&larr; Projects</a>
                     <button class="project-details-button" type="button" data-project-drawer-open aria-controls="projectDetailsDrawer" aria-expanded="false">
                         Details
                     </button>
                 </div>
-                <div id="projectContainer" class="project-content"><header class="project-header"><p class="project-kicker">Retention study</p><h1 class="project-title">Oxygen Effect on Hydrogen Retention in Graphites</h1><p class="project-subtitle">Oxygen addition drastically increases hydrogen retention in graphites.</p></header><section class="project-layout"><figure class="project-figure"><img alt="Oxygen Effect on Hydrogen Retention in Graphites" decoding="async" fetchpriority="high" height="537" src="/img/D2O2-m.png" width="785"/></figure><article class="project-body"><p>We've investigated how oxygen presence in hydrogen plasma affects retention in graphites. Turnes out, addition of a small concentration of oxygen leads to a tremendous increas in retention, even when ion irradiation energy is close to 0, or when irradiating graphites with only electrons.</p></article></section></div>
+                <div id="projectContainer" class="project-content"><header class="project-header"><p class="project-kicker">Retention study</p><h1 class="project-title">Oxygen Effect on Hydrogen Retention in Graphites</h1><p class="project-subtitle">Small oxygen additions make graphite retain much more hydrogen.</p></header><section class="project-layout flow"><figure class="project-figure"><img alt="Oxygen Effect on Hydrogen Retention in Graphites" decoding="async" fetchpriority="high" height="493" src="generated/project-cards/oxygen-effect-hydrogen-retention.webp?v=1783566494" width="720"/><figcaption>Deuterium release from carbon-fiber composite after irradiation in pure D2 plasma and in D2 + 4.3% O2 plasma. The oxygen-containing plasma produces much higher retained deuterium over the whole ion-energy range, including very low-energy irradiation.</figcaption></figure><article class="project-body"><p>This project came from the very real background of Tore Supra and carbon-wall tokamaks: there is oxygen in the wall. Not a little abstract impurity in a vacuum textbook, but a practical plasma-facing-material problem. Oxygen sits on surfaces, comes from conditioning history, residual water, oxides, leaks, and wall chemistry. Once a hydrogen plasma touches that wall, the problem is no longer "hydrogen on clean graphite."</p>
+<p>We wanted to know what oxygen does to hydrogen isotope retention in graphite materials. The experiment was deliberately simple: irradiate carbon materials in deuterium plasma, then add a small amount of oxygen and measure how much deuterium remains by thermal desorption. The plotted result is one of the clearest outcomes: adding only 4.3% O2 to D2 plasma strongly increased deuterium retention in carbon-fiber composite across the whole ion-energy range.</p>
+<p>The important part is not only that retention increased. It also increased at very low ion energies, where ordinary implantation should be weak. That told us that the wall was not just passively collecting fast ions. Low-energy plasma particles could activate the graphite surface, dissociate adsorbed water-like molecules, and drive hydrogen and deuterium into near-surface traps. We called this pathway "potential" trapping, to distinguish it from ordinary kinetic implantation by fast ions.</p>
+<p>Oxygen made that pathway much stronger. In a tokamak wall, oxygen is therefore not just contamination that changes spectra or fuel purity. It changes the material response itself. A graphite wall exposed to oxygen-containing hydrogen plasma can become a much better hydrogen reservoir than the same wall in nominally clean deuterium plasma.</p>
+<p>That was the useful lesson: hydrogen retention in carbon walls is controlled by wall chemistry as much as by ion energy. In Tore Supra reality, where oxygen was a persistent part of the wall history, this meant that cleaning and retention had to be understood together. Oxygen removal was not a separate housekeeping problem; it was part of the hydrogen inventory problem.</p></article></section></div>
             </main>
 
             <aside class="project-rail project-rail--right">
                 <div class="rail-card">
                     <p class="rail-card-label">Category</p>
                     <p class="rail-card-value">Retention study</p>
+                </div>
+
+
+
+                <div class="rail-card rail-card--papers">
+                    <p class="rail-card-label">Published work</p>
+                    <div class="rail-paper-list">
+
+                        <div class="rail-paper-item">
+                            <a href="publications.html#paper-10-1016-j-jnucmat-2013-01-211" title="Deuterium trapping in carbon films formed in different deposition conditions">JNM 2013</a>
+
+                        </div>
+
+                    </div>
                 </div>
 
 
@@ -229,6 +300,20 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
                 </div>
 
 
+
+                <div class="rail-card rail-card--papers">
+                    <p class="rail-card-label">Published work</p>
+                    <div class="rail-paper-list">
+
+                        <div class="rail-paper-item">
+                            <a href="publications.html#paper-10-1016-j-jnucmat-2013-01-211" title="Deuterium trapping in carbon films formed in different deposition conditions">JNM 2013</a>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
             </aside>
         </div>
     </section>
@@ -238,7 +323,7 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js"></script>
-  <script defer src="scripts/project_detail_ui.js?v=1783180765"></script>
+  <script defer src="scripts/project_detail_ui.js?v=1783566494"></script>
 
 </body>
 

@@ -4,9 +4,17 @@
 <head>
     <script>
         (function () {
-            if (localStorage.getItem('darkMode') === '1') {
+            var storedTheme = null;
+            try {
+                storedTheme = localStorage.getItem('darkMode');
+            } catch (e) {
+                storedTheme = null;
+            }
+            var systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (storedTheme === '1' || (storedTheme === null && systemDark)) {
                 document.documentElement.classList.add('dark-mode');
             }
+            document.documentElement.dataset.themeSource = storedTheme === null ? 'system' : 'manual';
         })();
     </script>
     <style>html{background-color:#fff}html.dark-mode{background-color:#1c1c1c}</style>
@@ -16,13 +24,13 @@
     <link rel="canonical" href="https://arseniykuzmin.github.io/projects/oxygen-removal-graphite-wall/">
     <link rel="alternate" href="https://queezz.github.io/projects/oxygen-removal-graphite-wall/">
     <link rel="icon" href="static/favicon.ico">
-    <link rel="stylesheet" href="styles/styles.css?v=1783180765">
+    <link rel="stylesheet" href="styles/styles.css?v=1783566494">
     <script type="speculationrules">
     {"prefetch": [{"where": {"href_matches": "/*"}, "eagerness": "moderate"}]}
     </script>
     
     <meta name="viewport" content="width=device-width" />
-    <link rel="stylesheet" href="styles/project.css?v=1783180765" />
+    <link rel="stylesheet" href="styles/project.css?v=1783566494" />
 
 </head>
 
@@ -53,6 +61,35 @@
 
 
     <script>
+const THEME_QUERY = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+
+function storedThemePreference() {
+    try {
+        return localStorage.getItem('darkMode');
+    } catch (e) {
+        return null;
+    }
+}
+
+function setStoredThemePreference(value) {
+    try {
+        localStorage.setItem('darkMode', value);
+    } catch (e) {
+        return;
+    }
+}
+
+function systemPrefersDark() {
+    return Boolean(THEME_QUERY && THEME_QUERY.matches);
+}
+
+function applyStoredOrSystemTheme() {
+    const stored = storedThemePreference();
+    const shouldUseDark = stored === '1' || (stored === null && systemPrefersDark());
+    document.documentElement.classList.toggle('dark-mode', shouldUseDark);
+    document.documentElement.dataset.themeSource = stored === null ? 'system' : 'manual';
+}
+
 function updateToggleIcon() {
     const toggleButton = document.getElementById('darkModeToggle');
     const isDark = document.documentElement.classList.contains('dark-mode');
@@ -66,10 +103,26 @@ function setupDarkModeToggle() {
     if (!toggleButton) return;
     toggleButton.addEventListener('click', () => {
         const html = document.documentElement;
-        html.classList.toggle('dark-mode');
-        localStorage.setItem('darkMode', html.classList.contains('dark-mode') ? '1' : '0');
+        const nextDark = !html.classList.contains('dark-mode');
+        html.classList.toggle('dark-mode', nextDark);
+        html.dataset.themeSource = 'manual';
+        setStoredThemePreference(nextDark ? '1' : '0');
         updateToggleIcon();
     });
+    if (THEME_QUERY) {
+        const onSystemThemeChange = () => {
+            if (storedThemePreference() === null) {
+                applyStoredOrSystemTheme();
+                updateToggleIcon();
+            }
+        };
+        if (THEME_QUERY.addEventListener) {
+            THEME_QUERY.addEventListener('change', onSystemThemeChange);
+        } else if (THEME_QUERY.addListener) {
+            THEME_QUERY.addListener(onSystemThemeChange);
+        }
+    }
+    applyStoredOrSystemTheme();
     updateToggleIcon();
 }
 
@@ -145,7 +198,7 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
     initNavbarChrome();
 }
     </script>
-    <script src="scripts/scroltotop.js?v=1783180765"></script>
+    <script src="scripts/scroltotop.js?v=1783566494"></script>
 
     <!-- Floating button to go back to the top -->
     <button class="scroll-to-top-button" id="scrollToTopButton" type="button" aria-label="Back to top" aria-hidden="true">
@@ -158,7 +211,7 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
     <section class="project-detail-page">
         <div class="project-shell">
             <aside class="project-rail project-rail--left">
-                <a class="rail-back" href="projects.html">&larr; All projects</a>
+                <a class="rail-back" href="projects.html#oxygen-removal-graphite-wall">&larr; All projects</a>
                 <nav aria-label="Projects">
                     <ul class="rail-project-list">
 
@@ -184,7 +237,7 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
 
                         <li><a href="projects/hydrogen-molecule-spectroscopy/">Hydrogen Molecule Spectroscopy</a></li>
 
-                        <li><a href="projects/seawater-desalination-device/">Seawater Desalination Device</a></li>
+                        <li><a href="projects/seawater-desalination-device/">Sea Water Desalination Device</a></li>
 
                         <li><a href="projects/echelle-spectrometer-gui/">GUI for Echelle Spectrometer Image processing</a></li>
 
@@ -198,18 +251,36 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
 
             <main class="project-main">
                 <div class="project-mobile-actions">
-                    <a href="projects.html" class="back-link back-link--mobile">&larr; Projects</a>
+                    <a href="projects.html#oxygen-removal-graphite-wall" class="back-link back-link--mobile">&larr; Projects</a>
                     <button class="project-details-button" type="button" data-project-drawer-open aria-controls="projectDetailsDrawer" aria-expanded="false">
                         Details
                     </button>
                 </div>
-                <div id="projectContainer" class="project-content"><header class="project-header"><p class="project-kicker">Plasma cleaning</p><h1 class="project-title">Oxygen Removal from Graphite Wall</h1><p class="project-subtitle">Glow discharge cleaning parameters for oxygen removal.</p></header><section class="project-layout"><figure class="project-figure"><img alt="Oxygen Removal from Graphite Wall" decoding="async" fetchpriority="high" height="639" src="/img/CO2-m.png" width="881"/></figure><article class="project-body"><p>We searched for optimal parameters for glow discharge cleaning to remove oxygen from graphite tiles in Tore-Supra tokamak.</p></article></section></div>
+                <div id="projectContainer" class="project-content"><header class="project-header"><p class="project-kicker">Plasma cleaning</p><h1 class="project-title">Oxygen Removal from Graphite Wall</h1><p class="project-subtitle">Glow-discharge cleaning parameters for oxygen removal.</p></header><section class="project-layout flow"><figure class="project-figure"><img alt="Oxygen Removal from Graphite Wall" decoding="async" fetchpriority="high" height="522" src="generated/project-cards/oxygen-removal-graphite-wall.webp?v=1783566494" width="720"/><figcaption>Oxygen removal from graphite materials during deuterium glow-discharge cleaning. In carbon-fiber composite, the dominant control is the cleaning-ion energy: high-energy cleaning sputters faster, but also drives oxygen deeper, so a thicker layer must be removed.</figcaption></figure><article class="project-body"><p>This figure comes from my doctoral work on a very practical fusion-materials problem: how do you remove oxygen from the first wall of a tokamak?</p>
+<p>Tore Supra needed a reliable way to clean oxygen from plasma-facing walls, and our group had a contract to help understand the physics behind that cleaning. We worked with carbon-fiber composite, pyrolytic graphite, and stainless steel - the materials and material families that mattered for the wall. It was not a one-person project: students, PhD students, and senior researchers ran long irradiation and thermal-desorption campaigns on several plasma and TDS devices, then stitched the results together into reports, papers, and a practical cleaning scenario.</p>
+<p>The figure shows one of the key graphite results. We first loaded the samples with oxygen in deuterium-oxygen plasma, then tried to remove that oxygen by deuterium glow-discharge cleaning. The original oxygen-loading energy mattered much less than one might expect. Once cleaning started, the material response was controlled mainly by the energy of the cleaning ions themselves.</p>
+<p>Low-energy deuterium cleaning was slower in clock time, but gentler: oxygen stayed closer to the surface, so a thinner layer had to be sputtered away. High-energy cleaning looked faster, but it had a trap. The same energetic deuterium ions that sputtered the surface also drove oxygen deeper into the carbon-fiber composite by collision cascades. The wall was being cleaned and mixed at the same time.</p>
+<p>That was the useful lesson: "higher energy" is not automatically "better" for tokamak wall conditioning. In graphite composites, energetic cleaning ions can bury the impurity you are trying to remove. The practical optimum is a compromise between sputtering rate, cleaning time, and ion-driven oxygen transport into the wall.</p></article></section></div>
             </main>
 
             <aside class="project-rail project-rail--right">
                 <div class="rail-card">
                     <p class="rail-card-label">Category</p>
                     <p class="rail-card-value">Plasma cleaning</p>
+                </div>
+
+
+
+                <div class="rail-card rail-card--papers">
+                    <p class="rail-card-label">Published work</p>
+                    <div class="rail-paper-list">
+
+                        <div class="rail-paper-item">
+                            <a href="publications.html#paper-10-1016-j-jnucmat-2010-10-054" title="Glow discharge cleaning of carbon fiber composite and stainless steel">JNM 2011</a>
+
+                        </div>
+
+                    </div>
                 </div>
 
 
@@ -229,6 +300,20 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
                 </div>
 
 
+
+                <div class="rail-card rail-card--papers">
+                    <p class="rail-card-label">Published work</p>
+                    <div class="rail-paper-list">
+
+                        <div class="rail-paper-item">
+                            <a href="publications.html#paper-10-1016-j-jnucmat-2010-10-054" title="Glow discharge cleaning of carbon fiber composite and stainless steel">JNM 2011</a>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
             </aside>
         </div>
     </section>
@@ -238,7 +323,7 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js"></script>
-  <script defer src="scripts/project_detail_ui.js?v=1783180765"></script>
+  <script defer src="scripts/project_detail_ui.js?v=1783566494"></script>
 
 </body>
 

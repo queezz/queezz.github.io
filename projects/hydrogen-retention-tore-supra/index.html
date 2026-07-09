@@ -4,9 +4,17 @@
 <head>
     <script>
         (function () {
-            if (localStorage.getItem('darkMode') === '1') {
+            var storedTheme = null;
+            try {
+                storedTheme = localStorage.getItem('darkMode');
+            } catch (e) {
+                storedTheme = null;
+            }
+            var systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (storedTheme === '1' || (storedTheme === null && systemDark)) {
                 document.documentElement.classList.add('dark-mode');
             }
+            document.documentElement.dataset.themeSource = storedTheme === null ? 'system' : 'manual';
         })();
     </script>
     <style>html{background-color:#fff}html.dark-mode{background-color:#1c1c1c}</style>
@@ -16,13 +24,13 @@
     <link rel="canonical" href="https://arseniykuzmin.github.io/projects/hydrogen-retention-tore-supra/">
     <link rel="alternate" href="https://queezz.github.io/projects/hydrogen-retention-tore-supra/">
     <link rel="icon" href="static/favicon.ico">
-    <link rel="stylesheet" href="styles/styles.css?v=1783180765">
+    <link rel="stylesheet" href="styles/styles.css?v=1783566494">
     <script type="speculationrules">
     {"prefetch": [{"where": {"href_matches": "/*"}, "eagerness": "moderate"}]}
     </script>
     
     <meta name="viewport" content="width=device-width" />
-    <link rel="stylesheet" href="styles/project.css?v=1783180765" />
+    <link rel="stylesheet" href="styles/project.css?v=1783566494" />
 
 </head>
 
@@ -53,6 +61,35 @@
 
 
     <script>
+const THEME_QUERY = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+
+function storedThemePreference() {
+    try {
+        return localStorage.getItem('darkMode');
+    } catch (e) {
+        return null;
+    }
+}
+
+function setStoredThemePreference(value) {
+    try {
+        localStorage.setItem('darkMode', value);
+    } catch (e) {
+        return;
+    }
+}
+
+function systemPrefersDark() {
+    return Boolean(THEME_QUERY && THEME_QUERY.matches);
+}
+
+function applyStoredOrSystemTheme() {
+    const stored = storedThemePreference();
+    const shouldUseDark = stored === '1' || (stored === null && systemPrefersDark());
+    document.documentElement.classList.toggle('dark-mode', shouldUseDark);
+    document.documentElement.dataset.themeSource = stored === null ? 'system' : 'manual';
+}
+
 function updateToggleIcon() {
     const toggleButton = document.getElementById('darkModeToggle');
     const isDark = document.documentElement.classList.contains('dark-mode');
@@ -66,10 +103,26 @@ function setupDarkModeToggle() {
     if (!toggleButton) return;
     toggleButton.addEventListener('click', () => {
         const html = document.documentElement;
-        html.classList.toggle('dark-mode');
-        localStorage.setItem('darkMode', html.classList.contains('dark-mode') ? '1' : '0');
+        const nextDark = !html.classList.contains('dark-mode');
+        html.classList.toggle('dark-mode', nextDark);
+        html.dataset.themeSource = 'manual';
+        setStoredThemePreference(nextDark ? '1' : '0');
         updateToggleIcon();
     });
+    if (THEME_QUERY) {
+        const onSystemThemeChange = () => {
+            if (storedThemePreference() === null) {
+                applyStoredOrSystemTheme();
+                updateToggleIcon();
+            }
+        };
+        if (THEME_QUERY.addEventListener) {
+            THEME_QUERY.addEventListener('change', onSystemThemeChange);
+        } else if (THEME_QUERY.addListener) {
+            THEME_QUERY.addListener(onSystemThemeChange);
+        }
+    }
+    applyStoredOrSystemTheme();
     updateToggleIcon();
 }
 
@@ -145,7 +198,7 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
     initNavbarChrome();
 }
     </script>
-    <script src="scripts/scroltotop.js?v=1783180765"></script>
+    <script src="scripts/scroltotop.js?v=1783566494"></script>
 
     <!-- Floating button to go back to the top -->
     <button class="scroll-to-top-button" id="scrollToTopButton" type="button" aria-label="Back to top" aria-hidden="true">
@@ -158,7 +211,7 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
     <section class="project-detail-page">
         <div class="project-shell">
             <aside class="project-rail project-rail--left">
-                <a class="rail-back" href="projects.html">&larr; All projects</a>
+                <a class="rail-back" href="projects.html#hydrogen-retention-tore-supra">&larr; All projects</a>
                 <nav aria-label="Projects">
                     <ul class="rail-project-list">
 
@@ -184,7 +237,7 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
 
                         <li><a href="projects/hydrogen-molecule-spectroscopy/">Hydrogen Molecule Spectroscopy</a></li>
 
-                        <li><a href="projects/seawater-desalination-device/">Seawater Desalination Device</a></li>
+                        <li><a href="projects/seawater-desalination-device/">Sea Water Desalination Device</a></li>
 
                         <li><a href="projects/echelle-spectrometer-gui/">GUI for Echelle Spectrometer Image processing</a></li>
 
@@ -198,12 +251,12 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
 
             <main class="project-main">
                 <div class="project-mobile-actions">
-                    <a href="projects.html" class="back-link back-link--mobile">&larr; Projects</a>
+                    <a href="projects.html#hydrogen-retention-tore-supra" class="back-link back-link--mobile">&larr; Projects</a>
                     <button class="project-details-button" type="button" data-project-drawer-open aria-controls="projectDetailsDrawer" aria-expanded="false">
                         Details
                     </button>
                 </div>
-                <div id="projectContainer" class="project-content"><header class="project-header"><p class="project-kicker">Materials analysis</p><h1 class="project-title">Hydrogen Retention in Tore-Supra Tiles</h1><p class="project-subtitle">Study of hydrogen retention in Tore-Supra tokamak tiles.</p></header><section class="project-layout"><figure class="project-figure"><img alt="Hydrogen Retention in Tore-Supra Tiles" decoding="async" fetchpriority="high" height="534" src="/projects/hydrogen-retention-tore-supra/ToreSupra.png" width="673"/><figcaption>First wall overview and selected tiles</figcaption></figure><article class="project-body"><p>We investigated hydrogen retention in Tore-Supra tokamak tiles after several plasma campaigns (tiles <strong>#14</strong> and <strong>#20</strong> from the inboard bumper, 1995–1999). It was found that most hydrogen is retained in deposited and top surface layers; moreover, hydrogen diffuses into the graphite bulk. </p></article></section><section class="project-more"><h2 id="irradiation-summary">Irradiation summary</h2>
+                <div id="projectContainer" class="project-content"><header class="project-header"><p class="project-kicker">Materials analysis</p><h1 class="project-title">Hydrogen Retention in Tore-Supra Tiles</h1><p class="project-subtitle">Study of hydrogen retention in Tore-Supra tokamak tiles.</p></header><section class="project-layout flow"><figure class="project-figure"><img alt="Hydrogen Retention in Tore-Supra Tiles" decoding="async" fetchpriority="high" height="534" src="/projects/hydrogen-retention-tore-supra/ToreSupra.png" width="673"/><figcaption>First wall overview and selected tiles</figcaption></figure><article class="project-body"><p>We investigated hydrogen retention in Tore-Supra tokamak tiles after several plasma campaigns (tiles <strong>#14</strong> and <strong>#20</strong> from the inboard bumper, 1995–1999). It was found that most hydrogen is retained in deposited and top surface layers; moreover, hydrogen diffuses into the graphite bulk. </p></article></section><section class="project-more"><h2 id="irradiation-summary">Irradiation summary</h2>
 <table>
 <thead>
 <tr>
@@ -262,6 +315,25 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
                 </div>
 
 
+
+                <div class="rail-card rail-card--papers">
+                    <p class="rail-card-label">Published work</p>
+                    <div class="rail-paper-list">
+
+                        <div class="rail-paper-item">
+                            <a href="publications.html#paper-10-1016-j-jnucmat-2009-01-118" title="Deuterium trapping in carbon fiber composites exposed to D plasma">JNM 2009</a>
+
+                        </div>
+
+                        <div class="rail-paper-item">
+                            <a href="publications.html#paper-10-1088-1742-6596-516-1-012026" title="Hydrogen retention in volumetric CFC structure">JPConf 2014</a>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
                 <nav class="rail-outline" aria-label="On this page">
                     <p class="rail-outline-title">On this page</p>
                     <ul>
@@ -289,6 +361,25 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
                 </div>
 
 
+
+                <div class="rail-card rail-card--papers">
+                    <p class="rail-card-label">Published work</p>
+                    <div class="rail-paper-list">
+
+                        <div class="rail-paper-item">
+                            <a href="publications.html#paper-10-1016-j-jnucmat-2009-01-118" title="Deuterium trapping in carbon fiber composites exposed to D plasma">JNM 2009</a>
+
+                        </div>
+
+                        <div class="rail-paper-item">
+                            <a href="publications.html#paper-10-1088-1742-6596-516-1-012026" title="Hydrogen retention in volumetric CFC structure">JPConf 2014</a>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
                 <nav class="rail-outline project-drawer-outline" aria-label="On this page">
                     <p class="rail-outline-title">On this page</p>
                     <ul>
@@ -309,7 +400,7 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js"></script>
-  <script defer src="scripts/project_detail_ui.js?v=1783180765"></script>
+  <script defer src="scripts/project_detail_ui.js?v=1783566494"></script>
 
 </body>
 

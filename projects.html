@@ -4,9 +4,17 @@
 <head>
     <script>
         (function () {
-            if (localStorage.getItem('darkMode') === '1') {
+            var storedTheme = null;
+            try {
+                storedTheme = localStorage.getItem('darkMode');
+            } catch (e) {
+                storedTheme = null;
+            }
+            var systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (storedTheme === '1' || (storedTheme === null && systemDark)) {
                 document.documentElement.classList.add('dark-mode');
             }
+            document.documentElement.dataset.themeSource = storedTheme === null ? 'system' : 'manual';
         })();
     </script>
     <style>html{background-color:#fff}html.dark-mode{background-color:#1c1c1c}</style>
@@ -16,7 +24,7 @@
     <link rel="canonical" href="https://arseniykuzmin.github.io/projects.html">
     <link rel="alternate" href="https://queezz.github.io/projects.html">
     <link rel="icon" href="static/favicon.ico">
-    <link rel="stylesheet" href="styles/styles.css?v=1783180765">
+    <link rel="stylesheet" href="styles/styles.css?v=1783566494">
     <script type="speculationrules">
     {"prefetch": [{"where": {"href_matches": "/*"}, "eagerness": "moderate"}]}
     </script>
@@ -59,6 +67,35 @@
 
 
     <script>
+const THEME_QUERY = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+
+function storedThemePreference() {
+    try {
+        return localStorage.getItem('darkMode');
+    } catch (e) {
+        return null;
+    }
+}
+
+function setStoredThemePreference(value) {
+    try {
+        localStorage.setItem('darkMode', value);
+    } catch (e) {
+        return;
+    }
+}
+
+function systemPrefersDark() {
+    return Boolean(THEME_QUERY && THEME_QUERY.matches);
+}
+
+function applyStoredOrSystemTheme() {
+    const stored = storedThemePreference();
+    const shouldUseDark = stored === '1' || (stored === null && systemPrefersDark());
+    document.documentElement.classList.toggle('dark-mode', shouldUseDark);
+    document.documentElement.dataset.themeSource = stored === null ? 'system' : 'manual';
+}
+
 function updateToggleIcon() {
     const toggleButton = document.getElementById('darkModeToggle');
     const isDark = document.documentElement.classList.contains('dark-mode');
@@ -72,10 +109,26 @@ function setupDarkModeToggle() {
     if (!toggleButton) return;
     toggleButton.addEventListener('click', () => {
         const html = document.documentElement;
-        html.classList.toggle('dark-mode');
-        localStorage.setItem('darkMode', html.classList.contains('dark-mode') ? '1' : '0');
+        const nextDark = !html.classList.contains('dark-mode');
+        html.classList.toggle('dark-mode', nextDark);
+        html.dataset.themeSource = 'manual';
+        setStoredThemePreference(nextDark ? '1' : '0');
         updateToggleIcon();
     });
+    if (THEME_QUERY) {
+        const onSystemThemeChange = () => {
+            if (storedThemePreference() === null) {
+                applyStoredOrSystemTheme();
+                updateToggleIcon();
+            }
+        };
+        if (THEME_QUERY.addEventListener) {
+            THEME_QUERY.addEventListener('change', onSystemThemeChange);
+        } else if (THEME_QUERY.addListener) {
+            THEME_QUERY.addListener(onSystemThemeChange);
+        }
+    }
+    applyStoredOrSystemTheme();
     updateToggleIcon();
 }
 
@@ -151,7 +204,7 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
     initNavbarChrome();
 }
     </script>
-    <script src="scripts/scroltotop.js?v=1783180765"></script>
+    <script src="scripts/scroltotop.js?v=1783566494"></script>
 
     <!-- Floating button to go back to the top -->
     <button class="scroll-to-top-button" id="scrollToTopButton" type="button" aria-label="Back to top" aria-hidden="true">
@@ -168,170 +221,396 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
 
             <div class="grid-container" id="gridContainer">
 
-                <a class="grid-item" href="projects/deposition-device/">
+
+
+                <article class="grid-item" id="deposition-device">
+                    <a class="project-card-cover" href="projects/deposition-device/" aria-label="Open project: W-C Deposition Device"></a>
                     <figure class="project-card-media">
-                        <img src="/img/vup2-metal.jpg" alt="W-C Deposition Device" loading="lazy" decoding="async" width="1709" height="1709">
+
+
+                        <picture>
+                            <source srcset="generated/project-cards/deposition-device.webp?v=1783566494" type="image/webp">
+                            <img src="/img/vup2-metal.jpg" alt="W-C Deposition Device" loading="eager" fetchpriority="high" decoding="async" width="720" height="720">
+                        </picture>
+
                     </figure>
                     <div class="project-card-body">
                         <span class="project-card-meta">Experimental device</span>
                         <h2>W-C Deposition Device</h2>
                         <p>Device for simultaneous tungsten-carbon film deposition.</p>
-                    </div>
-                </a>
 
-                <a class="grid-item" href="projects/hydrogen-retention-tore-supra/">
+                        <div class="project-card-papers" aria-label="Project outputs">
+
+                            <a class="project-paper-link" href="publications.html#paper-10-1016-j-jnucmat-2013-01-211" aria-label="Publication: Deuterium trapping in carbon films formed in different deposition conditions" title="Deuterium trapping in carbon films formed in different deposition conditions">JNM 2013</a>
+
+
+                        </div>
+
+                    </div>
+                </article>
+
+
+
+                <article class="grid-item" id="hydrogen-retention-tore-supra">
+                    <a class="project-card-cover" href="projects/hydrogen-retention-tore-supra/" aria-label="Open project: Hydrogen Retention in Tore-Supra Tiles"></a>
                     <figure class="project-card-media">
-                        <img src="/img/ToreSupra.png" alt="Hydrogen Retention in Tore-Supra Tiles" loading="lazy" decoding="async" width="673" height="534">
+
+
+                        <picture>
+                            <source srcset="generated/project-cards/hydrogen-retention-tore-supra.webp?v=1783566494" type="image/webp">
+                            <img src="/img/ToreSupra.png" alt="Hydrogen Retention in Tore-Supra Tiles" loading="eager" fetchpriority="high" decoding="async" width="673" height="534">
+                        </picture>
+
                     </figure>
                     <div class="project-card-body">
                         <span class="project-card-meta">Materials analysis</span>
                         <h2>Hydrogen Retention in Tore-Supra Tiles</h2>
                         <p>Study of hydrogen retention in Tore-Supra tokamak tiles.</p>
-                    </div>
-                </a>
 
-                <a class="grid-item" href="projects/wc-film-growth-model/">
+                        <div class="project-card-papers" aria-label="Project outputs">
+
+                            <a class="project-paper-link" href="publications.html#paper-10-1016-j-jnucmat-2009-01-118" aria-label="Publication: Deuterium trapping in carbon fiber composites exposed to D plasma" title="Deuterium trapping in carbon fiber composites exposed to D plasma">JNM 2009</a>
+
+                            <a class="project-paper-link" href="publications.html#paper-10-1088-1742-6596-516-1-012026" aria-label="Publication: Hydrogen retention in volumetric CFC structure" title="Hydrogen retention in volumetric CFC structure">JPConf 2014</a>
+
+
+                        </div>
+
+                    </div>
+                </article>
+
+
+
+                <article class="grid-item" id="wc-film-growth-model">
+                    <a class="project-card-cover" href="projects/wc-film-growth-model/" aria-label="Open project: Tungsten-Carbon Film Growth Model"></a>
                     <figure class="project-card-media">
-                        <img src="/img/wcfilm.jpg" alt="Tungsten-Carbon Film Growth Model" loading="lazy" decoding="async" width="1181" height="558">
+
+
+                        <picture>
+                            <source srcset="generated/project-cards/wc-film-growth-model.webp?v=1783566494" type="image/webp">
+                            <img src="/img/wcfilm.jpg" alt="Tungsten-Carbon Film Growth Model" loading="eager" fetchpriority="high" decoding="async" width="720" height="340">
+                        </picture>
+
                     </figure>
                     <div class="project-card-body">
                         <span class="project-card-meta">Growth model</span>
                         <h2>Tungsten-Carbon Film Growth Model</h2>
                         <p>Modeling growth of W-C films during dual sputtering.</p>
-                    </div>
-                </a>
 
-                <a class="grid-item" href="projects/oxygen-removal-graphite-wall/">
+                    </div>
+                </article>
+
+
+
+                <article class="grid-item" id="oxygen-removal-graphite-wall">
+                    <a class="project-card-cover" href="projects/oxygen-removal-graphite-wall/" aria-label="Open project: Oxygen Removal from Graphite Wall"></a>
                     <figure class="project-card-media">
-                        <img src="/img/CO2-m.png" alt="Oxygen Removal from Graphite Wall" loading="lazy" decoding="async" width="881" height="639">
+
+
+                        <picture>
+                            <source srcset="generated/project-cards/oxygen-removal-graphite-wall.webp?v=1783566494" type="image/webp">
+                            <img src="/img/CO2-m.png" alt="Oxygen Removal from Graphite Wall" loading="eager" fetchpriority="high" decoding="async" width="720" height="522">
+                        </picture>
+
                     </figure>
                     <div class="project-card-body">
                         <span class="project-card-meta">Plasma cleaning</span>
                         <h2>Oxygen Removal from Graphite Wall</h2>
-                        <p>Glow discharge cleaning parameters for oxygen removal.</p>
-                    </div>
-                </a>
+                        <p>A doctoral-project piece of tokamak housekeeping: how energetic should cleaning ions be before they start burying the oxygen you are trying to remove?</p>
 
-                <a class="grid-item" href="projects/cell-adhesion-study/">
+                        <div class="project-card-papers" aria-label="Project outputs">
+
+                            <a class="project-paper-link" href="publications.html#paper-10-1016-j-jnucmat-2010-10-054" aria-label="Publication: Glow discharge cleaning of carbon fiber composite and stainless steel" title="Glow discharge cleaning of carbon fiber composite and stainless steel">JNM 2011</a>
+
+
+                        </div>
+
+                    </div>
+                </article>
+
+
+
+                <article class="grid-item" id="cell-adhesion-study">
+                    <a class="project-card-cover" href="projects/cell-adhesion-study/" aria-label="Open project: Cell Adhesion Study"></a>
                     <figure class="project-card-media">
-                        <img src="/img/bioshake.png" alt="Cell Adhesion Study" loading="lazy" decoding="async" width="1250" height="1250">
+
+
+                        <picture>
+                            <source srcset="generated/project-cards/cell-adhesion-study.webp?v=1783566494" type="image/webp">
+                            <img src="/img/bioshake.png" alt="Cell Adhesion Study" loading="lazy" fetchpriority="auto" decoding="async" width="720" height="720">
+                        </picture>
+
                     </figure>
                     <div class="project-card-body">
                         <span class="project-card-meta">Bioinstrumentation</span>
                         <h2>Cell Adhesion Study</h2>
                         <p>Prototype to measure cell adhesion forces using automated tracking.</p>
-                    </div>
-                </a>
 
-                <a class="grid-item" href="projects/plasma-device-control-unit/">
+                    </div>
+                </article>
+
+
+
+                <article class="grid-item" id="plasma-device-control-unit">
+                    <a class="project-card-cover" href="projects/plasma-device-control-unit/" aria-label="Open project: Plasma Device Control Unit"></a>
                     <figure class="project-card-media">
-                        <img src="/img/ControlUnit.png" alt="Plasma Device Control Unit" loading="lazy" decoding="async" width="2048" height="1536">
+
+
+                        <picture>
+                            <source srcset="generated/project-cards/plasma-device-control-unit.webp?v=1783566494" type="image/webp">
+                            <img src="/img/ControlUnit.png" alt="Plasma Device Control Unit" loading="lazy" fetchpriority="auto" decoding="async" width="720" height="540">
+                        </picture>
+
                     </figure>
                     <div class="project-card-body">
                         <span class="project-card-meta">Instrument control</span>
                         <h2>Plasma Device Control Unit</h2>
                         <p>Open-source control and acquisition unit for plasma experiments.</p>
-                    </div>
-                </a>
 
-                <a class="grid-item" href="projects/x-ray-filter-inspection/">
+                    </div>
+                </article>
+
+
+
+                <article class="grid-item" id="x-ray-filter-inspection">
+                    <a class="project-card-cover" href="projects/x-ray-filter-inspection/" aria-label="Open project: X-ray Filter for Non-destructive Inspection"></a>
                     <figure class="project-card-media">
-                        <img src="/img/Xrayfilter.jpg" alt="X-ray Filter for Non-destructive Inspection" loading="lazy" decoding="async" width="592" height="555">
+
+
+                        <picture>
+                            <source srcset="generated/project-cards/x-ray-filter-inspection.webp?v=1783566494" type="image/webp">
+                            <img src="/img/Xrayfilter.jpg" alt="X-ray Filter for Non-destructive Inspection" loading="lazy" fetchpriority="auto" decoding="async" width="592" height="555">
+                        </picture>
+
                     </figure>
                     <div class="project-card-body">
                         <span class="project-card-meta">Design patent</span>
                         <h2>X-ray Filter for Non-destructive Inspection</h2>
-                        <p>Improved X-ray filter design for weld inspection.</p>
-                    </div>
-                </a>
+                        <p>MCNP simulation and patented filter design for radioisotope inspection of annular welded joints.</p>
 
-                <a class="grid-item" href="projects/quest-permeation-experiments/">
+                        <div class="project-card-papers" aria-label="Project outputs">
+
+
+                            <a class="project-paper-link project-patent-link" href="https://patents.google.com/patent/RU2530452C1/en?oq=RU2530452C1" target="_blank" rel="noopener noreferrer" aria-label="Patent: RU2530452C1" title="Patent: RU2530452C1">Patent RU2530452C1</a>
+
+                        </div>
+
+                    </div>
+                </article>
+
+
+
+                <article class="grid-item" id="quest-permeation-experiments">
+                    <a class="project-card-cover" href="projects/quest-permeation-experiments/" aria-label="Open project: Permeation Experiments in QUEST"></a>
                     <figure class="project-card-media">
-                        <img src="/img/kaainquest.jpg" alt="Permeation Experiments in QUEST" loading="lazy" decoding="async" width="176" height="235">
+
+
+                        <picture>
+                            <source srcset="generated/project-cards/quest-permeation-experiments.webp?v=1783566494" type="image/webp">
+                            <img src="/img/kaainquest.jpg" alt="Permeation Experiments in QUEST" loading="lazy" fetchpriority="auto" decoding="async" width="176" height="235">
+                        </picture>
+
                     </figure>
                     <div class="project-card-body">
                         <span class="project-card-meta">Tokamak diagnostic</span>
                         <h2>Permeation Experiments in QUEST</h2>
                         <p>Hydrogen flux measurements with membrane probes in QUEST tokamak.</p>
-                    </div>
-                </a>
 
-                <a class="grid-item" href="projects/carbon-impurity-flow-lhd/">
+                        <div class="project-card-papers" aria-label="Project outputs">
+
+                            <a class="project-paper-link" href="publications.html#paper-10-1585-pfr-9-3405041" aria-label="Publication: First Wall Particle Flux Measurements by an F82H Permeation Probe in QUEST" title="First Wall Particle Flux Measurements by an F82H Permeation Probe in QUEST">PFR 2014</a>
+
+                            <a class="project-paper-link" href="publications.html#paper-10-1016-j-vacuum-2016-04-025" aria-label="Publication: Hydrogen flux measurements with permeation probes in spherical tokamak QUEST" title="Hydrogen flux measurements with permeation probes in spherical tokamak QUEST">Vacuum 2016</a>
+
+                            <a class="project-paper-link" href="publications.html#paper-10-1016-j-nme-2016-09-001" aria-label="Publication: Characteristic of a PdCu membrane as atomic hydrogen probe for QUEST" title="Characteristic of a PdCu membrane as atomic hydrogen probe for QUEST">NME 2016</a>
+
+                            <a class="project-paper-link" href="publications.html#paper-10-1585-pfr-12-1305038" aria-label="Publication: Hydrogen permeation through sputter-deposited tungsten coated F82H in QUEST" title="Hydrogen permeation through sputter-deposited tungsten coated F82H in QUEST">PFR 2017</a>
+
+                            <a class="project-paper-link" href="publications.html#paper-10-1016-j-nme-2017-03-027" aria-label="Publication: Spatial distribution of atomic and ion hydrogen flux and its effect on hydrogen recycling in long duration confined and non-confined plasmas" title="Spatial distribution of atomic and ion hydrogen flux and its effect on hydrogen recycling in long duration confined and non-confined plasmas">NME 2017</a>
+
+                            <a class="project-paper-link" href="publications.html#paper-10-1016-j-nme-2020-100872" aria-label="Publication: Investigation of radial distribution of atomic hydrogen flux to the plasma facing components in steady state discharges in QUEST tokamak" title="Investigation of radial distribution of atomic hydrogen flux to the plasma facing components in steady state discharges in QUEST tokamak">NME 2021</a>
+
+                            <a class="project-paper-link" href="publications.html#paper-10-1016-j-fusengdes-2023-113462" aria-label="Publication: Atomic and ionic hydrogen flux probe for quantitative in-situ monitoring of hydrogen recycling" title="Atomic and ionic hydrogen flux probe for quantitative in-situ monitoring of hydrogen recycling">FED 2023</a>
+
+
+                        </div>
+
+                    </div>
+                </article>
+
+
+
+                <article class="grid-item" id="carbon-impurity-flow-lhd">
+                    <a class="project-card-cover" href="projects/carbon-impurity-flow-lhd/" aria-label="Open project: Carbon impurity flow in LHD"></a>
                     <figure class="project-card-media">
-                        <img src="/img/carbonflow.png" alt="Carbon impurity flow in LHD" loading="lazy" decoding="async" width="706" height="928">
+
+
+                        <picture>
+                            <source srcset="generated/project-cards/carbon-impurity-flow-lhd.webp?v=1783566494" type="image/webp">
+                            <img src="/img/carbonflow.png" alt="Carbon impurity flow in LHD" loading="lazy" fetchpriority="auto" decoding="async" width="548" height="720">
+                        </picture>
+
                     </figure>
                     <div class="project-card-body">
                         <span class="project-card-meta">Spectroscopy analysis</span>
                         <h2>Carbon impurity flow in LHD</h2>
                         <p>Analysis of carbon impurity transport in LHD peripheral plasma.</p>
-                    </div>
-                </a>
 
-                <a class="grid-item" href="projects/boron-powder-plasma-sputtering/">
+                        <div class="project-card-papers" aria-label="Project outputs">
+
+                            <a class="project-paper-link" href="publications.html#paper-10-1585-pfr-13-3402058" aria-label="Publication: Measurements of the Impurity Flow Velocity and Temperature in Deuterium and Hydrogen Plasmas in the Divertor Legs of the Stochastic Layer in LHD" title="Measurements of the Impurity Flow Velocity and Temperature in Deuterium and Hydrogen Plasmas in the Divertor Legs of the Stochastic Layer in LHD">PFR 2018</a>
+
+                            <a class="project-paper-link" href="publications.html#paper-10-1016-j-nme-2018-11-009" aria-label="Publication: Analysis of the impurity flow velocity in a wide plasma parameter range for deuterium and hydrogen plasmas in the divertor legs of the stochastic layer in LHD" title="Analysis of the impurity flow velocity in a wide plasma parameter range for deuterium and hydrogen plasmas in the divertor legs of the stochastic layer in LHD">NME 2018</a>
+
+
+                        </div>
+
+                    </div>
+                </article>
+
+
+
+                <article class="grid-item" id="boron-powder-plasma-sputtering">
+                    <a class="project-card-cover" href="projects/boron-powder-plasma-sputtering/" aria-label="Open project: Boron powder plasma sputtering"></a>
                     <figure class="project-card-media">
-                        <img src="/img/boronpowder.jpg" alt="Boron powder plasma sputtering" loading="lazy" decoding="async" width="500" height="437">
+
+
+                        <picture>
+                            <source srcset="generated/project-cards/boron-powder-plasma-sputtering.webp?v=1783566494" type="image/webp">
+                            <img src="/projects/boron-powder-plasma-sputtering/2024-11-11-Boron-Deposition-Installation-02.jpg" alt="Boron powder plasma sputtering" loading="lazy" fetchpriority="auto" decoding="async" width="720" height="720">
+                        </picture>
+
                     </figure>
                     <div class="project-card-body">
-                        <span class="project-card-meta">Deposition prototype</span>
+                        <span class="project-card-meta">Plasma sputtering</span>
                         <h2>Boron powder plasma sputtering</h2>
-                        <p>Prototype sputtering device for boron powder deposition.</p>
-                    </div>
-                </a>
+                        <p>Plasma sputtering source for boron-film deposition and in-situ surface studies.</p>
 
-                <a class="grid-item" href="projects/hydrogen-molecule-spectroscopy/">
+                    </div>
+                </article>
+
+
+
+                <article class="grid-item" id="hydrogen-molecule-spectroscopy">
+                    <a class="project-card-cover" href="projects/hydrogen-molecule-spectroscopy/" aria-label="Open project: Hydrogen Molecule Spectroscopy"></a>
                     <figure class="project-card-media">
-                        <img src="/img/fulcheralpha.png" alt="Hydrogen Molecule Spectroscopy" loading="lazy" decoding="async" width="2649" height="2542">
+
+
+                        <picture>
+                            <source srcset="generated/project-cards/hydrogen-molecule-spectroscopy.webp?v=1783566494" type="image/webp">
+                            <img src="/img/fulcheralpha.png" alt="Hydrogen Molecule Spectroscopy" loading="lazy" fetchpriority="auto" decoding="async" width="720" height="691">
+                        </picture>
+
                     </figure>
                     <div class="project-card-body">
                         <span class="project-card-meta">Molecular spectroscopy</span>
                         <h2>Hydrogen Molecule Spectroscopy</h2>
                         <p>Spectroscopy of hydrogen molecule populations in LHD plasma.</p>
-                    </div>
-                </a>
 
-                <a class="grid-item" href="projects/seawater-desalination-device/">
+                        <div class="project-card-papers" aria-label="Project outputs">
+
+                            <a class="project-paper-link" href="publications.html#paper-10-1016-j-jqsrt-2021-107592" aria-label="Publication: Ro-vibrational population distribution in the ground state of hydrogen isotopologues in LHD peripheral plasmas deduced from emission spectroscopy" title="Ro-vibrational population distribution in the ground state of hydrogen isotopologues in LHD peripheral plasmas deduced from emission spectroscopy">JQSRT 2021</a>
+
+                            <a class="project-paper-link" href="publications.html#paper-10-1016-j-jqsrt-2023-108751" aria-label="Publication: Plasma-parameter dependence of ro-vibrational temperatures for H₂ in LHD divertor" title="Plasma-parameter dependence of ro-vibrational temperatures for H₂ in LHD divertor">JQSRT 2023</a>
+
+                            <a class="project-paper-link" href="publications.html#paper-10-1063-5-0220933" aria-label="Publication: Experimental validation of a collision-radiation dataset for molecular hydrogen in plasmas" title="Experimental validation of a collision-radiation dataset for molecular hydrogen in plasmas">PoP 2024</a>
+
+
+                        </div>
+
+                    </div>
+                </article>
+
+
+
+                <article class="grid-item" id="seawater-desalination-device">
+                    <a class="project-card-cover" href="projects/seawater-desalination-device/" aria-label="Open project: Sea Water Desalination Device"></a>
                     <figure class="project-card-media">
-                        <img src="/img/CuFefilm.png" alt="Seawater Desalination Device" loading="lazy" decoding="async" width="924" height="991">
+
+
+                        <picture>
+                            <source srcset="generated/project-cards/seawater-desalination-device.webp?v=1783566494" type="image/webp">
+                            <img src="/projects/seawater-desalination-device/desalination-field-installation.png" alt="Sea Water Desalination Device" loading="lazy" fetchpriority="auto" decoding="async" width="665" height="414">
+                        </picture>
+
                     </figure>
                     <div class="project-card-body">
-                        <span class="project-card-meta">Device concept</span>
-                        <h2>Seawater Desalination Device</h2>
-                        <p>Renewable-powered multi-effect evaporation desalination system.</p>
-                    </div>
-                </a>
+                        <span class="project-card-meta">Applied R&amp;D</span>
+                        <h2>Sea Water Desalination Device</h2>
+                        <p>Solar-assisted multi-effect evaporation desalination work with practical product-engineering lessons.</p>
 
-                <a class="grid-item" href="projects/echelle-spectrometer-gui/">
+                    </div>
+                </article>
+
+
+
+                <article class="grid-item" id="echelle-spectrometer-gui">
+                    <a class="project-card-cover" href="projects/echelle-spectrometer-gui/" aria-label="Open project: GUI for Echelle Spectrometer Image processing"></a>
                     <figure class="project-card-media">
-                        <img src="/img/echellegui.png" alt="GUI for Echelle Spectrometer Image processing" loading="lazy" decoding="async" width="999" height="929">
+
+
+                        <picture>
+                            <source srcset="generated/project-cards/echelle-spectrometer-gui.webp?v=1783566494" type="image/webp">
+                            <img src="/img/echellegui.png" alt="GUI for Echelle Spectrometer Image processing" loading="lazy" fetchpriority="auto" decoding="async" width="720" height="670">
+                        </picture>
+
                     </figure>
                     <div class="project-card-body">
                         <span class="project-card-meta">Analysis software</span>
                         <h2>GUI for Echelle Spectrometer Image processing</h2>
                         <p>PyQt GUI converts 2D echelle images to calibrated spectra.</p>
-                    </div>
-                </a>
 
-                <a class="grid-item" href="projects/oxygen-effect-hydrogen-retention/">
+                    </div>
+                </article>
+
+
+
+                <article class="grid-item" id="oxygen-effect-hydrogen-retention">
+                    <a class="project-card-cover" href="projects/oxygen-effect-hydrogen-retention/" aria-label="Open project: Oxygen Effect on Hydrogen Retention in Graphites"></a>
                     <figure class="project-card-media">
-                        <img src="/img/D2O2-m.png" alt="Oxygen Effect on Hydrogen Retention in Graphites" loading="lazy" decoding="async" width="785" height="537">
+
+
+                        <picture>
+                            <source srcset="generated/project-cards/oxygen-effect-hydrogen-retention.webp?v=1783566494" type="image/webp">
+                            <img src="/img/D2O2-m.png" alt="Oxygen Effect on Hydrogen Retention in Graphites" loading="lazy" fetchpriority="auto" decoding="async" width="720" height="493">
+                        </picture>
+
                     </figure>
                     <div class="project-card-body">
                         <span class="project-card-meta">Retention study</span>
                         <h2>Oxygen Effect on Hydrogen Retention in Graphites</h2>
-                        <p>Oxygen addition drastically increases hydrogen retention in graphites.</p>
-                    </div>
-                </a>
+                        <p>Small oxygen additions make graphite retain much more hydrogen.</p>
 
-                <a class="grid-item" href="projects/fulcher-alpha-analizer/">
+                        <div class="project-card-papers" aria-label="Project outputs">
+
+                            <a class="project-paper-link" href="publications.html#paper-10-1016-j-jnucmat-2013-01-211" aria-label="Publication: Deuterium trapping in carbon films formed in different deposition conditions" title="Deuterium trapping in carbon films formed in different deposition conditions">JNM 2013</a>
+
+
+                        </div>
+
+                    </div>
+                </article>
+
+
+
+                <article class="grid-item" id="fulcher-alpha-analizer">
+                    <a class="project-card-cover" href="projects/fulcher-alpha-analizer/" aria-label="Open project: Fulcher-alpha Emission Analizer"></a>
                     <figure class="project-card-media">
-                        <img src="/img/fulcheranalizer.png" alt="Fulcher-alpha Emission Analizer" loading="lazy" decoding="async" width="771" height="679">
+
+
+                        <picture>
+                            <source srcset="generated/project-cards/fulcher-alpha-analizer.webp?v=1783566494" type="image/webp">
+                            <img src="/img/fulcheranalizer.png" alt="Fulcher-alpha Emission Analizer" loading="lazy" fetchpriority="auto" decoding="async" width="720" height="634">
+                        </picture>
+
                     </figure>
                     <div class="project-card-body">
                         <span class="project-card-meta">Analysis software</span>
                         <h2>Fulcher-alpha Emission Analizer</h2>
                         <p>Python tool for analyzing molecular hydrogen Fulcher-alpha emission.</p>
+
                     </div>
-                </a>
+                </article>
 
             </div>
         </section>

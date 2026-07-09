@@ -4,9 +4,17 @@
 <head>
     <script>
         (function () {
-            if (localStorage.getItem('darkMode') === '1') {
+            var storedTheme = null;
+            try {
+                storedTheme = localStorage.getItem('darkMode');
+            } catch (e) {
+                storedTheme = null;
+            }
+            var systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (storedTheme === '1' || (storedTheme === null && systemDark)) {
                 document.documentElement.classList.add('dark-mode');
             }
+            document.documentElement.dataset.themeSource = storedTheme === null ? 'system' : 'manual';
         })();
     </script>
     <style>html{background-color:#fff}html.dark-mode{background-color:#1c1c1c}</style>
@@ -16,13 +24,13 @@
     <link rel="canonical" href="https://arseniykuzmin.github.io/projects/boron-powder-plasma-sputtering/">
     <link rel="alternate" href="https://queezz.github.io/projects/boron-powder-plasma-sputtering/">
     <link rel="icon" href="static/favicon.ico">
-    <link rel="stylesheet" href="styles/styles.css?v=1783180765">
+    <link rel="stylesheet" href="styles/styles.css?v=1783566494">
     <script type="speculationrules">
     {"prefetch": [{"where": {"href_matches": "/*"}, "eagerness": "moderate"}]}
     </script>
     
     <meta name="viewport" content="width=device-width" />
-    <link rel="stylesheet" href="styles/project.css?v=1783180765" />
+    <link rel="stylesheet" href="styles/project.css?v=1783566494" />
 
 </head>
 
@@ -53,6 +61,35 @@
 
 
     <script>
+const THEME_QUERY = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+
+function storedThemePreference() {
+    try {
+        return localStorage.getItem('darkMode');
+    } catch (e) {
+        return null;
+    }
+}
+
+function setStoredThemePreference(value) {
+    try {
+        localStorage.setItem('darkMode', value);
+    } catch (e) {
+        return;
+    }
+}
+
+function systemPrefersDark() {
+    return Boolean(THEME_QUERY && THEME_QUERY.matches);
+}
+
+function applyStoredOrSystemTheme() {
+    const stored = storedThemePreference();
+    const shouldUseDark = stored === '1' || (stored === null && systemPrefersDark());
+    document.documentElement.classList.toggle('dark-mode', shouldUseDark);
+    document.documentElement.dataset.themeSource = stored === null ? 'system' : 'manual';
+}
+
 function updateToggleIcon() {
     const toggleButton = document.getElementById('darkModeToggle');
     const isDark = document.documentElement.classList.contains('dark-mode');
@@ -66,10 +103,26 @@ function setupDarkModeToggle() {
     if (!toggleButton) return;
     toggleButton.addEventListener('click', () => {
         const html = document.documentElement;
-        html.classList.toggle('dark-mode');
-        localStorage.setItem('darkMode', html.classList.contains('dark-mode') ? '1' : '0');
+        const nextDark = !html.classList.contains('dark-mode');
+        html.classList.toggle('dark-mode', nextDark);
+        html.dataset.themeSource = 'manual';
+        setStoredThemePreference(nextDark ? '1' : '0');
         updateToggleIcon();
     });
+    if (THEME_QUERY) {
+        const onSystemThemeChange = () => {
+            if (storedThemePreference() === null) {
+                applyStoredOrSystemTheme();
+                updateToggleIcon();
+            }
+        };
+        if (THEME_QUERY.addEventListener) {
+            THEME_QUERY.addEventListener('change', onSystemThemeChange);
+        } else if (THEME_QUERY.addListener) {
+            THEME_QUERY.addListener(onSystemThemeChange);
+        }
+    }
+    applyStoredOrSystemTheme();
     updateToggleIcon();
 }
 
@@ -145,7 +198,7 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
     initNavbarChrome();
 }
     </script>
-    <script src="scripts/scroltotop.js?v=1783180765"></script>
+    <script src="scripts/scroltotop.js?v=1783566494"></script>
 
     <!-- Floating button to go back to the top -->
     <button class="scroll-to-top-button" id="scrollToTopButton" type="button" aria-label="Back to top" aria-hidden="true">
@@ -158,7 +211,7 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
     <section class="project-detail-page">
         <div class="project-shell">
             <aside class="project-rail project-rail--left">
-                <a class="rail-back" href="projects.html">&larr; All projects</a>
+                <a class="rail-back" href="projects.html#boron-powder-plasma-sputtering">&larr; All projects</a>
                 <nav aria-label="Projects">
                     <ul class="rail-project-list">
 
@@ -184,7 +237,7 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
 
                         <li><a href="projects/hydrogen-molecule-spectroscopy/">Hydrogen Molecule Spectroscopy</a></li>
 
-                        <li><a href="projects/seawater-desalination-device/">Seawater Desalination Device</a></li>
+                        <li><a href="projects/seawater-desalination-device/">Sea Water Desalination Device</a></li>
 
                         <li><a href="projects/echelle-spectrometer-gui/">GUI for Echelle Spectrometer Image processing</a></li>
 
@@ -198,20 +251,39 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
 
             <main class="project-main">
                 <div class="project-mobile-actions">
-                    <a href="projects.html" class="back-link back-link--mobile">&larr; Projects</a>
+                    <a href="projects.html#boron-powder-plasma-sputtering" class="back-link back-link--mobile">&larr; Projects</a>
                     <button class="project-details-button" type="button" data-project-drawer-open aria-controls="projectDetailsDrawer" aria-expanded="false">
                         Details
                     </button>
                 </div>
-                <div id="projectContainer" class="project-content"><header class="project-header"><p class="project-kicker">Deposition prototype</p><h1 class="project-title">Boron powder plasma sputtering</h1><p class="project-subtitle">Prototype sputtering device for boron powder deposition.</p></header><section class="project-layout"><figure class="project-figure"><img alt="Boron powder plasma sputtering" decoding="async" fetchpriority="high" height="437" src="/img/boronpowder.jpg" width="500"/></figure><article class="project-body"><p>I developed a prototype plasma deposition device where a boron powder is sputtered to simulate deposition of hard BCH films.</p></article></section></div>
+                <div id="projectContainer" class="project-content"><header class="project-header"><p class="project-kicker">Plasma sputtering</p><h1 class="project-title">Boron powder plasma sputtering</h1><p class="project-subtitle">Plasma sputtering source for boron-film deposition and in-situ surface studies.</p></header><section class="project-layout flow"><figure class="project-figure"><img alt="Boron powder plasma sputtering" decoding="async" fetchpriority="high" height="720" src="generated/project-cards/boron-powder-plasma-sputtering.webp?v=1783566494" width="720"/><figcaption>Boron powder loaded into a biased stainless-steel sputtering target. Plasma ions are drawn into the powder bed by the target bias, sputtering boron toward a sample placed in front of the target.
+</figcaption></figure><article class="project-body"><p>This project has a long tail.</p>
+<p>The first version started around 2012, just after my PhD, when I began upgrading my tungsten-carbon deposition device toward boron-film deposition. The idea was to sputter boron powder in plasma and use it as a practical laboratory route to boron-containing coatings. I worked on it for a couple of months, then moved on to other projects, while the old laboratory continued the direction and later did substantial work on boron irradiation.</p>
+<p>The project came back strongly around 2024, after I attended an ITER DivSOL meeting where boron was again a central subject: boronization, boron powder, wall conditioning, and plasma-facing surfaces. By then my own setup had also matured. The vacuum system, plasma-source experience, diagnostics, and surface-analysis plans were no longer just pieces on a bench. They were enough to restart the boron work properly.</p>
+<p>So I bought boron powder, built a new plasma source, and began depositing boron films again. The device is not a fixed commercial instrument, and it is not a one-off prototype. It is a research apparatus: always evolving, always being improved, and already producing useful results.</p>
+<p>The scientific target is the surface itself. In fusion devices, boron is not just "a coating." It reacts with oxygen, hydrogen, carbon, and the substrate; it changes under plasma exposure; and its usefulness depends on exactly that messy plasma-wall chemistry. A laboratory boron source lets us create those surfaces deliberately, expose them under known conditions, and then measure what actually happened.</p>
+<p>Several master theses have already grown from this work. The project now connects an old post-PhD idea with a current fusion-materials problem: controlled boron-film deposition as a route into in-situ studies of plasma-facing surface chemistry.</p></article></section><h2 class="project-section-title" id="gallery">Gallery</h2><div class="gallery"><figure><div class="thumb"><img alt="" decoding="async" loading="lazy" src="/projects/boron-powder-plasma-sputtering/2024-11-11-Boron-Deposition-Installation-03.jpg"/></div><figcaption>Boron powder target with shielding SUS ring installed. The ring limits ion access to unwanted areas, so the plasma sputters the boron powder rather than surrounding hardware.
+</figcaption></figure><figure><div class="thumb"><img alt="" decoding="async" loading="lazy" src="/projects/boron-powder-plasma-sputtering/2024-11-11-Boron-Deposition-Installation-04.jpg"/></div><figcaption>View through the vacuum window onto the boron target and the first fast-test sample holder. A stainless-steel disk is suspended in front of the target for early film-deposition trials.
+</figcaption></figure><figure><div class="thumb"><img alt="" decoding="async" loading="lazy" src="/projects/boron-powder-plasma-sputtering/2024-11-15-Boron2-03.jpg"/></div><figcaption>Same target-sample geometry during deposition, with exposure adjusted to show the hydrogen-argon plasma between the boron target and the sample.</figcaption></figure></div></div>
             </main>
 
             <aside class="project-rail project-rail--right">
                 <div class="rail-card">
                     <p class="rail-card-label">Category</p>
-                    <p class="rail-card-value">Deposition prototype</p>
+                    <p class="rail-card-value">Plasma sputtering</p>
                 </div>
 
+
+
+
+                <nav class="rail-outline" aria-label="On this page">
+                    <p class="rail-outline-title">On this page</p>
+                    <ul>
+
+                        <li class="lvl-2"><a href="projects/boron-powder-plasma-sputtering/#gallery">Gallery</a></li>
+
+                    </ul>
+                </nav>
 
             </aside>
         </div>
@@ -225,9 +297,20 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
                 </div>
                 <div class="rail-card">
                     <p class="rail-card-label">Category</p>
-                    <p class="rail-card-value">Deposition prototype</p>
+                    <p class="rail-card-value">Plasma sputtering</p>
                 </div>
 
+
+
+
+                <nav class="rail-outline project-drawer-outline" aria-label="On this page">
+                    <p class="rail-outline-title">On this page</p>
+                    <ul>
+
+                        <li class="lvl-2"><a href="projects/boron-powder-plasma-sputtering/#gallery">Gallery</a></li>
+
+                    </ul>
+                </nav>
 
             </aside>
         </div>
@@ -238,7 +321,7 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js"></script>
-  <script defer src="scripts/project_detail_ui.js?v=1783180765"></script>
+  <script defer src="scripts/project_detail_ui.js?v=1783566494"></script>
 
 </body>
 

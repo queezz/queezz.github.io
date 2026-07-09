@@ -4,9 +4,17 @@
 <head>
     <script>
         (function () {
-            if (localStorage.getItem('darkMode') === '1') {
+            var storedTheme = null;
+            try {
+                storedTheme = localStorage.getItem('darkMode');
+            } catch (e) {
+                storedTheme = null;
+            }
+            var systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (storedTheme === '1' || (storedTheme === null && systemDark)) {
                 document.documentElement.classList.add('dark-mode');
             }
+            document.documentElement.dataset.themeSource = storedTheme === null ? 'system' : 'manual';
         })();
     </script>
     <style>html{background-color:#fff}html.dark-mode{background-color:#1c1c1c}</style>
@@ -16,13 +24,13 @@
     <link rel="canonical" href="https://arseniykuzmin.github.io/projects/deposition-device/">
     <link rel="alternate" href="https://queezz.github.io/projects/deposition-device/">
     <link rel="icon" href="static/favicon.ico">
-    <link rel="stylesheet" href="styles/styles.css?v=1783180765">
+    <link rel="stylesheet" href="styles/styles.css?v=1783566494">
     <script type="speculationrules">
     {"prefetch": [{"where": {"href_matches": "/*"}, "eagerness": "moderate"}]}
     </script>
     
     <meta name="viewport" content="width=device-width" />
-    <link rel="stylesheet" href="styles/project.css?v=1783180765" />
+    <link rel="stylesheet" href="styles/project.css?v=1783566494" />
 
 </head>
 
@@ -53,6 +61,35 @@
 
 
     <script>
+const THEME_QUERY = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+
+function storedThemePreference() {
+    try {
+        return localStorage.getItem('darkMode');
+    } catch (e) {
+        return null;
+    }
+}
+
+function setStoredThemePreference(value) {
+    try {
+        localStorage.setItem('darkMode', value);
+    } catch (e) {
+        return;
+    }
+}
+
+function systemPrefersDark() {
+    return Boolean(THEME_QUERY && THEME_QUERY.matches);
+}
+
+function applyStoredOrSystemTheme() {
+    const stored = storedThemePreference();
+    const shouldUseDark = stored === '1' || (stored === null && systemPrefersDark());
+    document.documentElement.classList.toggle('dark-mode', shouldUseDark);
+    document.documentElement.dataset.themeSource = stored === null ? 'system' : 'manual';
+}
+
 function updateToggleIcon() {
     const toggleButton = document.getElementById('darkModeToggle');
     const isDark = document.documentElement.classList.contains('dark-mode');
@@ -66,10 +103,26 @@ function setupDarkModeToggle() {
     if (!toggleButton) return;
     toggleButton.addEventListener('click', () => {
         const html = document.documentElement;
-        html.classList.toggle('dark-mode');
-        localStorage.setItem('darkMode', html.classList.contains('dark-mode') ? '1' : '0');
+        const nextDark = !html.classList.contains('dark-mode');
+        html.classList.toggle('dark-mode', nextDark);
+        html.dataset.themeSource = 'manual';
+        setStoredThemePreference(nextDark ? '1' : '0');
         updateToggleIcon();
     });
+    if (THEME_QUERY) {
+        const onSystemThemeChange = () => {
+            if (storedThemePreference() === null) {
+                applyStoredOrSystemTheme();
+                updateToggleIcon();
+            }
+        };
+        if (THEME_QUERY.addEventListener) {
+            THEME_QUERY.addEventListener('change', onSystemThemeChange);
+        } else if (THEME_QUERY.addListener) {
+            THEME_QUERY.addListener(onSystemThemeChange);
+        }
+    }
+    applyStoredOrSystemTheme();
     updateToggleIcon();
 }
 
@@ -145,7 +198,7 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
     initNavbarChrome();
 }
     </script>
-    <script src="scripts/scroltotop.js?v=1783180765"></script>
+    <script src="scripts/scroltotop.js?v=1783566494"></script>
 
     <!-- Floating button to go back to the top -->
     <button class="scroll-to-top-button" id="scrollToTopButton" type="button" aria-label="Back to top" aria-hidden="true">
@@ -158,7 +211,7 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
     <section class="project-detail-page">
         <div class="project-shell">
             <aside class="project-rail project-rail--left">
-                <a class="rail-back" href="projects.html">&larr; All projects</a>
+                <a class="rail-back" href="projects.html#deposition-device">&larr; All projects</a>
                 <nav aria-label="Projects">
                     <ul class="rail-project-list">
 
@@ -184,7 +237,7 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
 
                         <li><a href="projects/hydrogen-molecule-spectroscopy/">Hydrogen Molecule Spectroscopy</a></li>
 
-                        <li><a href="projects/seawater-desalination-device/">Seawater Desalination Device</a></li>
+                        <li><a href="projects/seawater-desalination-device/">Sea Water Desalination Device</a></li>
 
                         <li><a href="projects/echelle-spectrometer-gui/">GUI for Echelle Spectrometer Image processing</a></li>
 
@@ -198,13 +251,13 @@ if (document.readyState === 'loading' && !document.querySelector('.site-header')
 
             <main class="project-main">
                 <div class="project-mobile-actions">
-                    <a href="projects.html" class="back-link back-link--mobile">&larr; Projects</a>
+                    <a href="projects.html#deposition-device" class="back-link back-link--mobile">&larr; Projects</a>
                     <button class="project-details-button" type="button" data-project-drawer-open aria-controls="projectDetailsDrawer" aria-expanded="false">
                         Details
                     </button>
                 </div>
-                <div id="projectContainer" class="project-content"><header class="project-header"><p class="project-kicker">Experimental device</p><h1 class="project-title">W-C Deposition Device</h1><p class="project-subtitle">Device for simultaneous tungsten-carbon film deposition.</p></header><section class="project-layout"><figure class="project-figure"><img alt="W-C Deposition Device" decoding="async" fetchpriority="high" height="710" src="/projects/deposition-device/wc_maker_cad.png" width="608"/><figcaption>W–C thin film deposition device</figcaption></figure><article class="project-body"><p>A multi-material deposition device was developed to investigate tungsten–carbon (W–C) film growth during simultaneous deposition, motivated by fusion research context. ITER and other tokamaks have moved from graphite to tungsten and beryllium plasma-facing components, yet graphite divertors remain in some machines, and even in ITER the tungsten strike-point placement remains under discussion. This prompted a closer examination of W–C film formation and its interaction with hydrogen and oxygen under controlled plasma conditions, with results on hydrogen retention in carbon films produced using this setup published in <a href="#ref1">1</a>.</p>
-<p>Built in 2010–2011 in Russia, the setup features coaxial disk–ring graphite (C) and tungsten (W) sputter targets with independent biasing, a minimal yet stable target–sample distance, and a slide-in heated cassette for four 10 mm square substrates. These and other results were included in my doctoral thesis but have not been formally published beyond <a href="#ref1">1</a>.</p></article></section><section class="project-more"><h3 id="parameters">Parameters</h3>
+                <div id="projectContainer" class="project-content"><header class="project-header"><p class="project-kicker">Experimental device</p><h1 class="project-title">W-C Deposition Device</h1><p class="project-subtitle">Device for simultaneous tungsten-carbon film deposition.</p></header><section class="project-layout flow"><figure class="project-figure"><img alt="W-C Deposition Device" decoding="async" fetchpriority="high" height="710" src="/projects/deposition-device/wc_maker_cad.png" width="608"/><figcaption>W–C thin film deposition device</figcaption></figure><article class="project-body"><p>A multi-material deposition device was developed to investigate tungsten–carbon (W–C) film growth during simultaneous deposition, motivated by fusion research context. ITER and other tokamaks have moved from graphite to tungsten and beryllium plasma-facing components, yet graphite divertors remain in some machines, and even in ITER the tungsten strike-point placement remains under discussion. This prompted a closer examination of W–C film formation and its interaction with hydrogen and oxygen under controlled plasma conditions.</p>
+<p>Built in 2010–2011 in Russia, the setup features coaxial disk–ring graphite (C) and tungsten (W) sputter targets with independent biasing, a minimal yet stable target–sample distance, and a slide-in heated cassette for four 10 mm square substrates. These and other results were included in my doctoral thesis, with the main published result in <a href="publications.html#paper-10-1016-j-jnucmat-2013-01-211">Begrambekov JNM 2013</a>.</p></article></section><section class="project-more"><h3 id="parameters">Parameters</h3>
 <ul>
 <li>
 <p><strong>Vacuum System</strong><br/>
@@ -254,10 +307,7 @@ Forepump + diffusion pump with N₂ cold trap; base pressure $7\times 10^{-6}$ T
 <p><strong>Purpose</strong><br/>
   Study W–C film growth and concurrent H/O uptake under controlled low-energy plasma irradiation.</p>
 </li>
-</ul>
-<hr/>
-<h3 id="references">References</h3>
-<p><span id="ref1">[1]</span> L. Begrambekov, A. Kuzmin, <em>et al.</em>, <strong>Deuterium trapping in carbon films formed in different deposition conditions</strong>, <em>Journal of Nuclear Materials</em>, 435(1–3), 78–83 (2013). DOI: <a href="https://doi.org/10.1016/j.jnucmat.2013.01.211" rel="noopener" target="_blank">10.1016/j.jnucmat.2013.01.211</a></p></section><h2 class="project-section-title" id="gallery">Gallery</h2><div class="gallery"><figure><div class="thumb"><img alt="" decoding="async" height="608" loading="lazy" src="/projects/deposition-device/samples_heated.jpg" width="913"/></div><figcaption>Sample heater at work</figcaption></figure><figure><div class="thumb"><img alt="" decoding="async" height="1709" loading="lazy" src="/projects/deposition-device/vup2-metal.jpg" width="1709"/></div><figcaption>Two-material sputtering target</figcaption></figure><figure><div class="thumb"><img alt="" decoding="async" height="878" loading="lazy" src="/projects/deposition-device/wc-film.jpg" width="1081"/></div><figcaption>W–C film example SEM image</figcaption></figure></div></div>
+</ul></section><h2 class="project-section-title" id="gallery">Gallery</h2><div class="gallery"><figure><div class="thumb"><img alt="" decoding="async" height="608" loading="lazy" src="/projects/deposition-device/samples_heated.jpg" width="913"/></div><figcaption>Sample heater at work</figcaption></figure><figure><div class="thumb"><img alt="" decoding="async" height="1709" loading="lazy" src="/projects/deposition-device/vup2-metal.jpg" width="1709"/></div><figcaption>Two-material sputtering target</figcaption></figure><figure><div class="thumb"><img alt="" decoding="async" height="878" loading="lazy" src="/projects/deposition-device/wc-film.jpg" width="1081"/></div><figcaption>W–C film example SEM image</figcaption></figure></div></div>
             </main>
 
             <aside class="project-rail project-rail--right">
@@ -267,13 +317,25 @@ Forepump + diffusion pump with N₂ cold trap; base pressure $7\times 10^{-6}$ T
                 </div>
 
 
+
+                <div class="rail-card rail-card--papers">
+                    <p class="rail-card-label">Published work</p>
+                    <div class="rail-paper-list">
+
+                        <div class="rail-paper-item">
+                            <a href="publications.html#paper-10-1016-j-jnucmat-2013-01-211" title="Deuterium trapping in carbon films formed in different deposition conditions">JNM 2013</a>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
                 <nav class="rail-outline" aria-label="On this page">
                     <p class="rail-outline-title">On this page</p>
                     <ul>
 
                         <li class="lvl-3"><a href="projects/deposition-device/#parameters">Parameters</a></li>
-
-                        <li class="lvl-3"><a href="projects/deposition-device/#references">References</a></li>
 
                         <li class="lvl-2"><a href="projects/deposition-device/#gallery">Gallery</a></li>
 
@@ -296,13 +358,25 @@ Forepump + diffusion pump with N₂ cold trap; base pressure $7\times 10^{-6}$ T
                 </div>
 
 
+
+                <div class="rail-card rail-card--papers">
+                    <p class="rail-card-label">Published work</p>
+                    <div class="rail-paper-list">
+
+                        <div class="rail-paper-item">
+                            <a href="publications.html#paper-10-1016-j-jnucmat-2013-01-211" title="Deuterium trapping in carbon films formed in different deposition conditions">JNM 2013</a>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
                 <nav class="rail-outline project-drawer-outline" aria-label="On this page">
                     <p class="rail-outline-title">On this page</p>
                     <ul>
 
                         <li class="lvl-3"><a href="projects/deposition-device/#parameters">Parameters</a></li>
-
-                        <li class="lvl-3"><a href="projects/deposition-device/#references">References</a></li>
 
                         <li class="lvl-2"><a href="projects/deposition-device/#gallery">Gallery</a></li>
 
@@ -318,7 +392,7 @@ Forepump + diffusion pump with N₂ cold trap; base pressure $7\times 10^{-6}$ T
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js"></script>
-  <script defer src="scripts/project_detail_ui.js?v=1783180765"></script>
+  <script defer src="scripts/project_detail_ui.js?v=1783566494"></script>
 
 </body>
 
